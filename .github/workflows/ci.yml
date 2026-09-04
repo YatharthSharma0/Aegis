@@ -77,3 +77,23 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Single required status check. Always runs, so path-filtered skips of the
+  # backend/frontend jobs don't deadlock branch protection. Fails if any needed
+  # job failed; passes when they succeeded or were legitimately skipped.
+  ci-ok:
+    if: always()
+    needs: [changes, backend, frontend, secret-scan]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check job results
+        run: |
+          results='${{ join(needs.*.result, ' ') }}'
+          echo "needs results: $results"
+          for r in $results; do
+            if [ "$r" != "success" ] && [ "$r" != "skipped" ]; then
+              echo "::error::a required job did not succeed ($r)"
+              exit 1
+            fi
+          done
+          echo "all required jobs passed"
