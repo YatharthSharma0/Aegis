@@ -22,6 +22,46 @@ A change is not done until it passes.
   (`uv sync --extra dev` in `backend/`).
 - Node 20+ and `npm ci` in `frontend/`.
 
+## Integration testing (Phase 4)
+
+`./scripts/validate.sh` runs unit/component tests only — hermetic, no Docker
+required, and that's deliberate (it's the fast gate every commit runs). A
+separate suite proves the system works across real process/network
+boundaries — engine -> backend -> a genuinely separate worker process ->
+frontend — against a live `docker compose` stack:
+
+```bash
+docker compose up -d --wait
+cd backend && uv run pytest tests/integration -m integration
+```
+
+`backend/tests/integration/` is excluded from the default `uv run pytest`
+run (`addopts = -m "not integration"` in `pyproject.toml`) so it never blocks
+`validate.sh` or CI; it must be run explicitly against a running stack. It
+skips (not fails) with a clear message if the backend isn't reachable.
+
+Covers: the full trace flow over HTTP (`test_happy_path.py`), auth/refresh
+over the wire (`test_auth_flow.py`), rejected/failure states — unsupported
+chain, malformed address, unknown trace id, reading a report before the
+trace is done (`test_failure_paths.py`) — and concurrently submitted traces
+each claimed exactly once by the separate `worker` container
+(`test_worker_boundary.py`), which is the one guarantee an in-process unit
+test structurally cannot check.
+
+For a scripted manual demo run (not a test suite — human-readable PASS/FAIL
+output), use the runbook:
+
+```bash
+./scripts/e2e_runbook.sh          # leaves the stack running afterward
+./scripts/e2e_runbook.sh --down   # tears it down on exit
+```
+
+Not yet automated: a real worker-process-death mid-trace (lease-expiry
+*recovery* is unit-tested in `backend/tests/worker/test_runner.py`; only the
+claim-across-a-real-process-boundary half is covered here) and a
+backend-down frontend banner check (`useHealth`) — both remain manual/visual
+checks for now.
+
 ## CI
 
 `.github/workflows/ci.yml` runs on every push to `main` and every pull request.

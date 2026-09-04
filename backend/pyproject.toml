@@ -53,7 +53,13 @@ plugins = ["pydantic.mypy"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+# Integration tests hit a real running Docker Compose stack over HTTP; they
+# don't run as part of the default (fast, hermetic) suite. Run them
+# explicitly: `uv run pytest tests/integration -m integration`.
+addopts = "-q -m \"not integration\""
+markers = [
+    "integration: needs `docker compose up -d --wait` running (see tests/integration/conftest.py)",
+]
 # Fail a stalled test loudly instead of hanging the validation gate
 # (e.g. a wedged TestClient / event loop on some environments).
 timeout = 30
