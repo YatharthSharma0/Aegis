@@ -1,9 +1,9 @@
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 @import "./styles/tokens.css";
 
 @tailwind base;
@@ -19,22 +19,23 @@
 
   body {
     margin: 0;
-    background: var(--navy-900);
-    color: #e7ecf5;
+    background: var(--bg-canvas);
+    color: var(--text-primary);
     font-family: theme("fontFamily.sans");
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.4667;
+    font-variant-numeric: tabular-nums;
     -webkit-font-smoothing: antialiased;
   }
 
   :focus-visible {
-    outline: 2px solid var(--indigo-300);
+    outline: 2px solid var(--link);
     outline-offset: 2px;
   }
 
   ::selection {
-    background: var(--indigo-500);
-    color: white;
+    background: var(--brand);
+    color: var(--ink);
   }
 }
 

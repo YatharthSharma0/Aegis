@@ -1,31 +1,53 @@
-/* Design tokens — the "serious government intelligence console" palette from
-   the UI Style Guide. Consumed by Tailwind (see tailwind.config.js) and by
-   component CSS. Do not introduce new colours; extend here. */
+/* Design tokens — the "forensic ledger" system from the Aegis Frontend
+   Blueprint vault (`~/Documents/Vaults/Aegis-Frontend-Blueprint/`). Consumed
+   by Tailwind (see tailwind.config.js) and by Cytoscape graph styles
+   (see components/GraphCanvas.tsx, which imports the same hex values — keep
+   them in sync). Do not introduce new colours; extend here. */
 
 :root {
-  --navy-900: #0b1e3b;
-  --navy-800: #0f284d;
-  --navy-700: #16335c;
-  --navy-600: #1e4173;
-  --indigo-500: #3b5bdb;
-  --indigo-300: #91a7ff;
-  --paper: #f5f7fb;
-  --ink: #1a1f2b;
-  --mute: #5b6472;
-  --line: rgba(255, 255, 255, 0.08);
+  --bg-canvas: #071013;
+  --bg-base: #0b1519;
+  --bg-raised: #101d22;
+  --bg-elevated: #16252b;
+  --bg-hover: #1b2d34;
+  --paper: #f3f0e8;
 
-  --risk-low: #2e7d32;
-  --risk-med: #e08600;
-  --risk-high: #c62828;
-  --vasp: #6d28d9;
-  --confirmed: #0e7c86;
+  --text-primary: #e7eff0;
+  --text-secondary: #a8b7ba;
+  --text-muted: #72858a;
+  --ink: #172126;
 
-  --ok: #2e7d32;
-  --warn: #e08600;
-  --err: #c62828;
+  --border-subtle: #23343a;
+  --border-strong: #3a5058;
 
-  --radius: 12px;
-  --radius-sm: 8px;
+  --brand: #c8a96a;
+  --brand-hover: #d9be86;
+  --link: #73b6d1;
+  --info: #6fa9c2;
+  --success: #67b08a;
+  --warning: #d1a650;
+  --risk-high: #e0795e;
+  --risk-critical: #f05b61;
+  --unknown: #839297;
+
+  --entity-vasp: #5fb7a7;
+  --entity-contract: #7896c7;
+  --entity-bridge: #a48bc3;
+  --entity-cluster: #60767d;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+
+  --duration-instant: 80ms;
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 360ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
   color-scheme: dark;
 }
