@@ -8,8 +8,16 @@ beforeEach(() => {
   useAuthStore.getState().clear();
 });
 
-it("redirects an unauthenticated visitor to the sign-in screen", () => {
+it("shows the landing page to an unauthenticated visitor at the root", () => {
   window.history.pushState({}, "", "/");
+  render(<App />);
+  expect(
+    screen.getByRole("heading", { name: /follow the money, on-chain/i }),
+  ).toBeInTheDocument();
+});
+
+it("redirects an unauthenticated visitor away from a protected route", () => {
+  window.history.pushState({}, "", "/cases");
   render(<App />);
   expect(screen.getByText(/investigator sign-in/i)).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Sign in" })).toBeInTheDocument();
