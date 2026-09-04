@@ -72,6 +72,8 @@ class FixtureProvider:
 
         self.name: str = manifest["provider"]
         self.chain = Chain(manifest["chain"])
+        #: The fixture's designated starting address (from the manifest).
+        self.seed_address: str = manifest["seed_address"]
         self._captured_at = _parse_iso(manifest["captured_at"])
         tip = manifest["tip_block"]
         self._tip = BlockRef(

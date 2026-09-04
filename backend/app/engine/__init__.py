@@ -82,6 +82,7 @@ from app.engine.tron import (
     usdt_trc20,
     validate_tron_address,
 )
+from app.engine.walk import forward_trace
 
 __all__ = [
     "SCHEMA_VERSION",
@@ -131,6 +132,7 @@ __all__ = [
     "VaspCandidate",
     "canonical_hash",
     "canonical_json",
+    "forward_trace",
     "is_valid_tron_address",
     "sha256_hex",
     "usdt_trc20",

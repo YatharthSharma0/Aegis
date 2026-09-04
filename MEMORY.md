@@ -20,7 +20,8 @@ short and true. The design vault
 | Repo hygiene | `.gitignore`, `.editorconfig`, `LICENSE` (MIT), `README.md`, `CONTRIBUTORS.md` |
 | Backend | FastAPI skeleton, `GET /health` only. `uv` project, Python 3.12 pinned, `uv.lock` committed. `ruff` + `mypy` (strict) + `pytest` configured and green. Env via `app/config.py` + `.env.example`. |
 | Engine contract (Phase 1A) | `app/engine/` — **contract only, no live data fetching**. `canonical` (deterministic JSON + `schema:sha256` hashing, `SCHEMA_VERSION = aegis.engine.v1`); `errors` (exception taxonomy + `TrailLostReason`/`PartialReason` enums); `records` (provenance-preserving `ProviderSnapshot` / `NormalizedTransaction` / `Transfer` / `AddressActivity`, frozen pydantic, quantized decimals); `provider` (`ChainDataProvider` Protocol, read-only, returns data + snapshot); `result` (`Investigation` / `TraceResult` / `GraphNode` / `GraphEdge` / `VaspCandidate` / `ConfidenceTerms` / `TrailEvent`; `Investigation.result_hash()` excludes wall-clock timing). |
-| Engine data replay (Phase 1B, part 1) | `app/engine/tron.py` (base58check Tron address validation, USDT-TRC20 constants); `app/engine/providers/fixture.py` — `FixtureProvider` replays a recorded fixture dir, verifies per-file sha256 against the manifest, re-derives `offset:` pagination, deterministic. `app/engine/fixtures/growjoy_tron_trc20/` — **synthetic** (`_build.py` regenerates it), a task-scam USDT flow: seed→rot1→rot2→cons→dep→exch_hot with a mixer peel and a rot3 fan-in. **No live TronGrid client yet** (real TRC-20 endpoint lacks per-record block height/hash — deferred pending a provenance-policy call). 85 engine tests total. |
+| Engine data replay (Phase 1B, part 1) | `app/engine/tron.py` (base58check Tron address validation, USDT-TRC20 constants); `app/engine/providers/fixture.py` — `FixtureProvider` replays a recorded fixture dir, verifies per-file sha256 against the manifest, re-derives `offset:` pagination, deterministic. `app/engine/fixtures/growjoy_tron_trc20/` — **synthetic** (`_build.py` regenerates it), a task-scam USDT flow: seed→rot1→rot2→cons→dep→exch_hot with a mixer peel and a rot3 fan-in. **No live TronGrid client yet** (real TRC-20 endpoint lacks per-record block height/hash — deferred pending a provenance-policy call). |
+| Forward walk (Phase 1B, part 2) | `app/engine/walk.py` — `forward_trace(seed, chain, asset, provider, params, mixer_addresses, bridge_addresses)`. Two phases: BFS discovery (bounded by `max_hops` depth, `max_nodes`/`max_edges` budgets, wall-clock deadline; mixer/bridge nodes marked, not expanded) then haircut taint propagation in discovery-order (a DAG). Haircut ratio = `victim_taint_in / provider_total_in` so clean fan-in dilutes; each edge's taint ∝ its value; sum out ≤ sum in. Emits `TrailEvent`s (mixer/bridge/max_hops/min_value/min_taint/cycle), never a fabricated continuation. Fills `graph_nodes`/`graph_edges`/`trail_events`; attribution/clusters/typologies still empty. `python -m app.engine trace-fixture [--json]` runs it offline. 78 engine tests. |
 | Frontend | Vite + React 18 + TS + Tailwind skeleton. Placeholder `App.tsx`. `eslint` (flat) + `tsc`/build + `vitest` configured. `/api` proxied to `:8000` in dev. |
 | Containers | `backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` (backend + frontend only). |
 | Validation | `scripts/validate.sh` runs ruff/mypy/pytest + eslint/build/vitest. `pytest-timeout` (30s) so a stalled test fails loudly instead of hanging. |
@@ -30,11 +31,10 @@ short and true. The design vault
 ## Not built yet (later phases — do not assume in code)
 
 Live provider clients (TronGrid HTTP client deferred; no Ethereum — Phase 1D) ·
-the value-weighted forward walk / haircut taint (Phase 1B part 2) · Tron
-account-based entity signals · wallet clustering · VASP attribution + label
-packs (Phase 1C) · GNN typology model · NLP complaint extraction · grounded LLM
-report · PostgreSQL · Neo4j · Redis/Celery workers · WebSocket streaming · auth ·
-any real UI screen.
+Tron account-based entity signals (sweep/fan-in/fan-out/temporal — Phase 1B
+part 3) · wallet clustering · VASP attribution + label packs (Phase 1C) · GNN
+typology model · NLP complaint extraction · grounded LLM report · PostgreSQL ·
+Neo4j · Redis/Celery workers · WebSocket streaming · auth · any real UI screen.
 
 The engine `result` types are the frozen boundary the Phase 2 backend will
 consume; do not change their shape without bumping `SCHEMA_VERSION`.
@@ -73,6 +73,10 @@ trust it.
   records, `ChainDataProvider` interface, trace-result boundary. 44 tests.
 - 2026-09-04 — Phase 1B part 1 (data replay): Tron address validation +
   `FixtureProvider` (checksum-verified, deterministic, paginating) + the
-  synthetic `growjoy_tron_trc20` fixture. 85 engine tests. Live TronGrid HTTP
-  client deferred (per-record block height/hash gap). Next: the forward walk +
-  haircut taint against this fixture.
+  synthetic `growjoy_tron_trc20` fixture. Live TronGrid HTTP client deferred
+  (per-record block height/hash gap).
+- 2026-09-04 — Phase 1B part 2 (forward walk): `walk.forward_trace` — BFS
+  discovery + haircut taint propagation over a discovery-order DAG, budgets +
+  deadline + `TrailEvent`s, `Investigation` output with a stable `result_hash`.
+  `python -m app.engine trace-fixture` CLI. 78 engine tests. Next: Tron account
+  entity signals (1B pt 3), then attribution + label packs (1C / M2).
