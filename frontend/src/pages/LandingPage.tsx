@@ -8,7 +8,7 @@ import { ThemeToggle } from "../components/ThemeToggle";
 // Radar is WebGL — it can't read CSS custom properties, so these are kept
 // in sync with tokens.css by hand (same pattern as GraphCanvas.tsx).
 const RADAR_BY_THEME = {
-  night: { color: "#c8a96a", backgroundColor: "#071013", lightMode: false, brightness: 1.0 },
+  night: { color: "#57c68f", backgroundColor: "#071013", lightMode: false, brightness: 1.0 },
   day: { color: "#1a6fd6", backgroundColor: "#ffffff", lightMode: true, brightness: 1.25 },
 } as const;
 
