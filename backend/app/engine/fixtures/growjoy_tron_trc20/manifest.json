@@ -1,0 +1,40 @@
+{
+  "addresses": {
+    "cons": "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY",
+    "dep": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+    "exch_hot": "TVu3e6F8xVwuXiqyfgMyGenLMTKBy69YXH",
+    "mixer": "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW",
+    "rot1": "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo",
+    "rot2": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+    "rot3": "TR7C5XDTMqSmqarmAkCARJpwoxn3y6NxgV",
+    "seed": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC"
+  },
+  "asset": {
+    "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+    "decimals": 6,
+    "symbol": "USDT"
+  },
+  "captured_at": "2026-08-20T00:00:00.000000Z",
+  "chain": "tron",
+  "description": "SYNTHETIC \u2014 not real chain data. Hand-built task-scam USDT-on-Tron cash-out for engine tracing/taint/fan-in/trail-lost tests. Addresses are base58check-valid but correspond to no real entity.",
+  "endpoint": "/v1/accounts/{address}/transactions/trc20",
+  "files": {
+    "activity.json": {
+      "sha256": "87b21b777e6c8e73e239794a25266228c4c6ebfefbfbebe912682dacbcb1faef"
+    },
+    "transfers.json": {
+      "sha256": "c9ec6ff8ed0407e07035f573e6567832abc6d7476b7b30d0e593cefdf33fd682"
+    }
+  },
+  "fixture_id": "growjoy_tron_trc20",
+  "provider": "fixture:trongrid",
+  "schema_version": "aegis.engine.v1",
+  "seed_address": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC",
+  "synthetic": true,
+  "tip_block": {
+    "block_hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+    "chain": "tron",
+    "height": 65213001,
+    "timestamp": "2026-08-15T05:00:00.000000Z"
+  }
+}
