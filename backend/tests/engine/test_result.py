@@ -31,22 +31,33 @@ def make_terms(score: str = "0.5") -> ConfidenceTerms:
 # --- ConfidenceTerms -------------------------------------------------------
 
 
-def test_confidence_terms_weights_must_sum_to_one():
-    with pytest.raises(ValidationError):
-        ConfidenceTerms(
-            terms={"a": Decimal("1"), "b": Decimal("1")},
-            weights={"a": Decimal("0.3"), "b": Decimal("0.3")},
-            score=Decimal("0.6"),
-        )
+def test_confidence_terms_weights_need_not_sum_to_one():
+    # penalty terms have negative weights; the sum is not 1
+    terms = ConfidenceTerms(
+        terms={"source": Decimal("1"), "mixer_penalty": Decimal("1")},
+        weights={"source": Decimal("0.45"), "mixer_penalty": Decimal("-0.25")},
+        score=Decimal("0.20"),
+    )
+    assert terms.raw_score == Decimal("0.20")
 
 
-def test_confidence_terms_score_must_equal_weighted_sum():
+def test_confidence_terms_score_must_equal_clamped_weighted_sum():
     with pytest.raises(ValidationError):
         ConfidenceTerms(
             terms={"a": Decimal("1"), "b": Decimal("0")},
             weights={"a": Decimal("0.5"), "b": Decimal("0.5")},
             score=Decimal("0.9"),
         )
+
+
+def test_confidence_terms_score_is_clamped_to_unit_range():
+    # raw weighted sum is 1.4 -> score clamps to 1
+    terms = ConfidenceTerms(
+        terms={"a": Decimal("1"), "b": Decimal("1")},
+        weights={"a": Decimal("0.9"), "b": Decimal("0.5")},
+        score=Decimal("1"),
+    )
+    assert terms.raw_score == Decimal("1.4")
 
 
 def test_confidence_terms_keys_must_match():

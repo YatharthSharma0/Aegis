@@ -128,13 +128,21 @@ class Cluster(_Model):
 class ConfidenceTerms(_Model):
     """The transparent attribution score: per-term values, weights, and result.
 
-    The full formula lands in Phase 1C. Here we guarantee the *shape*: weights
-    cover exactly the terms, sum to 1, and ``score`` equals the weighted sum.
+    The score is the weighted sum of the terms, clamped to ``[0, 1]``. Weights
+    may be negative (the VASP-attribution formula subtracts mixer / bridge
+    penalties) and are *not* required to sum to 1 — the guarantee is that
+    ``terms`` and ``weights`` cover the same keys and ``score`` is exactly the
+    clamped weighted sum, so a report can print the arithmetic and it checks out.
     """
 
     terms: dict[str, Decimal]
     weights: dict[str, Decimal]
     score: Unit
+
+    @property
+    def raw_score(self) -> Decimal:
+        """The weighted sum before clamping to [0, 1]."""
+        return sum((self.terms[k] * self.weights[k] for k in self.terms), Decimal(0))
 
     @model_validator(mode="after")
     def _consistent(self) -> ConfidenceTerms:
@@ -142,15 +150,11 @@ class ConfidenceTerms(_Model):
             raise ValueError("terms and weights must cover the same keys")
         if not self.terms:
             raise ValueError("at least one term is required")
-        weight_sum = sum(self.weights.values(), Decimal(0))
-        if abs(weight_sum - Decimal(1)) > CONFIDENCE_WEIGHT_TOLERANCE:
-            raise ValueError(f"weights must sum to 1 (got {weight_sum})")
-        weighted = sum(
-            (self.terms[k] * self.weights[k] for k in self.terms), Decimal(0)
-        )
-        if abs(weighted - self.score) > CONFIDENCE_WEIGHT_TOLERANCE:
+        clamped = min(Decimal(1), max(Decimal(0), self.raw_score))
+        if abs(clamped - self.score) > CONFIDENCE_WEIGHT_TOLERANCE:
             raise ValueError(
-                f"score {self.score} != weighted sum of terms {weighted}"
+                f"score {self.score} != clamped weighted sum {clamped} "
+                f"(raw {self.raw_score})"
             )
         return self
 

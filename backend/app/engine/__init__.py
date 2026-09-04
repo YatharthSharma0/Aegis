@@ -19,6 +19,11 @@ Phase 1A (this module set) defines only the *contract*:
 Nothing here fetches data or walks a graph; those arrive in Phase 1B onward.
 """
 
+from app.engine.attribution import (
+    ConfidenceWeights,
+    EndpointContext,
+    attribute,
+)
 from app.engine.canonical import (
     SCHEMA_VERSION,
     canonical_hash,
@@ -39,6 +44,12 @@ from app.engine.errors import (
     TrailLostReason,
     UnsupportedAssetError,
     UnsupportedChainError,
+)
+from app.engine.labels import (
+    Label,
+    LabelPack,
+    LabelSet,
+    LabelType,
 )
 from app.engine.provider import (
     ActivityResult,
@@ -108,7 +119,9 @@ __all__ = [
     "ChainDataProvider",
     "Cluster",
     "ConfidenceTerms",
+    "ConfidenceWeights",
     "ConfigurationError",
+    "EndpointContext",
     "EngineError",
     "EvidenceRef",
     "FixtureError",
@@ -116,6 +129,10 @@ __all__ = [
     "GraphEdge",
     "GraphNode",
     "Investigation",
+    "Label",
+    "LabelPack",
+    "LabelSet",
+    "LabelType",
     "NodeKind",
     "NormalizedTransaction",
     "PartialReason",
@@ -143,6 +160,7 @@ __all__ = [
     "UnsupportedAssetError",
     "UnsupportedChainError",
     "VaspCandidate",
+    "attribute",
     "canonical_hash",
     "canonical_json",
     "detect_account_signals",

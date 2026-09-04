@@ -1,0 +1,18 @@
+[
+  {
+    "address": "TVu3e6F8xVwuXiqyfgMyGenLMTKBy69YXH",
+    "category": "exchange_hot_wallet",
+    "chain": "tron",
+    "confidence": "0.95",
+    "entity_name": "DemoExchange",
+    "label_type": "vasp"
+  },
+  {
+    "address": "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW",
+    "category": "mixer",
+    "chain": "tron",
+    "confidence": "0.9",
+    "entity_name": "DemoMixer",
+    "label_type": "mixer"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "description": "SYNTHETIC demo label pack matched to the growjoy_tron_trc20 fixture: one confirmed VASP hot wallet and one labelled mixer. Fictional.",
+  "files": {
+    "labels.json": {
+      "sha256": "de634c6dd01dfc30e569f6bb72eef7d5f22cce2906a1e4434c3f297d6c2da6f0"
+    }
+  },
+  "last_verified": "2026-08-20",
+  "licence": "MIT (this repo)",
+  "pack_id": "aegis_demo_pack",
+  "source": "aegis-internal-synthetic",
+  "synthetic": true
+}
