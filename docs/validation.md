@@ -25,10 +25,29 @@ A change is not done until it passes.
 ## CI
 
 `.github/workflows/ci.yml` runs on every push to `main` and every pull request.
-Path filters skip the backend job for frontend-only changes and vice versa. A
-`gitleaks` secret scan runs on every change regardless. `main` is protected: PRs
-only, CI must be green, at least one review (configured in GitHub repo settings,
-not in this repo).
+Path filters skip the backend job for frontend-only changes and vice versa; the
+always-running `ci-ok` job aggregates their results into the single required
+status check. A `gitleaks` secret scan runs on every change regardless.
+
+## Branch protection on `main`
+
+Configured in GitHub repo settings (not a repo file). Current state:
+
+| Setting | Value | Notes |
+|---|---|---|
+| Require a pull request before merging | yes | no direct pushes |
+| Required approving reviews | **0** | accepted deviation — see below |
+| Require status checks (strict) | `ci-ok` | branch must be up to date |
+| Dismiss stale approvals | yes | |
+| Require linear history | yes | squash or rebase merges |
+| Allow force pushes / deletions | no | |
+| Enforce for administrators | yes | admins go through PRs too |
+
+**Accepted deviation (2026-09-04):** the team's stated rule is ≥1 approving
+review, but the repo currently has a single contributor who cannot approve their
+own PR. Required approvals are set to **0** until real collaborators are added,
+at which point this is raised to **1** (tracked in `MEMORY.md` open items and
+`CONTRIBUTORS.md`).
 
 ## Known limits (Phase 0)
 
