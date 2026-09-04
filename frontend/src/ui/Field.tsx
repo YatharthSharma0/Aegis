@@ -15,11 +15,11 @@ export function Field({
 }) {
   return (
     <div className="space-y-1">
-      <label className="block text-xs text-mute" htmlFor={htmlFor}>
+      <label className="block text-xs text-muted" htmlFor={htmlFor}>
         {label}
       </label>
       {children}
-      {hint && !error && <p className="text-xs text-mute">{hint}</p>}
+      {hint && !error && <p className="text-xs text-muted">{hint}</p>}
       {error && (
         <p className="text-xs text-risk-high" role="alert">
           {error}

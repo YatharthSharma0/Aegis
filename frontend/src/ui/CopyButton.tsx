@@ -29,12 +29,12 @@ export function CopyButton({
       type="button"
       onClick={copy}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-sm border border-navy-600 px-2.5 py-1 text-xs text-slate-300 hover:bg-white/5",
+        "inline-flex items-center gap-1.5 rounded-sm border border-subtle px-2.5 py-1 text-xs text-secondary transition-colors duration-fast hover:bg-hover hover:text-primary",
         className,
       )}
     >
       {copied ? (
-        <Check size={13} className="text-risk-low" aria-hidden />
+        <Check size={13} className="text-success" aria-hidden />
       ) : (
         <Copy size={13} aria-hidden />
       )}

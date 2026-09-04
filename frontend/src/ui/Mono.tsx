@@ -36,13 +36,13 @@ export function Mono({
       onClick={copy}
       title={value}
       className={cn(
-        "group inline-flex items-center gap-1.5 font-mono text-[13px] text-slate-300 hover:text-white",
+        "group inline-flex items-center gap-1.5 font-mono text-[13px] text-secondary hover:text-primary",
         className,
       )}
     >
       <span>{shown}</span>
       {copied ? (
-        <Check size={13} className="text-risk-low" aria-label="copied" />
+        <Check size={13} className="text-success" aria-label="copied" />
       ) : (
         <Copy
           size={13}
