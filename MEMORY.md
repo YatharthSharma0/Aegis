@@ -8,8 +8,11 @@ short and true. The design vault
 
 ## Current state
 
-- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, and 3 complete. Next: Phase 4
-  (integration — a real end-to-end run wiring engine ↔ backend ↔ frontend → M3).
+- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, and 3 complete. Phase 4's
+  backend/integration-suite deliverable is done (see below); its
+  frontend-rendering failure-path checks remain manual (no browser
+  automation available this session). Next: that frontend check-in, then
+  Phase 4.5 (live TronGrid provider).
 - **History:** an earlier "Aegis" showcase build existed and was discarded. This
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
@@ -218,3 +221,68 @@ trust it.
   WebGL context (headless test runners) by rendering nothing rather than
   throwing. Below the hero, a plain three-step "how it works" strip and an
   explicit "lead, not a verdict" line — no fabricated marketing claims.
+- 2026-09-04 — PR #25 (interactive graph, day/night theme, landing page)
+  squash-merged into `main` (`50a4b7e`), branch deleted both locally and
+  on `origin`. Also reconciled the vault's `10-Execution-Plan/
+  05-Phase-4-Integration.md` to this repo's real state before starting
+  Phase 4: dropped its "DEMO_MODE offline parity" task (demo mode is
+  deferred to P2 and doesn't exist here) and its "OpenAPI → frontend
+  types" task (already shipped in Phase 3 — `npm run gen:api` generates
+  `frontend/src/api/schema.d.ts` from `backend/openapi.json`, CI-checked;
+  the doc's referenced `backend/app/schemas/domain.py` and
+  `frontend/src/types/domain.ts` paths don't exist in this repo). **Next:**
+  the real remaining Phase 4 work — a committed, repeatable end-to-end
+  runbook (only done ad hoc via curl so far) and a
+  `backend/tests/integration/` suite against a running Docker Compose
+  stack, covering the happy path plus failure cases (worker lease-expiry
+  across a real process boundary, backend-down UI banner, expired-auth
+  redirect, partial/failed trace rendering honestly).
+- 2026-09-04 — **Phase 4 (backend/integration scope) done.** Added
+  `backend/tests/integration/` (12 tests, 4 files, excluded from the default
+  `uv run pytest` run via `addopts = -m "not integration"` in
+  `pyproject.toml` — run explicitly with `pytest tests/integration -m
+  integration` against a running `docker compose up -d --wait` stack):
+  - `test_happy_path.py` — full trace flow over real HTTP: submit →
+    a *separate* `worker` container claims and executes over real Postgres
+    → poll to `done` → graph → report, and a second report read is
+    byte-identical (`result_hash`).
+  - `test_auth_flow.py` — login, `/me`, wrong password → 401, missing/
+    malformed bearer → 401, refresh rotation (old token 401s on reuse, the
+    token it rotated *to* stays valid — simple per-token revocation, not a
+    whole-chain reuse-detection scheme; corrected a stale assumption in an
+    earlier draft of this test).
+  - `test_failure_paths.py` — unsupported chain, malformed address, unknown
+    trace id (404), and reading a report before the trace is done (409
+    `trace_not_ready`) — all return the typed `{"error": {...}}` envelope,
+    never a 500 or a hang.
+  - `test_worker_boundary.py` — 5 concurrently submitted traces, each
+    claimed exactly once with a deterministic identical `result_hash`. This
+    is the one thing `tests/worker/test_runner.py`'s in-process SQLite unit
+    tests structurally can't prove: that `SELECT ... FOR UPDATE SKIP
+    LOCKED` claiming holds when the claimer is a real separate container
+    against real Postgres, not a thread in the same process.
+
+  `conftest.py` provisions its own test user idempotently via `docker
+  compose exec backend uv run python scripts/create_user.py` (no signup
+  endpoint — see "Signing in" below) and skips (not fails) the whole suite
+  with a clear message if the backend isn't reachable within 30s.
+
+  Also `scripts/e2e_runbook.sh` — a bash/curl/jq scripted version of the
+  same happy path for a human-readable manual demo run
+  (`./scripts/e2e_runbook.sh`, or `--down` to tear the stack down after).
+  Both this and the pytest suite were actually run against a live Compose
+  stack this session, not just written — see the fix below.
+
+  **Real bug found and fixed:** `backend/Dockerfile` never `COPY`'d
+  `scripts/` into the image. `create_user.py` is the *only* way to get a
+  login (no public signup — LE-facing tool, admin-only), so the Compose
+  stack was silently unusable for anything requiring auth — every endpoint
+  except `/health`. One-line fix: `COPY scripts ./scripts` alongside the
+  existing `COPY app ./app` / `COPY alembic ./alembic` lines.
+
+  Frontend-rendering failure paths (backend-down `useHealth` banner,
+  expired-auth redirect, unsupported-chain error surfaced in the UI) remain
+  manual/visual checks — no browser automation was available this session,
+  same limitation as the 2026-09-04 "Frontend workability pass" entry
+  above. Tracked as open, not silently dropped — see the vault's
+  `10-Execution-Plan/05-Phase-4-Integration.md`, reconciled alongside this.
