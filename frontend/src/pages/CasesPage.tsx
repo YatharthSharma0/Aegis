@@ -29,8 +29,8 @@ export function CasesPage() {
     <div className="mx-auto max-w-4xl space-y-5">
       <header className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold tracking-tight">Cases</h1>
-          <p className="text-sm text-mute">
+          <h1 className="text-xl font-bold tracking-tight text-primary">Cases</h1>
+          <p className="text-sm text-muted">
             Investigations grouped by FIR / NCRP reference.
           </p>
         </div>
@@ -41,10 +41,10 @@ export function CasesPage() {
               onClick={() => setFilter(f.value)}
               aria-pressed={filter === f.value}
               className={
-                "rounded-sm border px-2.5 py-1 text-xs " +
+                "rounded-sm border px-2.5 py-1 text-xs transition-colors duration-fast " +
                 (filter === f.value
-                  ? "border-indigo-300 text-indigo-300"
-                  : "border-navy-600 text-mute hover:text-slate-300")
+                  ? "border-brand text-brand"
+                  : "border-subtle text-muted hover:text-secondary")
               }
             >
               {f.label}
@@ -68,18 +68,18 @@ export function CasesPage() {
           <EmptyState message="No cases match this filter. Create one above to begin." />
         )}
         {cases.data && cases.data.length > 0 && (
-          <ul className="divide-y divide-navy-700">
+          <ul className="divide-y divide-subtle">
             {cases.data.map((c) => (
               <li key={c.id}>
                 <Link
                   to={`/cases/${c.id}`}
-                  className="flex items-center justify-between gap-4 py-3 hover:bg-white/5"
+                  className="flex items-center justify-between gap-4 py-3 transition-colors duration-fast hover:bg-hover"
                 >
                   <div className="min-w-0">
-                    <div className="truncate text-sm font-medium text-slate-200">
+                    <div className="truncate text-sm font-medium text-primary">
                       {c.title}
                     </div>
-                    <div className="text-xs text-mute">
+                    <div className="text-xs text-muted">
                       {c.ref_no} · updated {formatDateTime(c.updated_at)}
                     </div>
                   </div>

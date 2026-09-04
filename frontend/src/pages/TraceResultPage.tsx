@@ -31,7 +31,7 @@ export function TraceResultPage() {
           onRetry={() => trace.refetch()}
           context="load the trace"
         />
-        <Link to="/cases" className="text-sm text-indigo-300 hover:underline">
+        <Link to="/cases" className="text-sm text-link hover:underline">
           Back to cases
         </Link>
       </div>
@@ -44,15 +44,15 @@ export function TraceResultPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <header>
-        <h1 className="text-xl font-bold tracking-tight">Trace</h1>
-        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-mute">
+        <h1 className="text-xl font-bold tracking-tight text-primary">Trace</h1>
+        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
           <Mono value={t.start_address} />
           <span className="uppercase tracking-wide">{t.chain}</span>
           <span>started {formatDateTime(t.created_at)}</span>
           {t.case_id && (
             <Link
               to={`/cases/${t.case_id}`}
-              className="text-indigo-300 hover:underline"
+              className="text-link hover:underline"
             >
               case {t.case_id}
             </Link>
@@ -76,7 +76,7 @@ export function TraceResultPage() {
       {isTerminal(t.status) && result && (
         <>
           <Card title="Summary">
-            <p className="whitespace-pre-wrap text-sm text-slate-200">
+            <p className="whitespace-pre-wrap text-sm text-primary">
               {result.summary}
             </p>
           </Card>
@@ -89,7 +89,7 @@ export function TraceResultPage() {
             </div>
           ) : (
             <Card title="Attributed VASP">
-              <p className="text-sm text-mute">
+              <p className="text-sm text-muted">
                 No exchange or VASP could be attributed for this trace.
               </p>
             </Card>
@@ -118,7 +118,7 @@ export function TraceResultPage() {
           <div className="flex gap-2">
             <Link
               to={`/trace/${id}/report`}
-              className="rounded-sm bg-indigo-500 px-4 py-2 text-sm font-medium text-white hover:brightness-110"
+              className="rounded-sm bg-brand px-4 py-2 text-sm font-medium text-ink hover:bg-brand-hover"
             >
               Open report
             </Link>
@@ -130,7 +130,7 @@ export function TraceResultPage() {
         <div className="flex gap-2">
           <Link
             to="/trace/new"
-            className="rounded-sm border border-indigo-300 px-4 py-2 text-sm font-medium text-indigo-300 hover:bg-indigo-300/10"
+            className="rounded-sm border border-strong px-4 py-2 text-sm font-medium text-secondary hover:bg-hover hover:text-primary"
           >
             Start a new trace
           </Link>
@@ -150,22 +150,22 @@ function StatusBanner({
   const map = {
     queued: {
       icon: Loader2,
-      className: "border-navy-600 text-mute",
+      className: "border-subtle text-muted",
       text: "Queued — waiting for a worker.",
     },
     running: {
       icon: Loader2,
-      className: "border-indigo-300/40 text-indigo-300",
+      className: "border-link/40 text-link",
       text: "Running.",
     },
     done: {
       icon: CheckCircle2,
-      className: "border-risk-low/40 text-risk-low",
+      className: "border-success/40 text-success",
       text: "Complete.",
     },
     partial: {
       icon: AlertTriangle,
-      className: "border-risk-med/40 text-risk-med",
+      className: "border-warning/40 text-warning",
       text: "Partial result — the walk hit a limit before finishing.",
     },
     failed: {

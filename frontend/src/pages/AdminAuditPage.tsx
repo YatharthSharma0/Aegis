@@ -19,8 +19,8 @@ export function AdminAuditPage() {
     <div className="mx-auto max-w-5xl space-y-4">
       <header className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold tracking-tight">Audit log</h1>
-          <p className="text-sm text-mute">
+          <h1 className="text-xl font-bold tracking-tight text-primary">Audit log</h1>
+          <p className="text-sm text-muted">
             Hash-chained, append-only record of every privileged action.
           </p>
         </div>
@@ -46,8 +46,8 @@ export function AdminAuditPage() {
         {audit.data && audit.data.entries.length > 0 && (
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
-              <thead className="text-mute">
-                <tr className="border-b border-navy-700 text-left">
+              <thead className="text-muted">
+                <tr className="border-b border-subtle text-left">
                   <th className="py-1.5 pr-3">Seq</th>
                   <th className="py-1.5 pr-3">Time</th>
                   <th className="py-1.5 pr-3">Actor</th>
@@ -58,7 +58,7 @@ export function AdminAuditPage() {
               </thead>
               <tbody>
                 {audit.data.entries.map((e) => (
-                  <tr key={e.seq} className="border-b border-navy-800 align-top">
+                  <tr key={e.seq} className="border-b border-subtle align-top">
                     <td className="py-1.5 pr-3 font-mono">{e.seq}</td>
                     <td className="py-1.5 pr-3 whitespace-nowrap">
                       {formatDateTime(e.ts)}
@@ -66,7 +66,7 @@ export function AdminAuditPage() {
                     <td className="py-1.5 pr-3">
                       {e.actor_id ?? "—"}
                       {e.actor_role ? (
-                        <span className="text-mute"> · {e.actor_role}</span>
+                        <span className="text-muted"> · {e.actor_role}</span>
                       ) : null}
                     </td>
                     <td className="py-1.5 pr-3 font-mono">{e.action}</td>
@@ -92,7 +92,7 @@ export function AdminAuditPage() {
 function VerificationBanner({ v }: { v: AuditVerificationOut }) {
   if (v.ok) {
     return (
-      <div className="flex items-center gap-2 rounded-sm border border-risk-low/40 px-3 py-2 text-sm text-risk-low">
+      <div className="flex items-center gap-2 rounded-sm border border-success/40 px-3 py-2 text-sm text-success">
         <ShieldCheck size={16} aria-hidden />
         Chain intact — {v.checked} entries verified.
       </div>

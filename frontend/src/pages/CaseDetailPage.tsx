@@ -35,7 +35,7 @@ export function CaseDetailPage() {
           onRetry={() => query.refetch()}
           context="load the case"
         />
-        <Link to="/cases" className="text-sm text-indigo-300 hover:underline">
+        <Link to="/cases" className="text-sm text-link hover:underline">
           Back to cases
         </Link>
       </div>
@@ -45,13 +45,13 @@ export function CaseDetailPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <div>
-        <Link to="/cases" className="text-xs text-mute hover:text-slate-300">
+        <Link to="/cases" className="text-xs text-muted hover:text-secondary">
           ← Cases
         </Link>
         <div className="mt-1 flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold tracking-tight">{data.title}</h1>
-            <p className="text-sm text-mute">
+            <h1 className="text-xl font-bold tracking-tight text-primary">{data.title}</h1>
+            <p className="text-sm text-muted">
               {data.ref_no}
               {data.typology_hint ? ` · ${data.typology_hint}` : ""}
             </p>
@@ -75,7 +75,7 @@ export function CaseDetailPage() {
             </select>
           </div>
         </div>
-        <p className="mt-1 text-xs text-mute">
+        <p className="mt-1 text-xs text-muted">
           Opened {formatDateTime(data.created_at)}
           {data.created_by ? ` by ${data.created_by}` : ""}
         </p>
@@ -88,7 +88,7 @@ export function CaseDetailPage() {
 
       {data.notes && (
         <Card title="Notes">
-          <p className="whitespace-pre-wrap text-sm text-slate-300">
+          <p className="whitespace-pre-wrap text-sm text-secondary">
             {data.notes}
           </p>
         </Card>
@@ -97,25 +97,25 @@ export function CaseDetailPage() {
       <Card
         title="Complaints"
         actions={
-          <span className="text-xs text-mute">{data.complaints.length}</span>
+          <span className="text-xs text-muted">{data.complaints.length}</span>
         }
       >
         {data.complaints.length === 0 ? (
           <EmptyState message="No complaint text attached yet. Add the victim's report below." />
         ) : (
-          <ul className="mb-4 divide-y divide-navy-700">
+          <ul className="mb-4 divide-y divide-subtle">
             {data.complaints.map((c) => (
               <li key={c.id} className="py-2.5">
-                <div className="flex items-center gap-2 text-xs text-mute">
+                <div className="flex items-center gap-2 text-xs text-muted">
                   <span className="uppercase tracking-wide">{c.source}</span>
                   {c.is_demo && (
-                    <span className="rounded-sm border border-navy-600 px-1">
+                    <span className="rounded-sm border border-subtle px-1">
                       demo
                     </span>
                   )}
                   <span>{formatDateTime(c.received_at)}</span>
                 </div>
-                <p className="mt-1 text-sm text-slate-300">{c.text_preview}</p>
+                <p className="mt-1 text-sm text-secondary">{c.text_preview}</p>
               </li>
             ))}
           </ul>
@@ -130,22 +130,22 @@ export function CaseDetailPage() {
             action={
               <Link
                 to={`/trace/new?case=${encodeURIComponent(id)}`}
-                className="text-sm font-medium text-indigo-300 hover:underline"
+                className="text-sm font-medium text-link hover:underline"
               >
                 Start a trace
               </Link>
             }
           />
         ) : (
-          <ul className="divide-y divide-navy-700">
+          <ul className="divide-y divide-subtle">
             {data.trace_runs.map((t) => (
               <li key={t.trace_id}>
                 <Link
                   to={`/trace/${t.trace_id}`}
-                  className="flex items-center justify-between gap-3 py-2.5 hover:bg-white/5"
+                  className="flex items-center justify-between gap-3 py-2.5 hover:bg-hover"
                 >
                   <Mono value={t.start_address} />
-                  <span className="flex items-center gap-3 text-xs text-mute">
+                  <span className="flex items-center gap-3 text-xs text-muted">
                     <span className="uppercase tracking-wide">{t.status}</span>
                     <span>{formatDateTime(t.created_at)}</span>
                   </span>
