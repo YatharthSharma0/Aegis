@@ -8,8 +8,11 @@ short and true. The design vault
 
 ## Current state
 
-- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, 3, and 4 complete. Next: Phase
-  4.5 (live TronGrid provider).
+- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, 3, and 4 complete. Phase 4.5
+  (live TronGrid provider) is code-complete but not fully closed — see
+  below; the two remaining tasks need a real TronGrid API key this
+  environment doesn't have. Fixture mode (the default everywhere,
+  including CI) is completely unaffected.
 - **History:** an earlier "Aegis" showcase build existed and was discarded. This
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
@@ -314,3 +317,82 @@ trust it.
   on 5173 served the frontend, proxying to the compose backend on 8000) and
   exercised login → trace → report over curl again to sanity-check nothing
   regressed. No code changes to `app/` or `backend/` this pass — test-only.
+
+- 2026-09-05 — **Phase 4.5 (live TronGrid provider) — code-complete, not
+  fully closed.** No TronGrid API key was available this session (asked
+  first — user confirmed to build the key-independent parts now and defer
+  the rest). Per the vault plan's "one real design decision" (TronGrid's
+  TRC-20 list endpoint returns a timestamp per transfer but no block
+  number/hash, while `Transfer` requires both): **chose eager per-page
+  enrichment over the plan's lazy path-only suggestion** — every transfer a
+  page returns gets enriched (`wallet/gettransactioninfobyid` for block
+  number, `wallet/getblockbynum` for the hash), each cached by id so a
+  repeated or overlapping fetch is free. More calls on a cold cache than
+  the plan's minimal version, but zero engine or `Transfer`-schema changes
+  (the plan's version needs a post-walk hook from `app/engine/walk.py`
+  back into the provider that doesn't exist) and full provenance on every
+  transfer the walk ever sees, not just the subset that survives pruning.
+  Confirmed with the user before building. Full reasoning in
+  `docs/PROVIDERS.md`.
+
+  Built:
+  - `backend/app/engine/providers/trongrid.py` — `TronGridProvider`: httpx
+    client with the key only ever sent as the `TRON-PRO-API-KEY` header
+    (never in a `ProviderSnapshot`, log line, or exception message — this
+    is asserted directly in tests, not just believed); `latest_block` via
+    `wallet/getnowblock`; `token_transfers` paginating on
+    `meta.fingerprint` with the enrichment above; `address_activity` via
+    `v1/accounts/{address}` + `wallet/getcontract` for `is_contract`
+    (`transfer_count` is honestly left at `0` — TronGrid's account
+    endpoint doesn't expose one and no current heuristic reads it, see
+    `app/engine/walk.py`); retry-with-exponential-backoff (honoring
+    `Retry-After`) on timeout/transport-error/5xx/429, mapped to the
+    existing `ProviderTimeoutError`/`ProviderUnavailableError`/
+    `ProviderRateLimitedError` taxonomy — no new error types needed.
+  - `backend/app/engine/providers/cache.py` — `ResponseCache`, a dumb
+    file-per-key on-disk cache keyed by `(provider, endpoint, params)`.
+    Empty-string `AEGIS_PROVIDER_CACHE_DIR` is treated as disabled, same as
+    unset — caught and tested explicitly (a naive `Path("")` would
+    otherwise silently cache into the process's cwd).
+  - `backend/app/engine/providers/__init__.py` — `get_provider(chain,
+    mode, ...)` factory: `fixture` / `live` / `auto` (live iff a key is
+    present and the chain is Tron, else fixture — so an unconfigured
+    deployment degrades to fixture mode rather than failing). Both
+    `app/engine_bridge.py` (backend) and `python -m app.engine
+    trace-fixture --live` (CLI) call this one factory — nothing else
+    branches on provider mode.
+  - `app/config.py` — `AEGIS_PROVIDER_MODE` is now `fixture | live | auto`
+    (was fixture-only); added `AEGIS_TRONGRID_API_KEY` and
+    `AEGIS_PROVIDER_CACHE_DIR` (default `./.provider-cache`, git-ignored).
+    `httpx` moved from a dev-only to a runtime dependency (the live
+    provider needs it in production, not just in tests).
+  - `.gitleaks.toml` (new, repo root) — extends gitleaks' default ruleset
+    with a rule matching a TronGrid key literal next to its header/env-var
+    name, so a committed key fails CI even outside the shapes the default
+    generic-api-key rule already catches.
+  - `docs/PROVIDERS.md` (new) — modes, key setup, the enrichment design
+    call and why, retry/error-mapping table, cache semantics, known gaps.
+    `README.md` "Getting started" links it.
+  - Tests: `backend/tests/engine/providers/test_trongrid.py` (20 tests) and
+    `test_cache.py` (4 tests) — fully offline via `httpx.MockTransport`
+    (per the plan's "CI stays fully offline" acceptance criterion): parsing,
+    pagination cursor, cross-transfer tx/block-hash caching, 429→retry→
+    `ProviderRateLimitedError`, 5xx→retry→success, transport-error→retry→
+    `ProviderUnavailableError`, a 4xx *not* being retried, response-cache
+    hit avoiding a second network call, and the key-never-leaks assertions.
+    221 backend tests total, all green; `ruff`/`mypy` clean.
+
+  **Not done — genuinely blocked on a key, tracked as open, not silently
+  dropped:**
+  - No live-recorded regression fixture committed (the plan's "record one
+    real trace, real public address, documented provenance" task).
+  - No real end-to-end live smoke test was run (`python -m app.engine
+    trace-fixture --live --address <real>` against actual TronGrid) — only
+    its error paths were exercised (missing `--address`, missing key).
+  - Field-name assumptions for four TronGrid endpoints
+    (`getnowblock`/`gettransactioninfobyid`/`getblockbynum`/
+    `v1/accounts/{address}`) are based on documented API shapes, not
+    verified against a live response. `docs/PROVIDERS.md` flags this.
+
+  Next session with a key: record the fixture, run the live smoke test,
+  fix whatever field-name assumption turns out wrong, close out Phase 4.5.

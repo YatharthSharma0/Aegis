@@ -73,6 +73,11 @@ npm run dev                    # http://localhost:5173
 docker compose up --build
 ```
 
+Traces run against a recorded synthetic fixture by default — no external calls,
+fully deterministic. To trace live Tron mainnet instead, get a free API key from
+[trongrid.io](https://www.trongrid.io/) and set `AEGIS_TRONGRID_API_KEY` in
+`backend/.env` (see `docs/PROVIDERS.md`); the fixture stays the default until you do.
+
 ## Validation
 
 One command runs every check CI runs:

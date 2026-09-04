@@ -42,3 +42,7 @@ Thumbs.db
 *.db
 *.db-journal
 *.sqlite3
+
+# Live provider response cache (Phase 4.5) — recorded API responses, keep local
+backend/.provider-cache/
+.provider-cache/
