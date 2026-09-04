@@ -484,3 +484,19 @@ trust it.
   see `docs/DEPLOYMENT.md` "Demo data". Not a committed seed script; a
   one-off. Worth promoting to `backend/scripts/seed_demo_cases.py` if this
   becomes a recurring need before future demos.
+
+- 2026-09-05 — **README rewritten for a general public-facing audience.**
+  User explicitly asked to drop the SIH26183/hackathon framing and add a
+  deep "how it works" explanation plus install/run instructions — this
+  was a deliberate content decision, not an oversight if a future session
+  finds no SIH mention in `README.md`. The old README was also badly
+  stale regardless (still said "Phase 0," listed Neo4j/Celery+Redis/
+  GraphSAGE GNN as the architecture — none of which this repo ever
+  adopted). New README explains the forward-walk + haircut taint
+  propagation algorithm, typology detection, the VASP confidence formula,
+  canonical-hash reproducibility, and the fixture-vs-live provider split,
+  plus verified-working install/run/create-user/run-a-trace commands (ran
+  each one this session, not just written from memory). `CLAUDE.md`'s "What
+  Aegis is" section still names SIH26183 — that's the internal operating
+  doc for AI agents working in this repo, not public-facing, and wasn't
+  asked to change; don't conflate the two if reconciling them later.
