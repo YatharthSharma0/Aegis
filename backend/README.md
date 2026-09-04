@@ -18,17 +18,26 @@ uv run uvicorn app.main:app --reload
 
 ## Trace API (Phase 2)
 
+Every `/api/v1/trace*` route needs a bearer token. Create a user, log in, call:
+
 ```bash
-curl -sX POST localhost:8000/api/v1/trace \
+uv run python scripts/create_user.py --email a@x.gov --name A --role officer --password 'password12345'
+
+TOKEN=$(curl -s localhost:8000/api/v1/auth/login \
+  -H 'content-type: application/json' \
+  -d '{"email":"a@x.gov","password":"password12345"}' | jq -r .access_token)
+
+curl -sX POST localhost:8000/api/v1/trace -H "Authorization: Bearer $TOKEN" \
   -H 'content-type: application/json' \
   -d '{"address":"TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC"}'          # -> 202 {trace_id, ...}
-curl -s localhost:8000/api/v1/trace/<trace_id>                   # status + result
-curl -s localhost:8000/api/v1/trace/<trace_id>/graph             # nodes + edges
+curl -s localhost:8000/api/v1/trace/<trace_id>  -H "Authorization: Bearer $TOKEN"
+curl -s localhost:8000/api/v1/trace/<trace_id>/graph -H "Authorization: Bearer $TOKEN"
 ```
 
-Runs the Phase 1 engine on a `BackgroundTask` against the configured fixture
-(`AEGIS_FIXTURE_ID`) + label packs (`AEGIS_LABEL_PACKS`). Persistence, auth, a
-durable worker, and the audit log land in later Phase 2 PRs.
+`POST /auth/refresh` rotates the token pair. Runs the Phase 1 engine on a
+`BackgroundTask` against the configured fixture (`AEGIS_FIXTURE_ID`) + label
+packs (`AEGIS_LABEL_PACKS`). A durable worker and the audit log land in later
+Phase 2 PRs.
 
 ## Database
 
@@ -59,8 +68,9 @@ uv run alembic upgrade head && uv run alembic check   # migration drift (CI chec
 app/
   main.py          FastAPI app + health + lifespan (create_all in non-prod)
   config.py        environment-driven settings (the only place env vars are read)
-  api/             HTTP transport: routers, deps, error envelope
-  domain/          TraceService, InvestigationStore + in-memory + SQL impls, wire schemas
+  api/             HTTP transport: routers (trace, auth), deps (+ current_user), error envelope
+  domain/          TraceService, AccountService, store interfaces + in-memory + SQL impls
+  security/        argon2 password hashing, JWT encode/decode
   db/              SQLAlchemy Base, ORM models, engine/session factory
   engine_bridge.py the only place the backend calls app.engine
   engine/          Phase 1 blockchain analytics engine (pure library)

@@ -39,3 +39,13 @@ class TraceNotReadyError(DomainError):
             f"trace {trace_id!r} is {status}, not finished",
             details={"trace_id": trace_id, "status": status},
         )
+
+
+class AuthenticationError(DomainError):
+    status = 401
+    code = "unauthenticated"
+
+
+class AuthorizationError(DomainError):
+    status = 403
+    code = "forbidden"
