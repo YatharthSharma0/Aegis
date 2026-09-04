@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# The single local check gate. Runs everything CI runs.
+# Usage: ./scripts/validate.sh [backend|frontend]   (default: both)
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TARGET="${1:-both}"
+
+run_backend() {
+  echo "==> backend: ruff / mypy / pytest"
+  cd "$ROOT/backend"
+  uv run ruff check .
+  uv run mypy app
+  uv run pytest
+}
+
+run_frontend() {
+  echo "==> frontend: eslint / tsc + build / vitest"
+  cd "$ROOT/frontend"
+  npm run lint
+  npm run build
+  npm run test
+}
+
+case "$TARGET" in
+  backend) run_backend ;;
+  frontend) run_frontend ;;
+  both) run_backend; run_frontend ;;
+  *) echo "unknown target: $TARGET (expected backend|frontend|both)" >&2; exit 2 ;;
+esac
+
+echo "==> all checks passed"
