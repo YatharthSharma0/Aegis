@@ -2,6 +2,7 @@ import { CloudOff, FileText, FolderOpen, LayoutDashboard, LogOut, Search } from 
 import { useEffect, useRef, type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
+import { ThemeToggle } from "../components/ThemeToggle";
 import { useHealth } from "../features/system/useHealth";
 import { cn } from "../ui/cn";
 import { useAuth } from "./useAuth";
@@ -54,6 +55,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <span className="h-1.5 w-1.5 rounded-full bg-success" aria-hidden />
           Live
         </span>
+        <ThemeToggle />
         <div className="hidden text-right text-xs text-muted sm:block">
           <div className="max-w-[16ch] truncate" title={email ?? undefined}>
             {email ?? "signed in"}

@@ -51,3 +51,42 @@
 
   color-scheme: dark;
 }
+
+/* "Day" mode — white surfaces, green/blue accents; red stays reserved for
+   high/critical risk in both themes. Toggled via `data-theme` on <html>,
+   see src/app/theme.ts. Cytoscape can't read CSS variables, so
+   components/GraphCanvas.tsx keeps its own light/dark hex tables in sync
+   with this block. */
+:root[data-theme="day"] {
+  --bg-canvas: #ffffff;
+  --bg-base: #f7fafa;
+  --bg-raised: #ffffff;
+  --bg-elevated: #eef3f4;
+  --bg-hover: #e6edee;
+  --paper: #f3f0e8;
+
+  --text-primary: #10181b;
+  --text-secondary: #43555c;
+  --text-muted: #667980;
+  --ink: #172126;
+
+  --border-subtle: #dbe4e6;
+  --border-strong: #aebfc3;
+
+  --brand: #1a6fd6;
+  --brand-hover: #1558ab;
+  --link: #1a6fd6;
+  --info: #0f7ea3;
+  --success: #17874c;
+  --warning: #b1720a;
+  --risk-high: #d1362b;
+  --risk-critical: #a3211a;
+  --unknown: #6f8086;
+
+  --entity-vasp: #17874c;
+  --entity-contract: #2f5fb3;
+  --entity-bridge: #6c4fae;
+  --entity-cluster: #4c6066;
+
+  color-scheme: light;
+}

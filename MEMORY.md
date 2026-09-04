@@ -32,7 +32,7 @@ short and true. The design vault
 | Forward walk (Phase 1B, part 2) | `app/engine/walk.py` — `forward_trace(seed, chain, asset, provider, params, mixer_addresses, bridge_addresses)`. Two phases: BFS discovery (bounded by `max_hops` depth, `max_nodes`/`max_edges` budgets, wall-clock deadline; mixer/bridge nodes marked, not expanded) then haircut taint propagation in discovery-order (a DAG). Haircut ratio = `victim_taint_in / provider_total_in` so clean fan-in dilutes; each edge's taint ∝ its value; sum out ≤ sum in. Emits `TrailEvent`s (mixer/bridge/max_hops/min_value/min_taint/cycle), never a fabricated continuation. `python -m app.engine trace-fixture [--json]` runs it offline. |
 | Account signals (Phase 1B, part 3) | `app/engine/signals.py` — `detect_account_signals([AddressStats]) -> SignalReport`. Behaviour heuristics for account chains (no CIOH): passthrough-rotation, peel-chain, rapid-fan-out, fan-in-consolidation (typologies) + deposit-fan-in, sweep-target, batch-withdrawals, high-activity-service (`vasp` kind, for 1C). Each hit carries `evidence` + `limitations`. Thresholds in `SignalConfig`. Wired into `forward_trace`: fills `TraceResult.typologies` + per-`GraphNode.typologies`. |
 | Attribution (Phase 1C — Gate M2) | `app/engine/labels.py` (`LabelPack`/`LabelSet`: versioned, checksum-verified; `LabelType` keeps `vasp`/`service` distinct from `sanctions`/`mixer`/`bridge`) + `app/engine/attribution.py` (`attribute([EndpointContext], LabelSet) -> tuple[VaspCandidate]`). Two-tier: dataset-confirmed (exact / via-cluster) vs heuristic ("Unidentified VASP-like endpoint", name stays None) vs conflict (never silently picks) vs unknown sink. Transparent confidence = `w1·source + w2·directness + w3·taint_retained + w4·corroboration − p1·mixer_on_path − p2·bridge` (doc weights, in `ConfidenceWeights`), clamped [0,1], full `ConfidenceTerms` breakdown attached. `forward_trace(..., labels=LabelSet)` derives mixer/bridge sets from the pack, runs attribution, fills `TraceResult.vasp_candidates` + summary. Synthetic `fixtures/labels/aegis_demo_pack/` (DemoExchange VASP + DemoMixer). `ConfidenceTerms` relaxed to allow negative penalty weights (score = clamped weighted sum). `trace-fixture --labels/--no-labels`. 105 engine tests. |
-| Frontend (Phase 3, PRs #17–#21; redesigned #23) | Live-mode React 18 + Vite + TS + Tailwind client, styled per the "forensic ledger" system in `~/Documents/Vaults/Aegis-Frontend-Blueprint/` (dark near-black surfaces, warm paper for the report, brass `brand` accent, IBM Plex Sans/Mono; `tailwind-merge` resolves class overrides deterministically). Types generated from `backend/openapi.json` (`npm run gen:api`, CI-checked). `src/api/client.ts` — bearer-token fetch wrapper, `{error:{code,message}}` → `ApiError`, one-shot refresh on 401. Zustand `persist` auth store (in-memory storage fallback). React Router v7 + TanStack Query v5. Routes (all auth-gated bar `/login`, under a role-aware `AppShell`): `/` dashboard, `/cases` + `/cases/:id` (list/detail/create/add-complaint → `/api/v1/cases`), `/trace/new` (address + chain + advanced params → `POST /trace`, picks up `?case=`), `/trace/:id` (`useTrace` 2s polling, stops on terminal; `GraphCanvas` = Cytoscape + dagre with a keyboard transfers table; `VaspMatchCard`/`HopTimeline`/`TypologyList`/`ConfidenceBadge`), `/trace/:id/report` (full report + editable SAHYOG notice with copy-out), `/admin/audit` (admin-only, hash-chain verification banner). `useHealth` + backend-unavailable banner; shared `ErrorState` (retry); route-change focus management; responsive shell. Risk/confidence never colour-only. 28 vitest tests. |
+| Frontend (Phase 3, PRs #17–#21; redesigned #23) | Live-mode React 18 + Vite + TS + Tailwind client, styled per the "forensic ledger" system in `~/Documents/Vaults/Aegis-Frontend-Blueprint/` (dark near-black surfaces, warm paper for the report, brass `brand` accent, IBM Plex Sans/Mono; `tailwind-merge` resolves class overrides deterministically). A public `/` landing page (WebGL "Radar" hero from reactbits.dev, `ogl` dependency) is served to signed-out visitors instead of an immediate redirect to `/login`; a day/night theme toggle (`src/app/theme.ts`, `data-theme` on `<html>`, `localStorage`-persisted) switches the whole app — including `GraphCanvas`'s hand-duplicated Cytoscape colours — between the original dark palette and a white/blue/green one (red stays reserved for high/critical risk in both). Types generated from `backend/openapi.json` (`npm run gen:api`, CI-checked). `src/api/client.ts` — bearer-token fetch wrapper, `{error:{code,message}}` → `ApiError`, one-shot refresh on 401. Zustand `persist` auth store (in-memory storage fallback). React Router v7 + TanStack Query v5. Routes (all auth-gated bar `/login`, under a role-aware `AppShell`): `/` dashboard, `/cases` + `/cases/:id` (list/detail/create/add-complaint → `/api/v1/cases`), `/trace/new` (address + chain + advanced params → `POST /trace`, picks up `?case=`), `/trace/:id` (`useTrace` 2s polling, stops on terminal; `GraphCanvas` = Cytoscape + dagre, now interactive — click-to-select, `GraphToolbar` layout toggle (hop/grid), min-value filter, and "isolate path" fading everything but a selected node's ancestors, plus a keyboard transfers table whose rows also select; a "Selected address" panel beside the graph shows the picked node's kind/risk/attribution; `VaspMatchCard`/`HopTimeline`/`TypologyList`/`ConfidenceBadge`), `/trace/:id/report` (full report + editable SAHYOG notice with copy-out), `/admin/audit` (admin-only, hash-chain verification banner). `useHealth` + backend-unavailable banner; shared `ErrorState` (retry); route-change focus management; responsive shell. Risk/confidence never colour-only. 28 vitest tests. |
 | Containers | `backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` (backend + frontend only). |
 | Validation | `scripts/validate.sh` runs ruff/mypy/pytest + eslint/build/vitest. `pytest-timeout` (30s) so a stalled test fails loudly instead of hanging. |
 | CI | `.github/workflows/ci.yml` — path-filtered backend/frontend jobs + `gitleaks` + `ci-ok` aggregation gate. |
@@ -182,3 +182,39 @@ trust it.
   dimensions, mirroring `VaspMatchCard`. All shared UI, the app shell, and
   every page restyled; report renders on a paper surface inside the dark
   chrome. No functionality changed. 28 tests still green.
+- 2026-09-04 — Frontend workability pass, ported from an unrelated
+  prototype at `~/Documents/Prot/frontend` (same "forensic ledger" tokens,
+  richer interaction patterns; its complaint-extraction demo flow and
+  decorative react-three-fiber illustration were **not** ported — out of
+  this repo's scope). `GraphCanvas` gained real interactivity: click a node
+  or a transfers-table row to select it (shown in a new side panel on
+  `TraceResultPage`), a new `GraphToolbar` (hop/grid layout switch, min-value
+  filter, "isolate path" to fade everything but the selected node's
+  ancestors). `DashboardPage` gained a lookup-banner CTA to `/trace/new` and
+  a truthful metric strip (chain support, attribution model, evidence
+  model — no fabricated numbers). All 28 vitest tests + lint + `tsc` build
+  still green; verified end to end against a live backend + the
+  `growjoy_tron_trc20` fixture trace via curl (no browser automation
+  available in this session — visual rendering not screenshotted).
+- 2026-09-04 — `TraceResultPage` widened from a single `max-w-3xl` column
+  into a two-column workspace (`max-w-7xl`, left: summary/attribution/
+  typologies/trail, right: graph + selection panel) — the narrow column
+  forced a long scroll for no reason on normal-width screens.
+- 2026-09-04 — Day/night theme toggle: `src/app/theme.ts` applies a
+  `data-theme` attribute on `<html>` (persisted to `localStorage`, set
+  before React renders to avoid a flash), with a `[data-theme="day"]`
+  override block in `tokens.css` (white surfaces, blue `brand`/`link`,
+  green `success`/`entity-vasp`; red stays reserved for high/critical
+  risk in both themes). `night` is the explicit default — the original
+  palette is unchanged. `ThemeToggle` sits in `AppShell`'s header and on
+  `LoginPage`. `GraphCanvas` duplicates hex values for Cytoscape (can't
+  read CSS vars) — its table is now keyed by theme and updates on toggle.
+- 2026-09-04 — Public landing page at `/` (`LandingPage.tsx`) for
+  signed-out visitors, replacing an immediate redirect to `/login`. The
+  auth check moved inline into the route file (`routes.tsx`); `RequireAuth`
+  was deleted as redundant. Hero uses reactbits.dev's "Radar" WebGL
+  background (`src/components/Radar.tsx`, ported to strict TS, new `ogl`
+  dependency), recoloured per the active theme, guards a missing/failed
+  WebGL context (headless test runners) by rendering nothing rather than
+  throwing. Below the hero, a plain three-step "how it works" strip and an
+  explicit "lead, not a verdict" line — no fabricated marketing claims.
