@@ -34,10 +34,13 @@ curl -s localhost:8000/api/v1/trace/<trace_id>  -H "Authorization: Bearer $TOKEN
 curl -s localhost:8000/api/v1/trace/<trace_id>/graph -H "Authorization: Bearer $TOKEN"
 ```
 
-`POST /auth/refresh` rotates the token pair. Runs the Phase 1 engine on a
-`BackgroundTask` against the configured fixture (`AEGIS_FIXTURE_ID`) + label
-packs (`AEGIS_LABEL_PACKS`). A durable worker and the audit log land in later
-Phase 2 PRs.
+`POST /auth/refresh` rotates the token pair. `POST /trace` only **queues** the
+run; the durable worker executes it against the configured fixture
+(`AEGIS_FIXTURE_ID`) + label packs (`AEGIS_LABEL_PACKS`). By default the worker
+runs in-process (`AEGIS_TRACE_WORKER=inline`); Compose runs it as a separate
+`worker` service (`external`). Every step is written to the hash-chained audit
+log; `GET /api/v1/admin/audit` (admin role) returns the entries + a
+chain-verification pass.
 
 ## Database
 
@@ -72,6 +75,7 @@ app/
   domain/          TraceService, AccountService, store interfaces + in-memory + SQL impls
   security/        argon2 password hashing, JWT encode/decode
   db/              SQLAlchemy Base, ORM models, engine/session factory
+  worker/          durable trace worker (claim + lease + retry); `python -m app.worker`
   engine_bridge.py the only place the backend calls app.engine
   engine/          Phase 1 blockchain analytics engine (pure library)
 alembic/           migration environment + versions

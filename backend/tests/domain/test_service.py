@@ -28,7 +28,7 @@ def test_start_trace_queues_a_record(service: TraceService):
 
 def test_run_trace_reaches_done_with_a_result(service: TraceService):
     rec = service.start_trace(TraceRequest(address=SEED))
-    service.run_trace(rec.trace_id)
+    service.run_next()
     done = service.get(rec.trace_id)
     assert done.status is TraceStatus.DONE
     assert done.started_at is not None and done.finished_at is not None
@@ -57,7 +57,7 @@ def test_params_pass_through_to_the_engine(service: TraceService):
     rec = service.start_trace(
         TraceRequest(address=SEED, params=TraceParamsIn(max_hops=2))
     )
-    service.run_trace(rec.trace_id)
+    service.run_next()
     done = service.get(rec.trace_id)
     assert done.params.max_hops == 2
     reasons = {e.reason.value for e in done.investigation.result.trail_events}

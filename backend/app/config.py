@@ -40,6 +40,14 @@ class Settings(BaseSettings):
     # Log SQL. Never true in production.
     db_echo: bool = False
 
+    # --- trace worker ----------------------------------------------------
+    # inline: the API process runs the worker in a background thread (dev).
+    # external: a separate `python -m app.worker` process drains the queue.
+    trace_worker: Literal["inline", "external"] = "inline"
+    worker_lease_s: float = 120.0
+    worker_max_attempts: int = 3
+    worker_poll_s: float = 1.0
+
     # --- auth ------------------------------------------------------------
     # HMAC key for signing JWTs. MUST be overridden in production (a startup
     # check refuses to run with this dev default when environment=production).

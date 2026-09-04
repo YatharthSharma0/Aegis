@@ -1,6 +1,6 @@
 # Aegis local development stack.
-# Phase 2: backend + Postgres + frontend. Neo4j and a Redis-backed worker are
-# added when their features land.
+# Phase 2: Postgres + backend (API) + worker (durable trace queue) + frontend.
+# Neo4j is added when its feature lands.
 
 services:
   db:
@@ -27,6 +27,7 @@ services:
       AEGIS_ENVIRONMENT: development
       AEGIS_CORS_ORIGINS: '["http://localhost:5173"]'
       AEGIS_DATABASE_URL: postgresql+psycopg://aegis:aegis@db:5432/aegis
+      AEGIS_TRACE_WORKER: external   # the `worker` service drains the queue
     depends_on:
       db:
         condition: service_healthy
@@ -37,6 +38,19 @@ services:
       interval: 10s
       timeout: 3s
       retries: 5
+
+  worker:
+    build: ./backend
+    command: ["uv", "run", "--no-dev", "python", "-m", "app.worker"]
+    environment:
+      AEGIS_ENVIRONMENT: development
+      AEGIS_DATABASE_URL: postgresql+psycopg://aegis:aegis@db:5432/aegis
+      AEGIS_SKIP_MIGRATIONS: "1"    # the backend service runs them
+    depends_on:
+      backend:
+        condition: service_healthy
+    volumes:
+      - ./backend/app:/app/app
 
   frontend:
     build: ./frontend

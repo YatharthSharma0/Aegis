@@ -25,10 +25,25 @@ def test_post_trace_returns_202_and_a_handle(client: TestClient, officer_headers
     assert len(body["trace_id"]) == 32
 
 
-def test_full_flow_status_then_graph(client: TestClient, officer_headers):
+def test_trace_stays_queued_until_a_worker_runs(client: TestClient, officer_headers, drain):
     trace_id = client.post(
         "/api/v1/trace", json={"address": SEED}, headers=officer_headers
     ).json()["trace_id"]
+    assert client.get(
+        f"/api/v1/trace/{trace_id}", headers=officer_headers
+    ).json()["status"] == "queued"
+
+    assert drain() == 1
+    assert client.get(
+        f"/api/v1/trace/{trace_id}", headers=officer_headers
+    ).json()["status"] == "done"
+
+
+def test_full_flow_status_then_graph(client: TestClient, officer_headers, drain):
+    trace_id = client.post(
+        "/api/v1/trace", json={"address": SEED}, headers=officer_headers
+    ).json()["trace_id"]
+    drain()
 
     status = client.get(f"/api/v1/trace/{trace_id}", headers=officer_headers)
     assert status.status_code == 200
