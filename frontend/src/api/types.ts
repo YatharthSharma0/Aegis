@@ -36,5 +36,9 @@ export type ComplaintSource = S["ComplaintSource"];
 export type AuditResponse = S["AuditResponse"];
 export type SahyogNoticeRequest = S["SahyogNoticeRequest"];
 
+export type EvidenceOut = S["EvidenceOut"];
+
 export type TraceStatus = TraceStatusResponse["status"];
+export type Chain = S["Chain"];
+export type TaintModel = S["TaintModel"];
 export type Role = MeResponse["role"];
