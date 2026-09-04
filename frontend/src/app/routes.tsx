@@ -7,6 +7,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { NewTracePage } from "../pages/NewTracePage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { PlaceholderPage } from "../pages/PlaceholderPage";
+import { ReportPage } from "../pages/ReportPage";
 import { TraceResultPage } from "../pages/TraceResultPage";
 import { AppShell } from "./AppShell";
 import { RequireAuth } from "./RequireAuth";
@@ -22,10 +23,7 @@ function Protected() {
           <Route path="cases/:id" element={<CaseDetailPage />} />
           <Route path="trace/new" element={<NewTracePage />} />
           <Route path="trace/:id" element={<TraceResultPage />} />
-          <Route
-            path="trace/:id/report"
-            element={<PlaceholderPage title="Report" />}
-          />
+          <Route path="trace/:id/report" element={<ReportPage />} />
           <Route path="admin/audit" element={<PlaceholderPage title="Audit log" />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
