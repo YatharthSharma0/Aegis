@@ -7,24 +7,28 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TARGET="${1:-both}"
 
 run_backend() {
-  echo "==> backend: ruff / mypy / pytest / openapi / migrations"
+  echo "==> backend: ruff / mypy / pytest / pip-audit / openapi / migrations"
   cd "$ROOT/backend"
   uv run ruff check .
   uv run mypy app
   uv run pytest
+  uv run pip-audit
   uv run python scripts/export_openapi.py >/dev/null
   git -C "$ROOT" diff --exit-code backend/openapi.json
   local drift_db
   drift_db="$(mktemp -u).db"
   AEGIS_DATABASE_URL="sqlite:///$drift_db" uv run alembic upgrade head >/dev/null
   AEGIS_DATABASE_URL="sqlite:///$drift_db" uv run alembic check >/dev/null
+  AEGIS_DATABASE_URL="sqlite:///$drift_db" uv run alembic downgrade base >/dev/null
+  AEGIS_DATABASE_URL="sqlite:///$drift_db" uv run alembic upgrade head >/dev/null
   rm -f "$drift_db"
 }
 
 run_frontend() {
-  echo "==> frontend: eslint / tsc + build / vitest"
+  echo "==> frontend: eslint / tsc + build / vitest / npm audit"
   cd "$ROOT/frontend"
   npm run lint
+  npm audit --omit=dev
   npm run gen:api
   git -C "$ROOT" diff --exit-code frontend/src/api/schema.d.ts
   npm run build

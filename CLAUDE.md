@@ -35,7 +35,7 @@ the real backend supports, styled per that vault's tokens and components).
 ```
 backend/    Python 3.12 · FastAPI · uv.  Env vars read only in app/config.py.
 frontend/   React 18 · Vite · TS · Tailwind.  Cytoscape graph + screens come later.
-docs/       DATA_LICENSES.md, validation.md
+docs/       DATA_LICENSES.md, validation.md, SECURITY.md, PROVIDERS.md
 scripts/    validate.sh — the single local gate
 .github/    CI (path-filtered backend/frontend jobs + gitleaks)
 ```

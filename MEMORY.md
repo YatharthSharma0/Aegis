@@ -8,11 +8,11 @@ short and true. The design vault
 
 ## Current state
 
-- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, 3, and 4 complete. Phase 4.5
+- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, 3, 4, and 5 complete. Phase 4.5
   (live TronGrid provider) is code-complete but not fully closed — see
   below; the two remaining tasks need a real TronGrid API key this
   environment doesn't have. Fixture mode (the default everywhere,
-  including CI) is completely unaffected.
+  including CI) is completely unaffected. Next: Phase 6 (deployment).
 - **History:** an earlier "Aegis" showcase build existed and was discarded. This
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
@@ -396,3 +396,45 @@ trust it.
 
   Next session with a key: record the fixture, run the live smoke test,
   fix whatever field-name assumption turns out wrong, close out Phase 4.5.
+
+- 2026-09-05 — **Phase 5 (testing + security audit) complete.** Per the
+  vault's own framing, this phase audits and evidences security/coverage
+  work already required in Phases 0–4.5, not originates it from scratch —
+  and that held: auditing found nearly everything on the vault's checklist
+  already covered by existing tests (taint-conservation, clustering
+  defeat-cases, auth/authz, rate-limit-under-load, admin-route gating, no
+  `dangerouslySetInnerHTML`, explicit non-wildcard CORS, real-complaint-text
+  refused server-side). Recorded all of it with evidence links in a new
+  `docs/SECURITY.md` (not duplicated in this file — go there for the
+  full table) rather than re-asserting it from memory.
+
+  Two real gaps found and closed:
+  - **No dependency scanning in CI.** Added `uv run pip-audit` (backend)
+    and `npm audit --omit=dev` (frontend) to both `scripts/validate.sh` and
+    `.github/workflows/ci.yml`. Zero known vulnerabilities as of this
+    session.
+  - **Migrations were only ever tested upgrading.** `alembic check` catches
+    model/migration drift but never exercised `downgrade()`. Added
+    `alembic downgrade base` → `alembic upgrade head` after the existing
+    `upgrade head` → `check` step, in both `validate.sh` and CI — proved
+    locally that every migration's `downgrade()` actually works, not just
+    its `upgrade()`.
+
+  Also cleaned up stale docs found along the way: `docs/validation.md`'s
+  "Known limits (Phase 0)" section still said "no engine/persistence/
+  workers/AI yet" and "backend exposes only `GET /health`" — both long
+  false. Replaced with the real current limits (no live-recorded fixture,
+  no GNN/Ethereum-adapter/NLP/Neo4j, no complaint-text encryption-at-rest).
+  README and CLAUDE.md now point at `docs/SECURITY.md`.
+
+  Explicitly not done, correctly out of scope per the vault: a professional
+  third-party security audit, and an `EVAL.md` for the GNN typology model
+  (Phase 1E was never built — creating one now would fabricate a metric,
+  exactly what this phase exists to prevent; state `not_scored` instead).
+  Phase 4.5's own known gaps (live fixture, live smoke test) are tracked
+  there, not repeated here — a live-data-correctness gap, not a security one.
+
+  `./scripts/validate.sh` green end to end with both new steps
+  (backend + frontend). Vault's `10-Execution-Plan/
+  06-Phase-5-Testing-Security.md` and `00-Build-Plan-Overview.md`
+  reconciled to this reality.

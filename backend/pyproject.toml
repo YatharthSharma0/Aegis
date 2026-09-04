@@ -23,6 +23,7 @@ dev = [
     "mypy>=1.13",
     "pytest>=8.3",
     "pytest-timeout>=2.3",
+    "pip-audit>=2.7",
 ]
 
 [tool.uv]
