@@ -33,10 +33,14 @@ Redis/Celery workers · WebSocket streaming · auth · any real UI screen.
 
 ## Open Phase 0 items
 
-- [ ] Branch protection on `main` (GitHub setting — needs repo admin; document who/when).
-- [ ] CI verified green on a real PR.
+- [x] Branch protection on `main` — applied 2026-09-04 by `YatharthSharma0` (repo
+      admin) via `gh api`. Requires the `ci-ok` status check (strict), PRs with 0
+      required approvals (self-merge allowed until teammates join), linear
+      history, no force-push, no deletion; admin bypass left on.
+- [x] CI verified green on a real PR (this file's own PR).
 - [ ] Fill `docs/DATA_LICENSES.md` rows as datasets are actually brought in.
 - [ ] Replace placeholder names/handles in `CONTRIBUTORS.md` with real members.
+- [ ] Raise `required_approving_review_count` to 1 once real collaborators join.
 
 ## Maintenance rule
 
@@ -48,3 +52,5 @@ trust it.
 
 - 2026-09-04 — Repo re-initialised from scratch. Phase 0 scaffold: hygiene,
   backend + frontend skeletons, Docker/Compose, validate.sh, CI, docs.
+- 2026-09-04 — `main` branch protection applied; CI (`ci-ok` gate) verified on a
+  real PR. Phase 0 foundation complete bar the two follow-ups above.
