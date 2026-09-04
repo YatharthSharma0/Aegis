@@ -18,7 +18,7 @@ short and true. The design vault
 | Area | State |
 |---|---|
 | Repo hygiene | `.gitignore`, `.editorconfig`, `LICENSE` (MIT), `README.md`, `CONTRIBUTORS.md` |
-| Backend | FastAPI skeleton, `GET /health` only. `uv` project, Python 3.12 pinned, `uv.lock` committed. `ruff` + `mypy` (strict) + `pytest` configured and green. Env via `app/config.py` + `.env.example`. |
+| Backend | FastAPI. `uv` project, Python 3.12 pinned. Env via `app/config.py` + `.env.example`. **Trace API (Phase 2, PR #9)**: `POST /api/v1/trace` → 202 `{trace_id,status,stream_url}`; `GET /api/v1/trace/{id}` (polling — status + result + `result_hash`); `GET /api/v1/trace/{id}/graph` (nodes/edges). Layering: `app/api/` (routes + error envelope) → `app/domain/` (`TraceService`, `InvestigationStore` Protocol + `InMemoryInvestigationStore`, wire schemas) → `app/engine_bridge.py` (only place the backend calls `app.engine`) → Phase 1 `forward_trace`. Runs on `BackgroundTasks` (labelled single-process demo fallback — durable Redis worker is a later PR). No DB / auth / audit-log / cases yet. `backend/openapi.json` committed + CI-checked (`scripts/export_openapi.py`). |
 | Engine contract (Phase 1A) | `app/engine/` — **contract only, no live data fetching**. `canonical` (deterministic JSON + `schema:sha256` hashing, `SCHEMA_VERSION = aegis.engine.v1`); `errors` (exception taxonomy + `TrailLostReason`/`PartialReason` enums); `records` (provenance-preserving `ProviderSnapshot` / `NormalizedTransaction` / `Transfer` / `AddressActivity`, frozen pydantic, quantized decimals); `provider` (`ChainDataProvider` Protocol, read-only, returns data + snapshot); `result` (`Investigation` / `TraceResult` / `GraphNode` / `GraphEdge` / `VaspCandidate` / `ConfidenceTerms` / `TrailEvent`; `Investigation.result_hash()` excludes wall-clock timing). |
 | Engine data replay (Phase 1B, part 1) | `app/engine/tron.py` (base58check Tron address validation, USDT-TRC20 constants); `app/engine/providers/fixture.py` — `FixtureProvider` replays a recorded fixture dir, verifies per-file sha256 against the manifest, re-derives `offset:` pagination, deterministic. `app/engine/fixtures/growjoy_tron_trc20/` — **synthetic** (`_build.py` regenerates it), a task-scam USDT flow: seed→rot1→rot2→cons→dep→exch_hot with a mixer peel and a rot3 fan-in. **No live TronGrid client yet** (real TRC-20 endpoint lacks per-record block height/hash — deferred pending a provenance-policy call). |
 | Forward walk (Phase 1B, part 2) | `app/engine/walk.py` — `forward_trace(seed, chain, asset, provider, params, mixer_addresses, bridge_addresses)`. Two phases: BFS discovery (bounded by `max_hops` depth, `max_nodes`/`max_edges` budgets, wall-clock deadline; mixer/bridge nodes marked, not expanded) then haircut taint propagation in discovery-order (a DAG). Haircut ratio = `victim_taint_in / provider_total_in` so clean fan-in dilutes; each edge's taint ∝ its value; sum out ≤ sum in. Emits `TrailEvent`s (mixer/bridge/max_hops/min_value/min_taint/cycle), never a fabricated continuation. `python -m app.engine trace-fixture [--json]` runs it offline. |
@@ -37,8 +37,10 @@ no Ethereum — Phase 1D) · full wallet clustering (sweep-cluster construction 
 only the `EndpointContext.cluster_addresses` hook exists; attribution's
 via-cluster path is coded but unfed) · a real (non-synthetic) label pack · GNN
 typology model (Phase 1E) · NLP complaint extraction (Phase 1F) · grounded LLM
-report · PostgreSQL · Neo4j · Redis/Celery workers · WebSocket streaming · auth ·
-any real UI screen.
+report · **Phase 2 remainder**: PostgreSQL + Alembic + real repo, JWT auth,
+hash-chained audit log, durable Redis worker (replacing BackgroundTasks),
+case-management endpoints, `/report` + `/sahyog-notice`, rate limiting,
+structured logging · Neo4j · WebSocket streaming · any real UI screen.
 
 The engine `result` types are the frozen boundary the Phase 2 backend will
 consume; do not change their shape without bumping `SCHEMA_VERSION`.
@@ -98,3 +100,9 @@ trust it.
   end to end; the demo pack yields "DemoExchange, dataset_confirmed, deposit
   THbK…, mixer penalty applied" with a mixer_like trail event. 105 engine
   tests. The evidence-first Tron trace → source-backed VASP path is complete.
+- 2026-09-04 — Phase 2 started (PR #9): the trace HTTP API. `app/domain/`
+  (`TraceService` + `InvestigationStore` interface + in-memory impl + wire
+  schemas), `app/api/` (routes + `{error:{code,message,details}}` envelope),
+  `app/engine_bridge.py`. `POST /api/v1/trace` → `GET /api/v1/trace/{id}` +
+  `/graph`, on `BackgroundTasks`. `openapi.json` committed + CI-checked. 121
+  tests. Next Phase 2 PRs: Postgres+Alembic, auth, audit log, durable worker.

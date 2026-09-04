@@ -7,11 +7,13 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TARGET="${1:-both}"
 
 run_backend() {
-  echo "==> backend: ruff / mypy / pytest"
+  echo "==> backend: ruff / mypy / pytest / openapi"
   cd "$ROOT/backend"
   uv run ruff check .
   uv run mypy app
   uv run pytest
+  uv run python scripts/export_openapi.py >/dev/null
+  git -C "$ROOT" diff --exit-code backend/openapi.json
 }
 
 run_frontend() {

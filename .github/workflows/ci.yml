@@ -48,6 +48,10 @@ jobs:
       - run: uv run ruff check .
       - run: uv run mypy app
       - run: uv run pytest
+      - name: openapi.json is up to date
+        run: |
+          uv run python scripts/export_openapi.py
+          git diff --exit-code openapi.json
 
   frontend:
     needs: changes
