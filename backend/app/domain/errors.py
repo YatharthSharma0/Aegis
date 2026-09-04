@@ -17,17 +17,34 @@ class DomainError(Exception):
         self.details = details or {}
 
 
-class InvalidTraceRequestError(DomainError):
+class InvalidRequestError(DomainError):
     status = 400
     code = "invalid_request"
 
 
-class TraceNotFoundError(DomainError):
+# Back-compat alias — trace code raises this name.
+class InvalidTraceRequestError(InvalidRequestError):
+    pass
+
+
+class NotFoundError(DomainError):
     status = 404
     code = "not_found"
 
+
+class TraceNotFoundError(NotFoundError):
     def __init__(self, trace_id: str) -> None:
         super().__init__(f"no trace with id {trace_id!r}", details={"trace_id": trace_id})
+
+
+class CaseNotFoundError(NotFoundError):
+    def __init__(self, case_id: str) -> None:
+        super().__init__(f"no case with id {case_id!r}", details={"case_id": case_id})
+
+
+class ConflictError(DomainError):
+    status = 409
+    code = "conflict"
 
 
 class TraceNotReadyError(DomainError):

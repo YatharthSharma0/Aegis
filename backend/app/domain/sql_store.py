@@ -41,6 +41,15 @@ class SqlInvestigationStore:
                 return
             _apply(record, row)
 
+    def list_by_case(self, case_id: str) -> list[InvestigationRecord]:
+        stmt = (
+            select(TraceRun)
+            .where(TraceRun.case_id == case_id)
+            .order_by(TraceRun.created_at.asc())
+        )
+        with session_scope() as session:
+            return [_to_record(row) for row in session.scalars(stmt)]
+
     def claim_next(self, worker_id: str, lease_s: float) -> InvestigationRecord | None:
         now = datetime.now(UTC)
         stmt = (
