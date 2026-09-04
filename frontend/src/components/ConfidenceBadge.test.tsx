@@ -12,12 +12,16 @@ it("bands confidence values", () => {
 
 it("renders a word and a percentage, not colour alone", () => {
   render(<ConfidenceBadge confidence="0.82" />);
-  expect(screen.getByText(/high confidence · 82%/i)).toBeInTheDocument();
+  expect(
+    screen.getByText(/high attribution confidence · 82%/i),
+  ).toBeInTheDocument();
 });
 
 it("clamps out-of-range and non-numeric input", () => {
   const { rerender } = render(<ConfidenceBadge confidence="5" />);
   expect(screen.getByText(/100%/)).toBeInTheDocument();
   rerender(<ConfidenceBadge confidence="not-a-number" />);
-  expect(screen.getByText(/low confidence · 0%/i)).toBeInTheDocument();
+  expect(
+    screen.getByText(/low attribution confidence · 0%/i),
+  ).toBeInTheDocument();
 });

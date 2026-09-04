@@ -10,17 +10,17 @@ const MAP: Record<
   open: {
     label: "Open",
     icon: Circle,
-    className: "text-indigo-300 border-indigo-300/40 bg-indigo-300/10",
+    className: "text-info border-info/40 bg-info/10",
   },
   in_progress: {
     label: "In progress",
     icon: CircleDot,
-    className: "text-risk-med border-risk-med/40 bg-risk-med/10",
+    className: "text-warning border-warning/40 bg-warning/10",
   },
   closed: {
     label: "Closed",
     icon: CheckCircle2,
-    className: "text-risk-low border-risk-low/40 bg-risk-low/10",
+    className: "text-success border-success/40 bg-success/10",
   },
 };
 
@@ -29,7 +29,7 @@ export function CaseStatusBadge({ status }: { status: CaseStatus | string }) {
   const meta = MAP[status as CaseStatus] ?? {
     label: status,
     icon: Circle,
-    className: "text-mute border-navy-600 bg-white/5",
+    className: "text-unknown border-strong bg-hover",
   };
   const Icon = meta.icon;
   return (

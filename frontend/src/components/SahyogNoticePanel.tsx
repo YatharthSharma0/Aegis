@@ -109,7 +109,7 @@ export function SahyogNoticePanel({
       {gen.data && (
         <div className="mt-4 space-y-2">
           <div className="flex items-center justify-between gap-3">
-            <div className="text-xs text-mute">
+            <div className="text-xs text-muted">
               To: {gen.data.notice_draft.to} · Basis:{" "}
               {gen.data.notice_draft.legal_basis}
             </div>
@@ -131,7 +131,7 @@ export function SahyogNoticePanel({
             rows={18}
             className={textInputClass("font-mono text-xs leading-relaxed")}
           />
-          <p className="text-xs text-mute">
+          <p className="text-xs text-muted">
             Edits stay in this browser. Copy the final text into your official
             template before sending.
           </p>

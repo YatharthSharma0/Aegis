@@ -12,23 +12,27 @@ const META: Record<
   { label: string; icon: typeof ShieldCheck; className: string }
 > = {
   high: {
-    label: "High confidence",
+    label: "High attribution confidence",
     icon: ShieldCheck,
-    className: "text-confirmed border-confirmed/40 bg-confirmed/10",
+    className: "text-entity-vasp border-entity-vasp/40 bg-entity-vasp/10",
   },
   medium: {
-    label: "Medium confidence",
+    label: "Medium attribution confidence",
     icon: ShieldAlert,
-    className: "text-risk-med border-risk-med/40 bg-risk-med/10",
+    className: "text-warning border-warning/40 bg-warning/10",
   },
   low: {
-    label: "Low confidence",
+    label: "Low attribution confidence",
     icon: ShieldQuestion,
-    className: "text-risk-high border-risk-high/40 bg-risk-high/10",
+    className: "text-unknown border-strong bg-hover",
   },
 };
 
-/** Confidence is shown as icon + word + percent — never colour alone. */
+/**
+ * Attribution confidence — how confident the service/entity match is. Kept
+ * visually distinct from fraud risk (never rendered in `risk-*` colour) and
+ * shown as icon + word + percent, never colour alone.
+ */
 export function ConfidenceBadge({
   confidence,
   className,
