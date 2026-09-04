@@ -824,6 +824,52 @@
         "title": "RefreshRequest",
         "type": "object"
       },
+      "SahyogNoticeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "case_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Ref"
+          },
+          "legal_basis": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legal Basis"
+          },
+          "requesting_officer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requesting Officer"
+          },
+          "vasp_rank": {
+            "default": 1,
+            "minimum": 1.0,
+            "title": "Vasp Rank",
+            "type": "integer"
+          }
+        },
+        "title": "SahyogNoticeRequest",
+        "type": "object"
+      },
       "TaintModel": {
         "enum": [
           "haircut",
@@ -2167,6 +2213,128 @@
         "summary": "Get Trace Graph",
         "tags": [
           "trace"
+        ]
+      }
+    },
+    "/api/v1/trace/{trace_id}/report": {
+      "get": {
+        "operationId": "get_report_api_v1_trace__trace_id__report_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trace_id",
+            "required": true,
+            "schema": {
+              "title": "Trace Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "json",
+              "enum": [
+                "json",
+                "pdf"
+              ],
+              "title": "Format",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Report Api V1 Trace  Trace Id  Report Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Report",
+        "tags": [
+          "report"
+        ]
+      }
+    },
+    "/api/v1/trace/{trace_id}/sahyog-notice": {
+      "post": {
+        "operationId": "create_sahyog_notice_api_v1_trace__trace_id__sahyog_notice_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trace_id",
+            "required": true,
+            "schema": {
+              "title": "Trace Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SahyogNoticeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Create Sahyog Notice Api V1 Trace  Trace Id  Sahyog Notice Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Sahyog Notice",
+        "tags": [
+          "report"
         ]
       }
     },
