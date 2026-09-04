@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { ApiError } from "../api/client";
 import type { InvestigationReport } from "../api/report";
 import { ConfidenceBadge } from "../components/ConfidenceBadge";
+import { ErrorState } from "../components/ErrorState";
 import { SahyogNoticePanel } from "../components/SahyogNoticePanel";
 import { useReport } from "../features/report/useReport";
 import { useAuthStore } from "../state/authStore";
@@ -23,11 +24,21 @@ export function ReportPage() {
       report.error instanceof ApiError && report.error.status === 409;
     return (
       <div className="mx-auto max-w-3xl space-y-3">
-        <p className="text-sm text-risk-high" role="alert">
-          {notReady
-            ? "The trace has not finished yet — the report is available once it completes."
-            : "Could not build the report."}
-        </p>
+        {notReady ? (
+          <p
+            className="rounded border border-dashed border-navy-700 px-6 py-8 text-center text-sm text-mute"
+            role="status"
+          >
+            The trace has not finished yet — the report is available once it
+            completes.
+          </p>
+        ) : (
+          <ErrorState
+            error={report.error}
+            onRetry={() => report.refetch()}
+            context="build the report"
+          />
+        )}
         <Link
           to={`/trace/${id}`}
           className="text-sm text-indigo-300 hover:underline"

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { ApiError } from "../api/client";
 import type { CaseStatus } from "../api/types";
 import { CaseStatusBadge } from "../components/CaseStatusBadge";
+import { ErrorState } from "../components/ErrorState";
 import {
   useAddComplaint,
   useCase,
@@ -22,18 +22,19 @@ const STATUSES: CaseStatus[] = ["open", "in_progress", "closed"];
 
 export function CaseDetailPage() {
   const { id = "" } = useParams();
-  const { data, isLoading, isError, error } = useCase(id);
+  const query = useCase(id);
+  const { data, isLoading, isError } = query;
   const update = useUpdateCase(id);
 
   if (isLoading) return <Spinner label="Loading case" />;
   if (isError || !data) {
     return (
       <div className="mx-auto max-w-3xl space-y-3">
-        <p className="text-sm text-risk-high" role="alert">
-          {error instanceof ApiError && error.status === 404
-            ? "That case does not exist."
-            : "Could not load the case."}
-        </p>
+        <ErrorState
+          error={query.error}
+          onRetry={() => query.refetch()}
+          context="load the case"
+        />
         <Link to="/cases" className="text-sm text-indigo-300 hover:underline">
           Back to cases
         </Link>

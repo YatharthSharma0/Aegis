@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import { ApiError } from "../api/client";
 import { CaseStatusBadge } from "../components/CaseStatusBadge";
+import { ErrorState } from "../components/ErrorState";
 import { useCases } from "../features/cases/useCases";
 import { Card } from "../ui/Card";
 import { EmptyState } from "../ui/EmptyState";
@@ -43,11 +43,7 @@ export function DashboardPage() {
       >
         {cases.isLoading && <Spinner label="Loading cases" />}
         {cases.isError && (
-          <p className="text-sm text-risk-high" role="alert">
-            {cases.error instanceof ApiError
-              ? cases.error.message
-              : "Could not load cases."}
-          </p>
+          <ErrorState error={cases.error} onRetry={() => cases.refetch()} context="load cases" />
         )}
         {cases.data && cases.data.length === 0 && (
           <EmptyState
