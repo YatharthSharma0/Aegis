@@ -5,6 +5,7 @@ real network call; CI stays fully offline (Phase 4.5 acceptance criterion).
 
 from __future__ import annotations
 
+import json
 from decimal import Decimal
 
 import httpx
@@ -177,6 +178,42 @@ def test_address_activity_not_a_contract_when_getcontract_is_empty():
     )
     result = provider.address_activity(ADDR)
     assert result.activity.is_contract is False
+
+
+def test_getcontract_sends_visible_true_for_a_base58_address():
+    """Confirmed against the real TronGrid API: wallet/getcontract 200s with
+    an {"Error": ...} body for a bare base58 address unless the request
+    also carries "visible": true — a bug this session caught before the
+    demo, not something the offline mocks alone would have surfaced."""
+    seen: dict = {}
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/wallet/getcontract":
+            seen.update(json.loads(request.content))
+            return httpx.Response(200, json={"bytecode": "6080"})
+        return httpx.Response(200, json=_nowblock_body())
+
+    provider = TronGridProvider(
+        api_key=API_KEY, transport=httpx.MockTransport(handle), sleep=lambda _s: None
+    )
+    provider._is_contract(ADDR)
+    assert seen == {"value": ADDR, "visible": True}
+
+
+def test_wallet_endpoint_error_body_on_a_200_is_a_provider_error():
+    """TronGrid's wallet/* RPCs answer 200 even on a bad/unknown request —
+    the failure only shows up as an {"Error": "..."} body. Confirmed
+    against the real API (not assumed): a malformed value returns HTTP 200
+    with this shape, not a 4xx."""
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"Error": "INVALID hex String"})
+
+    provider = TronGridProvider(
+        api_key=API_KEY, transport=httpx.MockTransport(handle), sleep=lambda _s: None
+    )
+    with pytest.raises(ProviderResponseInvalidError, match="INVALID hex String"):
+        provider.latest_block()
 
 
 def test_429_is_retried_then_raises_rate_limited_at_the_end():

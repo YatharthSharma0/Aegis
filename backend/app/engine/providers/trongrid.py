@@ -248,7 +248,11 @@ class TronGridProvider:
         return block_id
 
     def _is_contract(self, address: Address) -> bool:
-        body = self._call("wallet/getcontract", {"value": address})
+        # wallet/* full-node RPCs default to hex addresses and reject a
+        # base58 "T..." value with a parse error; `visible: true` tells
+        # TronGrid to accept (and return) base58 instead — confirmed
+        # against the real API, not assumed (a bare base58 value 400s).
+        body = self._call("wallet/getcontract", {"value": address, "visible": True})
         return bool(body.get("bytecode"))
 
     def _current_tip(self) -> BlockRef:
@@ -330,9 +334,16 @@ class TronGridProvider:
                 f"{endpoint} returned {resp.status_code}: {resp.text[:200]}"
             )
         try:
-            return resp.json()
+            body = resp.json()
         except ValueError as exc:
             raise ProviderResponseInvalidError(f"{endpoint} returned a non-JSON body") from exc
+        # TronGrid's wallet/* full-node RPCs always answer 200, even on a bad
+        # request — the failure is only visible as an {"Error": "..."} body.
+        # Confirmed against the real API (a malformed value 200s with this
+        # shape, not a 4xx) — not an assumption.
+        if isinstance(body, dict) and "Error" in body:
+            raise ProviderResponseInvalidError(f"{endpoint}: {body['Error']}")
+        return body
 
     def _backoff(self, attempt: int, *, retry_after: float | None) -> None:
         delay = retry_after if retry_after is not None else min(
