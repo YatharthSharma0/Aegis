@@ -19,6 +19,7 @@ os.environ.setdefault("AEGIS_TRACE_WORKER", "external")
 import pytest  # noqa: E402
 from sqlalchemy import text  # noqa: E402
 
+from app.api.ratelimit import get_rate_limiter  # noqa: E402
 from app.db.engine import create_all, session_scope  # noqa: E402
 
 
@@ -37,3 +38,9 @@ def _clean_tables() -> Iterator[None]:
     with session_scope() as session:
         for table in tables:
             session.execute(text(f"DELETE FROM {table}"))
+
+
+@pytest.fixture(autouse=True)
+def _reset_rate_limiter() -> Iterator[None]:
+    get_rate_limiter().reset()
+    yield

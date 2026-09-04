@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import logging
 import signal
 import threading
 from types import FrameType
@@ -13,12 +12,13 @@ from app.domain.audit import AuditService
 from app.domain.audit_store import SqlAuditStore
 from app.domain.service import TraceService
 from app.domain.sql_store import SqlInvestigationStore
+from app.logging import configure_logging
 from app.worker.runner import TraceWorker
 
 
 def main() -> None:
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
     settings = get_settings()
+    configure_logging(json_output=settings.log_json, level=settings.log_level)
     if settings.environment != "production":
         create_all()
 

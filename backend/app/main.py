@@ -28,6 +28,7 @@ from app.domain.audit import AuditService
 from app.domain.audit_store import SqlAuditStore
 from app.domain.service import TraceService
 from app.domain.sql_store import SqlInvestigationStore
+from app.logging import configure_logging
 from app.worker import TraceWorker
 
 settings = get_settings()
@@ -35,6 +36,7 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    configure_logging(json_output=settings.log_json, level=settings.log_level)
     # Production runs Alembic migrations via the container entrypoint; elsewhere
     # create tables directly so `uvicorn app.main:app` just works.
     if settings.environment != "production":
