@@ -29,12 +29,14 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from decimal import Decimal
 
+from app.engine.attribution import EndpointContext, attribute
 from app.engine.errors import (
     PartialReason,
     ProviderError,
     ProviderRateLimitedError,
     TrailLostReason,
 )
+from app.engine.labels import LabelSet, LabelType
 from app.engine.provider import ChainDataProvider
 from app.engine.records import Asset, Chain, ProviderSnapshot, Transfer
 from app.engine.result import (
@@ -47,8 +49,9 @@ from app.engine.result import (
     TraceResult,
     TraceStatus,
     TrailEvent,
+    VaspCandidate,
 )
-from app.engine.signals import AddressStats, detect_account_signals
+from app.engine.signals import AddressStats, SignalReport, detect_account_signals
 
 Clock = Callable[[], float]
 
@@ -65,6 +68,15 @@ class _Ctx:
     mixers: frozenset[str]
     bridges: frozenset[str]
     clock: Clock
+    labels: LabelSet | None = None
+
+
+@dataclass
+class _Propagation:
+    edge_taint: dict[tuple[str, str], Decimal]
+    trail: list[TrailEvent]
+    mixer_on_path: dict[str, bool]
+    bridge_hops: dict[str, int]
 
 
 @dataclass
@@ -108,23 +120,34 @@ def forward_trace(  # noqa: PLR0913 — the public trace input surface
     params: TraceParams | None = None,
     mixer_addresses: frozenset[str] = frozenset(),
     bridge_addresses: frozenset[str] = frozenset(),
+    labels: LabelSet | None = None,
     clock: Clock = time.monotonic,
 ) -> Investigation:
-    """Trace ``asset`` forward from ``seed`` using ``provider``."""
+    """Trace ``asset`` forward from ``seed`` using ``provider``.
+
+    If ``labels`` is given, its ``mixer`` / ``bridge`` addresses extend the
+    explicit sets, and VASP attribution runs over the reached endpoints.
+    """
+    mixers = mixer_addresses
+    bridges = bridge_addresses
+    if labels is not None:
+        mixers = mixers | labels.addresses_of_type(LabelType.MIXER, chain)
+        bridges = bridges | labels.addresses_of_type(LabelType.BRIDGE, chain)
     ctx = _Ctx(
         seed=seed,
         chain=chain,
         asset=asset,
         provider=provider,
         params=params or TraceParams(),
-        mixers=mixer_addresses,
-        bridges=bridge_addresses,
+        mixers=mixers,
+        bridges=bridges,
         clock=clock,
+        labels=labels,
     )
     discovery = _discover(ctx)
-    edge_taint, prune_trail = _propagate(ctx, discovery)
-    discovery.trail.extend(prune_trail)
-    return _assemble(ctx, discovery, edge_taint)
+    propagation = _propagate(ctx, discovery)
+    discovery.trail.extend(propagation.trail)
+    return _assemble(ctx, discovery, propagation)
 
 
 # --------------------------------------------------------------------------
@@ -279,12 +302,12 @@ def _add_snapshot(out: _Discovery, snapshot: ProviderSnapshot) -> None:
 # --------------------------------------------------------------------------
 
 
-def _propagate(
-    ctx: _Ctx, discovery: _Discovery
-) -> tuple[dict[tuple[str, str], Decimal], list[TrailEvent]]:
-    """Return per-(from,to) taint fraction and trail events from pruning."""
+def _propagate(ctx: _Ctx, discovery: _Discovery) -> _Propagation:  # noqa: PLR0912 — topological taint loop
+    """Propagate haircut taint; return edge fractions, trail events, path flags."""
     nodes = discovery.nodes
     trail: list[TrailEvent] = []
+    mixer_on_path: dict[str, bool] = defaultdict(bool)
+    bridge_hops: dict[str, int] = defaultdict(int)
 
     forward_flow: dict[tuple[str, str], Decimal] = defaultdict(lambda: Decimal(0))
     for transfer in discovery.edges:
@@ -326,8 +349,16 @@ def _propagate(
         if not node.outgoing:
             continue  # taint rests at a sink
 
+        node_successors = successors.get(address, [])
+        touches_mixer = mixer_on_path[address] or any(
+            nodes[s].kind is NodeKind.MIXER for s in node_successors
+        )
+        inherited_bridge = bridge_hops[address] + (
+            1 if node.kind is NodeKind.BRIDGE else 0
+        )
+
         distributable = min(received, node.out_total)
-        for dst in sorted(successors.get(address, []), key=lambda a: nodes[a].order):
+        for dst in sorted(node_successors, key=lambda a: nodes[a].order):
             value = forward_flow[(address, dst)]
             tainted = (value / node.out_total * distributable).quantize(quantum)
             fraction = (
@@ -350,8 +381,16 @@ def _propagate(
                 continue
             edge_taint[(address, dst)] = fraction
             taint_in[dst] = taint_in.get(dst, Decimal(0)) + tainted
+            if touches_mixer and nodes[dst].kind is not NodeKind.MIXER:
+                mixer_on_path[dst] = True
+            bridge_hops[dst] = max(bridge_hops[dst], inherited_bridge)
 
-    return edge_taint, trail
+    return _Propagation(
+        edge_taint=edge_taint,
+        trail=trail,
+        mixer_on_path=dict(mixer_on_path),
+        bridge_hops=dict(bridge_hops),
+    )
 
 
 # --------------------------------------------------------------------------
@@ -360,9 +399,10 @@ def _propagate(
 
 
 def _assemble(
-    ctx: _Ctx, discovery: _Discovery, edge_taint: dict[tuple[str, str], Decimal]
+    ctx: _Ctx, discovery: _Discovery, propagation: _Propagation
 ) -> Investigation:
     nodes = discovery.nodes
+    edge_taint = propagation.edge_taint
     snap_by_id = {s.snapshot_id: s for s in discovery.snapshots}
 
     kept = {ctx.seed} | {a for a, n in nodes.items() if n.taint_in > 0}
@@ -409,12 +449,15 @@ def _assemble(
             )
         )
 
+    vasp_candidates = _attribute(ctx, discovery, propagation, signal_report, graph_edges)
+
     result = TraceResult(
+        vasp_candidates=vasp_candidates,
         graph_nodes=graph_nodes,
         graph_edges=tuple(graph_edges),
         typologies=signal_report.typologies(),
         trail_events=tuple(discovery.trail),
-        summary=_summary(ctx.seed, discovery, graph_edges),
+        summary=_summary(ctx.seed, discovery, graph_edges, vasp_candidates),
     )
     status = TraceStatus.PARTIAL if discovery.partial_reason else TraceStatus.DONE
     now = datetime.now(UTC)
@@ -430,6 +473,56 @@ def _assemble(
         started_at=now,
         finished_at=now,
     )
+
+
+def _attribute(
+    ctx: _Ctx,
+    discovery: _Discovery,
+    propagation: _Propagation,
+    signal_report: SignalReport,
+    graph_edges: list[GraphEdge],
+) -> tuple[VaspCandidate, ...]:
+    nodes = discovery.nodes
+    seed_out = nodes[ctx.seed].out_total if ctx.seed in nodes else Decimal(0)
+    inbound: dict[str, list[GraphEdge]] = defaultdict(list)
+    for edge in graph_edges:
+        inbound[edge.to_address].append(edge)
+
+    endpoints: list[EndpointContext] = []
+    for address, node in nodes.items():
+        if address == ctx.seed or node.taint_in <= 0:
+            continue
+        if node.kind in (NodeKind.MIXER, NodeKind.BRIDGE):
+            continue
+        vasp_sigs = signal_report.vasp_signals_for(address)
+        labelled = (
+            ctx.labels is not None
+            and bool(
+                ctx.labels.lookup(
+                    address, ctx.chain, types=[LabelType.VASP, LabelType.SERVICE]
+                )
+            )
+        )
+        if not (not node.outgoing or vasp_sigs or labelled):
+            continue
+        reaching = inbound.get(address, [])
+        deposit = max(reaching, key=lambda e: e.taint).from_address if reaching else None
+        endpoints.append(
+            EndpointContext(
+                address=address,
+                chain=ctx.chain,
+                hops_from_seed=node.depth,
+                taint_retained=(node.taint_in / seed_out) if seed_out > 0 else Decimal(0),
+                reaching_paths=len(reaching) or 1,
+                mixer_on_path=propagation.mixer_on_path.get(address, False),
+                bridge_hops=propagation.bridge_hops.get(address, 0),
+                deposit_address=deposit,
+                is_sink=not node.outgoing,
+                vasp_signals=vasp_sigs,
+                evidence=tuple(e.evidence for e in reaching),
+            )
+        )
+    return attribute(endpoints, ctx.labels)
 
 
 def _stats_for(node: _DiscoveredNode, seed: str) -> AddressStats:
@@ -450,8 +543,21 @@ def _stats_for(node: _DiscoveredNode, seed: str) -> AddressStats:
     )
 
 
-def _summary(seed: str, discovery: _Discovery, edges: list[GraphEdge]) -> str:
+def _summary(
+    seed: str,
+    discovery: _Discovery,
+    edges: list[GraphEdge],
+    candidates: tuple[VaspCandidate, ...],
+) -> str:
     hops = max((n.depth for n in discovery.nodes.values()), default=0)
     lost = sorted({e.reason.value for e in discovery.trail})
     lost_note = f"; trail-lost: {', '.join(lost)}" if lost else ""
-    return f"Traced {len(edges)} tainted transfer(s) over {hops} hop(s) from {seed}{lost_note}."
+    lead = ""
+    if candidates:
+        top = candidates[0]
+        who = top.name or top.label or "an endpoint"
+        lead = f" Nearest off-ramp: {who} ({top.tier.value}, confidence {top.confidence})."
+    return (
+        f"Traced {len(edges)} tainted transfer(s) over {hops} hop(s) from "
+        f"{seed}{lost_note}.{lead}"
+    )

@@ -22,7 +22,8 @@ short and true. The design vault
 | Engine contract (Phase 1A) | `app/engine/` — **contract only, no live data fetching**. `canonical` (deterministic JSON + `schema:sha256` hashing, `SCHEMA_VERSION = aegis.engine.v1`); `errors` (exception taxonomy + `TrailLostReason`/`PartialReason` enums); `records` (provenance-preserving `ProviderSnapshot` / `NormalizedTransaction` / `Transfer` / `AddressActivity`, frozen pydantic, quantized decimals); `provider` (`ChainDataProvider` Protocol, read-only, returns data + snapshot); `result` (`Investigation` / `TraceResult` / `GraphNode` / `GraphEdge` / `VaspCandidate` / `ConfidenceTerms` / `TrailEvent`; `Investigation.result_hash()` excludes wall-clock timing). |
 | Engine data replay (Phase 1B, part 1) | `app/engine/tron.py` (base58check Tron address validation, USDT-TRC20 constants); `app/engine/providers/fixture.py` — `FixtureProvider` replays a recorded fixture dir, verifies per-file sha256 against the manifest, re-derives `offset:` pagination, deterministic. `app/engine/fixtures/growjoy_tron_trc20/` — **synthetic** (`_build.py` regenerates it), a task-scam USDT flow: seed→rot1→rot2→cons→dep→exch_hot with a mixer peel and a rot3 fan-in. **No live TronGrid client yet** (real TRC-20 endpoint lacks per-record block height/hash — deferred pending a provenance-policy call). |
 | Forward walk (Phase 1B, part 2) | `app/engine/walk.py` — `forward_trace(seed, chain, asset, provider, params, mixer_addresses, bridge_addresses)`. Two phases: BFS discovery (bounded by `max_hops` depth, `max_nodes`/`max_edges` budgets, wall-clock deadline; mixer/bridge nodes marked, not expanded) then haircut taint propagation in discovery-order (a DAG). Haircut ratio = `victim_taint_in / provider_total_in` so clean fan-in dilutes; each edge's taint ∝ its value; sum out ≤ sum in. Emits `TrailEvent`s (mixer/bridge/max_hops/min_value/min_taint/cycle), never a fabricated continuation. `python -m app.engine trace-fixture [--json]` runs it offline. |
-| Account signals (Phase 1B, part 3) | `app/engine/signals.py` — `detect_account_signals([AddressStats]) -> SignalReport`. Behaviour heuristics for account chains (no CIOH): passthrough-rotation, peel-chain, rapid-fan-out, fan-in-consolidation (typologies) + deposit-fan-in, sweep-target, batch-withdrawals, high-activity-service (`vasp` kind, for 1C). Each hit carries `evidence` + `limitations`. Thresholds in `SignalConfig` (real-chain defaults; tests lower them). Wired into `forward_trace`: fills `TraceResult.typologies` + per-`GraphNode.typologies`. The `vasp`-kind hits are consumed by 1C attribution. 89 engine tests. |
+| Account signals (Phase 1B, part 3) | `app/engine/signals.py` — `detect_account_signals([AddressStats]) -> SignalReport`. Behaviour heuristics for account chains (no CIOH): passthrough-rotation, peel-chain, rapid-fan-out, fan-in-consolidation (typologies) + deposit-fan-in, sweep-target, batch-withdrawals, high-activity-service (`vasp` kind, for 1C). Each hit carries `evidence` + `limitations`. Thresholds in `SignalConfig`. Wired into `forward_trace`: fills `TraceResult.typologies` + per-`GraphNode.typologies`. |
+| Attribution (Phase 1C — Gate M2) | `app/engine/labels.py` (`LabelPack`/`LabelSet`: versioned, checksum-verified; `LabelType` keeps `vasp`/`service` distinct from `sanctions`/`mixer`/`bridge`) + `app/engine/attribution.py` (`attribute([EndpointContext], LabelSet) -> tuple[VaspCandidate]`). Two-tier: dataset-confirmed (exact / via-cluster) vs heuristic ("Unidentified VASP-like endpoint", name stays None) vs conflict (never silently picks) vs unknown sink. Transparent confidence = `w1·source + w2·directness + w3·taint_retained + w4·corroboration − p1·mixer_on_path − p2·bridge` (doc weights, in `ConfidenceWeights`), clamped [0,1], full `ConfidenceTerms` breakdown attached. `forward_trace(..., labels=LabelSet)` derives mixer/bridge sets from the pack, runs attribution, fills `TraceResult.vasp_candidates` + summary. Synthetic `fixtures/labels/aegis_demo_pack/` (DemoExchange VASP + DemoMixer). `ConfidenceTerms` relaxed to allow negative penalty weights (score = clamped weighted sum). `trace-fixture --labels/--no-labels`. 105 engine tests. |
 | Frontend | Vite + React 18 + TS + Tailwind skeleton. Placeholder `App.tsx`. `eslint` (flat) + `tsc`/build + `vitest` configured. `/api` proxied to `:8000` in dev. |
 | Containers | `backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` (backend + frontend only). |
 | Validation | `scripts/validate.sh` runs ruff/mypy/pytest + eslint/build/vitest. `pytest-timeout` (30s) so a stalled test fails loudly instead of hanging. |
@@ -32,10 +33,12 @@ short and true. The design vault
 ## Not built yet (later phases — do not assume in code)
 
 Live provider clients (TronGrid HTTP client is now Phase 4.5 in the vault plan;
-no Ethereum — Phase 1D) · wallet clustering + VASP attribution + label packs +
-the confidence formula (Phase 1C / Gate M2 — next) · GNN typology model · NLP
-complaint extraction · grounded LLM report · PostgreSQL · Neo4j · Redis/Celery
-workers · WebSocket streaming · auth · any real UI screen.
+no Ethereum — Phase 1D) · full wallet clustering (sweep-cluster construction —
+only the `EndpointContext.cluster_addresses` hook exists; attribution's
+via-cluster path is coded but unfed) · a real (non-synthetic) label pack · GNN
+typology model (Phase 1E) · NLP complaint extraction (Phase 1F) · grounded LLM
+report · PostgreSQL · Neo4j · Redis/Celery workers · WebSocket streaming · auth ·
+any real UI screen.
 
 The engine `result` types are the frozen boundary the Phase 2 backend will
 consume; do not change their shape without bumping `SCHEMA_VERSION`.
@@ -88,3 +91,10 @@ trust it.
 - 2026-09-04 — Vault: added `10-Execution-Plan/05a-Phase-4.5-Live-Provider-
   Integration.md` (live TronGrid, opt-in, post-M3, swap-in behind the frozen
   provider interface) per user request.
+- 2026-09-04 — Phase 1C / **Gate M2**: `labels.py` (versioned checksum-verified
+  packs; VASP vs sanctions kept distinct) + `attribution.py` (two-tier
+  dataset-confirmed / heuristic / conflict / unknown, the transparent
+  confidence formula with penalty terms). `forward_trace(labels=...)` runs it
+  end to end; the demo pack yields "DemoExchange, dataset_confirmed, deposit
+  THbK…, mixer penalty applied" with a mixer_like trail event. 105 engine
+  tests. The evidence-first Tron trace → source-backed VASP path is complete.

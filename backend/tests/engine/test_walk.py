@@ -10,6 +10,7 @@ import pytest
 
 from app.engine.canonical import sha256_hex
 from app.engine.errors import PartialReason, TrailLostReason
+from app.engine.labels import LabelSet
 from app.engine.provider import ActivityResult, BlockResult, ChainDataProvider, TransferPage
 from app.engine.providers import FixtureProvider
 from app.engine.providers.fixture import DEFAULT_FIXTURE_ROOT
@@ -145,6 +146,38 @@ def test_growjoy_trace_flags_rotation_and_peel(provider: FixtureProvider):
     assert ("passthrough_rotation", (addr["rot1"],)) in typ
     rot2_node = next(n for n in inv.result.graph_nodes if n.address == addr["rot2"])
     assert "peel_chain" in rot2_node.typologies
+
+
+def test_growjoy_trace_attributes_the_confirmed_exchange(provider: FixtureProvider):
+    addr = json_addresses()
+    inv = forward_trace(
+        provider.seed_address, chain=Chain.TRON, asset=usdt_trc20(), provider=provider,
+        labels=LabelSet.from_pack_ids(["aegis_demo_pack"]),
+    )
+    assert inv.status is TraceStatus.DONE
+    assert len(inv.result.vasp_candidates) == 1
+    top = inv.result.vasp_candidates[0]
+    assert top.rank == 1
+    assert top.tier.value == "dataset_confirmed"
+    assert top.name == "DemoExchange"
+    assert top.deposit_address == addr["dep"]
+    assert top.hops_from_seed == 5
+    # the labelled mixer diverts the peel -> mixer penalty applied + trail event
+    assert top.confidence_terms is not None
+    assert top.confidence_terms.terms["mixer_on_path"] == Decimal("1")
+    assert any(
+        e.reason.value == "mixer_like" and e.address == addr["mixer"]
+        for e in inv.result.trail_events
+    )
+    # the mixer address is no longer a spurious "unknown" endpoint
+    assert all(c.name != "DemoMixer" for c in inv.result.vasp_candidates)
+
+
+def test_trace_without_labels_has_no_attribution_names(provider: FixtureProvider):
+    inv = forward_trace(
+        provider.seed_address, chain=Chain.TRON, asset=usdt_trc20(), provider=provider
+    )
+    assert all(c.name is None for c in inv.result.vasp_candidates)
 
 
 def test_trace_is_deterministic(provider: FixtureProvider):
