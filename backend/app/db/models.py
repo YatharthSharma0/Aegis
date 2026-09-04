@@ -1,7 +1,7 @@
 """ORM models. One table per Phase 2 concern, added as each PR lands.
 
-``trace_runs`` (persistence PR), ``users`` + ``refresh_tokens`` (auth PR).
-``cases``, ``complaints`` and ``audit_log`` arrive with their features.
+``trace_runs`` (persistence PR), ``users`` + ``refresh_tokens`` (auth PR),
+``audit_log`` (audit PR). ``cases`` / ``complaints`` arrive with case management.
 """
 
 from __future__ import annotations
@@ -9,10 +9,13 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import JSON, Boolean, DateTime, String
+from sqlalchemy import JSON, BigInteger, Boolean, DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
+
+# BIGINT isn't a rowid alias on SQLite (so it won't autoincrement); use INTEGER there.
+_AutoBigInt = BigInteger().with_variant(Integer, "sqlite")
 
 
 class TraceRun(Base):
@@ -58,3 +61,30 @@ class RefreshToken(Base):
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     revoked: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
+class AuditEntry(Base):
+    """Append-only, hash-chained record of authenticated state changes and
+    evidentiary reads. ``row_hash`` chains to ``prev_row_hash`` so any mutation,
+    deletion, insertion, or reorder of a committed row is detectable.
+
+    The application role must be granted INSERT + SELECT only on this table in
+    production (Postgres GRANT); the code never issues UPDATE/DELETE here.
+    """
+
+    __tablename__ = "audit_log"
+
+    seq: Mapped[int] = mapped_column(_AutoBigInt, primary_key=True, autoincrement=True)
+    ts: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    actor_id: Mapped[str | None] = mapped_column(String(32), index=True)
+    actor_role: Mapped[str | None] = mapped_column(String(16))
+    action: Mapped[str] = mapped_column(String(48), nullable=False, index=True)
+    trace_id: Mapped[str | None] = mapped_column(String(32), index=True)
+    case_id: Mapped[str | None] = mapped_column(String(64))
+    address: Mapped[str | None] = mapped_column(String(128))
+    chain: Mapped[str | None] = mapped_column(String(16))
+    detail: Mapped[dict[str, Any] | None] = mapped_column(JSON)
+    result_hash: Mapped[str | None] = mapped_column(String(128))
+    request_id: Mapped[str | None] = mapped_column(String(32))
+    prev_row_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+    row_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)

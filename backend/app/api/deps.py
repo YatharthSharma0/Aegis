@@ -16,6 +16,8 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from app.domain.account_store import SqlAccountStore
 from app.domain.accounts import Account, AccountService, Role
+from app.domain.audit import AuditActor, AuditService
+from app.domain.audit_store import SqlAuditStore
 from app.domain.errors import AuthenticationError, AuthorizationError
 from app.domain.service import TraceService
 from app.domain.sql_store import SqlInvestigationStore
@@ -30,6 +32,11 @@ def get_trace_service() -> TraceService:
 @lru_cache
 def get_account_service() -> AccountService:
     return AccountService(SqlAccountStore())
+
+
+@lru_cache
+def get_audit_service() -> AuditService:
+    return AuditService(SqlAuditStore())
 
 
 _bearer = HTTPBearer(auto_error=False, description="JWT access token")
@@ -52,6 +59,10 @@ def get_current_user(
 
 
 CurrentUser = Annotated[Account, Depends(get_current_user)]
+
+
+def audit_actor_of(user: Account) -> AuditActor:
+    return AuditActor(id=user.id, role=user.role.value)
 
 
 def require_role(*roles: Role) -> Callable[..., Account]:
