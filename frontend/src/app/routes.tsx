@@ -1,5 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import { CaseDetailPage } from "../pages/CaseDetailPage";
+import { CasesPage } from "../pages/CasesPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { LoginPage } from "../pages/LoginPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
@@ -14,8 +16,8 @@ function Protected() {
       <AppShell>
         <Routes>
           <Route index element={<DashboardPage />} />
-          <Route path="cases" element={<PlaceholderPage title="Cases" />} />
-          <Route path="cases/:id" element={<PlaceholderPage title="Case detail" />} />
+          <Route path="cases" element={<CasesPage />} />
+          <Route path="cases/:id" element={<CaseDetailPage />} />
           <Route path="trace/new" element={<PlaceholderPage title="New trace" />} />
           <Route path="trace/:id" element={<PlaceholderPage title="Trace result" />} />
           <Route path="admin/audit" element={<PlaceholderPage title="Audit log" />} />
