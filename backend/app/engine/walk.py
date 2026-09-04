@@ -15,9 +15,9 @@ Two phases:
    value; the sum handed out never exceeds what came in.
 
 The result is an :class:`Investigation` whose ``result_hash()`` is stable across
-runs on the same cached input. Attribution, clustering and typologies are added
-by later phases; this phase fills ``graph_nodes`` / ``graph_edges`` /
-``trail_events`` only.
+runs on the same cached input. This phase fills ``graph_nodes`` (with structural
+``typologies`` from :mod:`app.engine.signals`), ``graph_edges``, ``typologies``
+and ``trail_events``. VASP attribution and clustering are added in Phase 1C.
 """
 
 from __future__ import annotations
@@ -48,6 +48,7 @@ from app.engine.result import (
     TraceStatus,
     TrailEvent,
 )
+from app.engine.signals import AddressStats, detect_account_signals
 
 Clock = Callable[[], float]
 
@@ -76,6 +77,14 @@ class _DiscoveredNode:
     out_total: Decimal
     outgoing: list[Transfer]
     kind: NodeKind
+    distinct_senders: int = 0
+    distinct_recipients: int = 0
+    incoming_count: int = 0
+    outgoing_count: int = 0
+    largest_out_fraction: Decimal = Decimal(0)
+    first_activity: datetime | None = None
+    last_activity: datetime | None = None
+    forward_latency_s: Decimal | None = None
     stopped: TrailLostReason | None = None
     taint_in: Decimal = Decimal(0)
 
@@ -183,15 +192,35 @@ def _make_node(  # noqa: PLR0913, PLR0917 — internal node constructor
         (t for t in transfers if t.from_address == address),
         key=lambda t: (t.block_height, t.timestamp, t.tx_hash, t.log_index or 0),
     )
+    out_total = sum((t.value for t in outgoing), Decimal(0))
+    per_recipient: dict[str, Decimal] = defaultdict(lambda: Decimal(0))
+    for transfer in outgoing:
+        per_recipient[transfer.to_address] += transfer.value
+    largest_out = max(per_recipient.values(), default=Decimal(0))
+    all_ts = [t.timestamp for t in transfers]
+    latency = None
+    if incoming and outgoing:
+        gap = min(t.timestamp for t in outgoing) - max(t.timestamp for t in incoming)
+        if gap.total_seconds() > 0:
+            latency = Decimal(str(gap.total_seconds()))
+
     return _DiscoveredNode(
         address=address,
         depth=depth,
         order=order,
         is_contract=is_contract,
         total_in=sum((t.value for t in incoming), Decimal(0)),
-        out_total=sum((t.value for t in outgoing), Decimal(0)),
+        out_total=out_total,
         outgoing=outgoing,
         kind=_classify(ctx, address, outgoing),
+        distinct_senders=len({t.from_address for t in incoming}),
+        distinct_recipients=len(per_recipient),
+        incoming_count=len(incoming),
+        outgoing_count=len(outgoing),
+        largest_out_fraction=(largest_out / out_total) if out_total > 0 else Decimal(0),
+        first_activity=min(all_ts, default=None),
+        last_activity=max(all_ts, default=None),
+        forward_latency_s=latency,
     )
 
 
@@ -337,8 +366,16 @@ def _assemble(
     snap_by_id = {s.snapshot_id: s for s in discovery.snapshots}
 
     kept = {ctx.seed} | {a for a, n in nodes.items() if n.taint_in > 0}
+    signal_report = detect_account_signals(
+        [_stats_for(nodes[a], ctx.seed) for a in kept if a in nodes]
+    )
     graph_nodes = tuple(
-        GraphNode(address=nodes[a].address, chain=ctx.chain, kind=nodes[a].kind)
+        GraphNode(
+            address=nodes[a].address,
+            chain=ctx.chain,
+            kind=nodes[a].kind,
+            typologies=signal_report.labels_for(a),
+        )
         for a in sorted(kept, key=lambda a: nodes[a].order)
         if a in nodes
     )
@@ -375,6 +412,7 @@ def _assemble(
     result = TraceResult(
         graph_nodes=graph_nodes,
         graph_edges=tuple(graph_edges),
+        typologies=signal_report.typologies(),
         trail_events=tuple(discovery.trail),
         summary=_summary(ctx.seed, discovery, graph_edges),
     )
@@ -391,6 +429,24 @@ def _assemble(
         result=result,
         started_at=now,
         finished_at=now,
+    )
+
+
+def _stats_for(node: _DiscoveredNode, seed: str) -> AddressStats:
+    return AddressStats(
+        address=node.address,
+        is_seed=node.address == seed,
+        is_contract=node.is_contract,
+        total_in=node.total_in,
+        total_out=node.out_total,
+        distinct_senders=node.distinct_senders,
+        distinct_recipients=node.distinct_recipients,
+        incoming_count=node.incoming_count,
+        outgoing_count=node.outgoing_count,
+        largest_out_fraction=node.largest_out_fraction,
+        first_activity=node.first_activity,
+        last_activity=node.last_activity,
+        forward_latency_s=node.forward_latency_s,
     )
 
 
