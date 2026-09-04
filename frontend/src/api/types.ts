@@ -30,6 +30,8 @@ export type UpdateCaseRequest = S["UpdateCaseRequest"];
 export type AddComplaintRequest = S["AddComplaintRequest"];
 export type ComplaintOut = S["ComplaintOut"];
 export type TraceRunSummary = S["TraceRunSummary"];
+export type CaseStatus = S["CaseStatus"];
+export type ComplaintSource = S["ComplaintSource"];
 
 export type AuditResponse = S["AuditResponse"];
 export type SahyogNoticeRequest = S["SahyogNoticeRequest"];
