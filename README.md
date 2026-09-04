@@ -98,3 +98,10 @@ are the single source of truth for configuration.
 
 [MIT](LICENSE). Third-party dataset and label-set licences are tracked in
 [`docs/DATA_LICENSES.md`](docs/DATA_LICENSES.md).
+
+## Security
+
+Read [`docs/SECURITY.md`](docs/SECURITY.md) for the evidence-based security
+checklist (dependency scanning, secret scanning, auth/authz, rate limiting,
+DPDP handling of complaint text) and its explicitly-scoped limits — this is
+engineering-level verification, not a professional third-party audit.

@@ -49,16 +49,19 @@ jobs:
       - run: uv run ruff check .
       - run: uv run mypy app
       - run: uv run pytest
+      - run: uv run pip-audit
       - name: openapi.json is up to date
         run: |
           uv run python scripts/export_openapi.py
           git diff --exit-code openapi.json
-      - name: alembic migrations match the models
+      - name: alembic migrations match the models, and downgrade cleanly
         env:
           AEGIS_DATABASE_URL: sqlite:////tmp/ci-alembic.db
         run: |
           uv run alembic upgrade head
           uv run alembic check
+          uv run alembic downgrade base
+          uv run alembic upgrade head
 
   frontend:
     needs: changes
@@ -76,6 +79,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - run: npm audit --omit=dev
       - name: generated API types are up to date
         run: |
           npm run gen:api

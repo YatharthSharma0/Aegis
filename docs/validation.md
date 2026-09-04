@@ -13,8 +13,10 @@ A change is not done until it passes.
 
 | Area | Checks | Tooling |
 |---|---|---|
-| Backend | lint, type-check, tests | `ruff check .`, `mypy app`, `pytest` (via `uv run`) |
-| Frontend | lint, type-check + build, tests | `eslint .`, `tsc -b && vite build`, `vitest run` |
+| Backend | lint, type-check, tests, dependency scan, OpenAPI drift, migration up/down | `ruff check .`, `mypy app`, `pytest`, `pip-audit`, `alembic upgrade head / check / downgrade base / upgrade head` (via `uv run`) |
+| Frontend | lint, type-check + build, tests, dependency scan, generated-types drift | `eslint .`, `tsc -b && vite build`, `vitest run`, `npm audit --omit=dev` |
+
+See [`SECURITY.md`](SECURITY.md) for the full security checklist these dependency scans and auth/authz/rate-limit tests are evidence for.
 
 ## Prerequisites
 
@@ -89,9 +91,15 @@ own PR. Required approvals are set to **0** until real collaborators are added,
 at which point this is raised to **1** (tracked in `MEMORY.md` open items and
 `CONTRIBUTORS.md`).
 
-## Known limits (Phase 0)
+## Known limits
 
-- No blockchain tracing engine, persistence, workers, or AI components yet — those
-  are Phases 1+.
-- The backend exposes only `GET /health`.
-- The frontend is a placeholder shell.
+- No live blockchain data by default — traces run against a recorded
+  synthetic fixture unless `AEGIS_PROVIDER_MODE`/`AEGIS_TRONGRID_API_KEY`
+  opt into live Tron mainnet (Phase 4.5, see `docs/PROVIDERS.md`). No
+  live-recorded regression fixture exists yet — blocked on a real API key.
+- No GNN typology model (Phase 1E), Ethereum adapter (Phase 1D), NLP
+  complaint extraction (Phase 1F), or Neo4j graph store — none of these
+  shipped; nothing in the product claims otherwise (see `docs/SECURITY.md`,
+  "GNN eval reproducibility").
+- No encryption-at-rest for complaint text — real (non-demo) complaint text
+  is refused at the API boundary instead (see `docs/SECURITY.md`, DPDP row).
