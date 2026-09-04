@@ -7,15 +7,32 @@ from collections.abc import Callable, Iterator
 import pytest
 from fastapi.testclient import TestClient
 
-from app.api.deps import get_account_service
+from app.api.deps import get_account_service, get_audit_service, get_trace_service
 from app.domain.accounts import Role
 from app.main import app
+from app.worker import TraceWorker
 
 
 @pytest.fixture
 def client() -> Iterator[TestClient]:
     with TestClient(app) as test_client:
         yield test_client
+
+
+@pytest.fixture
+def drain() -> Callable[[], int]:
+    """Run the durable worker until the queue is empty. Returns traces executed."""
+    worker = TraceWorker(
+        get_trace_service(), get_audit_service(), worker_id="w-test", poll_s=0
+    )
+
+    def _drain() -> int:
+        count = 0
+        while worker.run_once():
+            count += 1
+        return count
+
+    return _drain
 
 
 @pytest.fixture

@@ -1,6 +1,9 @@
 #!/bin/sh
-# Run migrations, then hand off to the container command (uvicorn).
+# Run migrations (unless told to skip — e.g. the worker, since the API already
+# ran them), then hand off to the container command.
 set -e
-echo "==> alembic upgrade head"
-uv run --no-dev alembic upgrade head
+if [ "${AEGIS_SKIP_MIGRATIONS:-0}" != "1" ]; then
+  echo "==> alembic upgrade head"
+  uv run --no-dev alembic upgrade head
+fi
 exec "$@"

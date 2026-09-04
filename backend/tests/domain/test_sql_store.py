@@ -44,7 +44,7 @@ def test_full_trace_persists_and_result_hash_reverifies():
     store = SqlInvestigationStore()
     service = TraceService(store)
     rec = service.start_trace(TraceRequest(address=SEED))
-    service.run_trace(rec.trace_id)
+    service.run_next()
 
     reloaded = store.get(rec.trace_id)
     assert reloaded.status is TraceStatus.DONE

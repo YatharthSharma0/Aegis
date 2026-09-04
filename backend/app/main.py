@@ -1,10 +1,11 @@
 """Aegis backend entrypoint.
 
 Exposes the health check, auth, the trace API (``/api/v1/trace``) and the admin
-audit endpoint. The trace runs the Phase 1 engine on a background task
-(single-process demo fallback); a durable worker replaces it in a later PR.
+audit endpoint. Traces execute on the durable worker: in-process
+(``AEGIS_TRACE_WORKER=inline``, default) or a separate ``python -m app.worker``.
 """
 
+import threading
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Literal
@@ -21,6 +22,11 @@ from app.api.routes_auth import router as auth_router
 from app.api.routes_trace import router as trace_router
 from app.config import get_settings
 from app.db.engine import create_all
+from app.domain.audit import AuditService
+from app.domain.audit_store import SqlAuditStore
+from app.domain.service import TraceService
+from app.domain.sql_store import SqlInvestigationStore
+from app.worker import TraceWorker
 
 settings = get_settings()
 
@@ -31,7 +37,27 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     # create tables directly so `uvicorn app.main:app` just works.
     if settings.environment != "production":
         create_all()
-    yield
+
+    stop = threading.Event()
+    thread: threading.Thread | None = None
+    if settings.trace_worker == "inline":
+        worker = TraceWorker(
+            TraceService(SqlInvestigationStore()),
+            AuditService(SqlAuditStore()),
+            lease_s=settings.worker_lease_s,
+            max_attempts=settings.worker_max_attempts,
+            poll_s=settings.worker_poll_s,
+        )
+        thread = threading.Thread(
+            target=worker.run_forever, args=(stop,), name="trace-worker", daemon=True
+        )
+        thread.start()
+    try:
+        yield
+    finally:
+        stop.set()
+        if thread is not None:
+            thread.join(timeout=5)
 
 
 app = FastAPI(

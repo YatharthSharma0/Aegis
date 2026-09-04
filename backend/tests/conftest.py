@@ -13,6 +13,8 @@ from pathlib import Path
 
 _TMP_DB = Path(tempfile.gettempdir()) / "aegis-test.db"
 os.environ.setdefault("AEGIS_DATABASE_URL", f"sqlite:///{_TMP_DB}")
+# Tests drive the worker explicitly; don't let the app lifespan spawn a thread.
+os.environ.setdefault("AEGIS_TRACE_WORKER", "external")
 
 import pytest  # noqa: E402
 from sqlalchemy import text  # noqa: E402
