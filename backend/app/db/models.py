@@ -1,7 +1,7 @@
 """ORM models. One table per Phase 2 concern, added as each PR lands.
 
-``trace_runs`` (persistence PR), ``users`` + ``refresh_tokens`` (auth PR),
-``audit_log`` (audit PR). ``cases`` / ``complaints`` arrive with case management.
+``trace_runs`` (persistence), ``users`` + ``refresh_tokens`` (auth),
+``audit_log`` (audit), ``cases`` + ``complaints`` (case management).
 """
 
 from __future__ import annotations
@@ -95,3 +95,38 @@ class AuditEntry(Base):
     request_id: Mapped[str | None] = mapped_column(String(32))
     prev_row_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     row_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+
+
+class Case(Base):
+    """One investigation — a FIR / NCRP reference — with its complaints and traces."""
+
+    __tablename__ = "cases"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True)
+    ref_no: Mapped[str] = mapped_column(String(128), unique=True, nullable=False)
+    title: Mapped[str] = mapped_column(String(300), nullable=False)
+    # open | in_progress | closed
+    status: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
+    typology_hint: Mapped[str | None] = mapped_column(String(48))
+    notes: Mapped[str | None] = mapped_column(String(2000))
+    created_by: Mapped[str | None] = mapped_column(String(32), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
+class Complaint(Base):
+    """The victim's raw report attached to a case.
+
+    Until application-layer encryption + a retention/deletion policy exist, only
+    ``is_demo`` (fictional) complaints are accepted — the service enforces this.
+    """
+
+    __tablename__ = "complaints"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True)
+    case_id: Mapped[str] = mapped_column(String(32), index=True, nullable=False)
+    source: Mapped[str] = mapped_column(String(16), nullable=False)  # ncrp|sahyog|1930|manual
+    raw_text: Mapped[str] = mapped_column(String(8000), nullable=False)
+    is_demo: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    extracted: Mapped[dict[str, Any] | None] = mapped_column(JSON)
+    received_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

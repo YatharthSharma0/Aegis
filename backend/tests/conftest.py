@@ -33,6 +33,7 @@ def _schema() -> Iterator[None]:
 @pytest.fixture(autouse=True)
 def _clean_tables() -> Iterator[None]:
     yield
+    tables = ("audit_log", "complaints", "trace_runs", "cases", "refresh_tokens", "users")
     with session_scope() as session:
-        for table in ("audit_log", "trace_runs", "refresh_tokens", "users"):
+        for table in tables:
             session.execute(text(f"DELETE FROM {table}"))

@@ -43,6 +43,7 @@ class InvestigationStore(Protocol):
     def create(self, record: InvestigationRecord) -> None: ...
     def get(self, trace_id: str) -> InvestigationRecord | None: ...
     def update(self, record: InvestigationRecord) -> None: ...
+    def list_by_case(self, case_id: str) -> list[InvestigationRecord]: ...
     def claim_next(self, worker_id: str, lease_s: float) -> InvestigationRecord | None:
         """Atomically claim the next runnable trace, or return ``None``."""
         ...
@@ -68,6 +69,13 @@ class InMemoryInvestigationStore:
     def update(self, record: InvestigationRecord) -> None:
         with self._lock:
             self._records[record.trace_id] = record
+
+    def list_by_case(self, case_id: str) -> list[InvestigationRecord]:
+        with self._lock:
+            return sorted(
+                (r for r in self._records.values() if r.case_id == case_id),
+                key=lambda r: r.created_at,
+            )
 
     def claim_next(self, worker_id: str, lease_s: float) -> InvestigationRecord | None:
         now = datetime.now(UTC)

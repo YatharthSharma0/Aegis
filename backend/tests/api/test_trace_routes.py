@@ -16,7 +16,7 @@ def test_trace_requires_authentication(client: TestClient):
 
 def test_post_trace_returns_202_and_a_handle(client: TestClient, officer_headers):
     resp = client.post(
-        "/api/v1/trace", json={"address": SEED, "case_id": "FIR-42"}, headers=officer_headers
+        "/api/v1/trace", json={"address": SEED}, headers=officer_headers
     )
     assert resp.status_code == 202
     body = resp.json()

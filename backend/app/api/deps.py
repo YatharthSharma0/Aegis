@@ -18,6 +18,8 @@ from app.domain.account_store import SqlAccountStore
 from app.domain.accounts import Account, AccountService, Role
 from app.domain.audit import AuditActor, AuditService
 from app.domain.audit_store import SqlAuditStore
+from app.domain.case_store import SqlCaseStore
+from app.domain.cases import CaseService
 from app.domain.errors import AuthenticationError, AuthorizationError
 from app.domain.service import TraceService
 from app.domain.sql_store import SqlInvestigationStore
@@ -37,6 +39,11 @@ def get_account_service() -> AccountService:
 @lru_cache
 def get_audit_service() -> AuditService:
     return AuditService(SqlAuditStore())
+
+
+@lru_cache
+def get_case_service() -> CaseService:
+    return CaseService(SqlCaseStore())
 
 
 _bearer = HTTPBearer(auto_error=False, description="JWT access token")

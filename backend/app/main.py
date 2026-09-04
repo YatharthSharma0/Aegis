@@ -19,6 +19,7 @@ from app.api.errors import register_exception_handlers
 from app.api.middleware import RequestIdMiddleware
 from app.api.routes_admin import router as admin_router
 from app.api.routes_auth import router as auth_router
+from app.api.routes_cases import router as cases_router
 from app.api.routes_trace import router as trace_router
 from app.config import get_settings
 from app.db.engine import create_all
@@ -79,6 +80,7 @@ app.add_middleware(
 register_exception_handlers(app)
 app.include_router(auth_router)
 app.include_router(trace_router)
+app.include_router(cases_router)
 app.include_router(admin_router)
 
 

@@ -19,11 +19,13 @@ from app.api.deps import (
     CurrentUser,
     audit_actor_of,
     get_audit_service,
+    get_case_service,
     get_current_user,
     get_trace_service,
 )
 from app.api.middleware import get_request_id
 from app.domain.audit import AuditService
+from app.domain.cases import CaseService
 from app.domain.schemas import (
     TraceAccepted,
     TraceGraphResponse,
@@ -36,18 +38,22 @@ from app.domain.service import TraceService
 router = APIRouter(prefix="/api/v1", tags=["trace"], dependencies=[Depends(get_current_user)])
 
 _Service = Annotated[TraceService, Depends(get_trace_service)]
+_Cases = Annotated[CaseService, Depends(get_case_service)]
 _Audit = Annotated[AuditService, Depends(get_audit_service)]
 _RequestId = Annotated[str, Depends(get_request_id)]
 
 
 @router.post("/trace", status_code=202, response_model=TraceAccepted)
-def start_trace(
+def start_trace(  # noqa: PLR0913, PLR0917 — FastAPI dependency parameters
     request: TraceRequest,
     service: _Service,
+    cases: _Cases,
     audit: _Audit,
     user: CurrentUser,
     request_id: _RequestId,
 ) -> TraceAccepted:
+    if request.case_id is not None:
+        cases.get(request.case_id)  # 404 if the case doesn't exist
     record = service.start_trace(request)
     audit.record(
         "trace.start",
