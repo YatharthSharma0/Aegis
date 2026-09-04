@@ -6,6 +6,8 @@ fallback); persistence, a durable worker, auth, and the audit log land in
 later Phase 2 PRs.
 """
 
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from typing import Literal
 
 from fastapi import FastAPI
@@ -16,13 +18,25 @@ from app import __version__
 from app.api.errors import register_exception_handlers
 from app.api.routes_trace import router as trace_router
 from app.config import get_settings
+from app.db.engine import create_all
 
 settings = get_settings()
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    # Production runs Alembic migrations via the container entrypoint; elsewhere
+    # create tables directly so `uvicorn app.main:app` just works.
+    if settings.environment != "production":
+        create_all()
+    yield
+
 
 app = FastAPI(
     title="Aegis API",
     version=__version__,
     summary="Real-time crypto fraud attribution (SIH26183)",
+    lifespan=lifespan,
 )
 
 app.add_middleware(

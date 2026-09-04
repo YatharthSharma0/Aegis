@@ -1,27 +1,17 @@
-"""Trace HTTP endpoints (TestClient integration)."""
+"""Trace HTTP endpoints (TestClient integration, against the SQLite test DB)."""
 
 import pytest
 from fastapi.testclient import TestClient
 
-from app.api.deps import get_trace_service
-from app.domain.service import TraceService
-from app.domain.store import InMemoryInvestigationStore
 from app.main import app
 
 SEED = "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC"
 
 
-@pytest.fixture(autouse=True)
-def _fresh_service():
-    service = TraceService(InMemoryInvestigationStore())
-    app.dependency_overrides[get_trace_service] = lambda: service
-    yield
-    app.dependency_overrides.clear()
-
-
 @pytest.fixture
 def client() -> TestClient:
-    return TestClient(app)
+    with TestClient(app) as test_client:  # runs the lifespan (create_all)
+        yield test_client
 
 
 def test_health_alias(client: TestClient):

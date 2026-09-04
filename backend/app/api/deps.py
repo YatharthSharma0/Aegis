@@ -1,6 +1,6 @@
-"""Dependency wiring. One process-wide ``TraceService`` over the in-memory store.
+"""Dependency wiring. One process-wide ``TraceService`` over the SQL store.
 
-Swapping in a Postgres store later is a change to ``_build_service`` only.
+Tests override ``get_trace_service`` with an in-memory or SQLite-backed store.
 """
 
 from __future__ import annotations
@@ -8,9 +8,9 @@ from __future__ import annotations
 from functools import lru_cache
 
 from app.domain.service import TraceService
-from app.domain.store import InMemoryInvestigationStore
+from app.domain.sql_store import SqlInvestigationStore
 
 
 @lru_cache
 def get_trace_service() -> TraceService:
-    return TraceService(InMemoryInvestigationStore())
+    return TraceService(SqlInvestigationStore())
