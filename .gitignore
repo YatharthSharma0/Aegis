@@ -37,3 +37,8 @@ Thumbs.db
 /data/
 /tmp/
 *.log
+
+# Local SQLite databases
+*.db
+*.db-journal
+*.sqlite3

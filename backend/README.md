@@ -30,6 +30,19 @@ Runs the Phase 1 engine on a `BackgroundTask` against the configured fixture
 (`AEGIS_FIXTURE_ID`) + label packs (`AEGIS_LABEL_PACKS`). Persistence, auth, a
 durable worker, and the audit log land in later Phase 2 PRs.
 
+## Database
+
+SQLAlchemy 2.0 + Alembic. Local dev defaults to a file SQLite DB
+(`AEGIS_DATABASE_URL`); Compose runs Postgres and the container entrypoint
+applies migrations on boot. Non-production processes also create tables on
+startup, so `uvicorn app.main:app` just works.
+
+```bash
+uv run alembic upgrade head          # apply migrations
+uv run alembic revision --autogenerate -m "add X"   # after changing app/db/models.py
+uv run alembic check                 # fail if models and migrations disagree
+```
+
 ## Checks
 
 ```bash
@@ -37,18 +50,21 @@ uv run ruff check .
 uv run mypy app
 uv run pytest
 uv run python scripts/export_openapi.py   # regenerate openapi.json (CI checks it)
+uv run alembic upgrade head && uv run alembic check   # migration drift (CI checks it)
 ```
 
 ## Layout
 
 ```
 app/
-  main.py          FastAPI app + health
+  main.py          FastAPI app + health + lifespan (create_all in non-prod)
   config.py        environment-driven settings (the only place env vars are read)
   api/             HTTP transport: routers, deps, error envelope
-  domain/          TraceService, InvestigationStore, wire schemas — transport/storage-free
+  domain/          TraceService, InvestigationStore + in-memory + SQL impls, wire schemas
+  db/              SQLAlchemy Base, ORM models, engine/session factory
   engine_bridge.py the only place the backend calls app.engine
   engine/          Phase 1 blockchain analytics engine (pure library)
+alembic/           migration environment + versions
 openapi.json       committed schema; source of truth for frontend types
 ```
 

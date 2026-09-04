@@ -52,6 +52,12 @@ jobs:
         run: |
           uv run python scripts/export_openapi.py
           git diff --exit-code openapi.json
+      - name: alembic migrations match the models
+        env:
+          AEGIS_DATABASE_URL: sqlite:////tmp/ci-alembic.db
+        run: |
+          uv run alembic upgrade head
+          uv run alembic check
 
   frontend:
     needs: changes

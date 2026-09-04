@@ -1,8 +1,24 @@
 # Aegis local development stack.
-# Phase 0: backend + frontend only. PostgreSQL, Neo4j, and Redis are added
-# in later phases when persistence and workers land.
+# Phase 2: backend + Postgres + frontend. Neo4j and a Redis-backed worker are
+# added when their features land.
 
 services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: aegis
+      POSTGRES_PASSWORD: aegis
+      POSTGRES_DB: aegis
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aegis -d aegis"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
   backend:
     build: ./backend
     ports:
@@ -10,6 +26,10 @@ services:
     environment:
       AEGIS_ENVIRONMENT: development
       AEGIS_CORS_ORIGINS: '["http://localhost:5173"]'
+      AEGIS_DATABASE_URL: postgresql+psycopg://aegis:aegis@db:5432/aegis
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
       - ./backend/app:/app/app
     healthcheck:
@@ -29,3 +49,6 @@ services:
       - ./frontend/index.html:/app/index.html
     depends_on:
       - backend
+
+volumes:
+  db-data:

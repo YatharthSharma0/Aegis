@@ -33,6 +33,13 @@ class Settings(BaseSettings):
     # Label packs applied to every trace (attribution). Empty = no attribution.
     label_packs: list[str] = ["aegis_demo_pack"]
 
+    # --- persistence -------------------------------------------------------
+    # SQLAlchemy URL. Local dev default is a file SQLite DB; Compose sets
+    # postgresql+psycopg://…. Alembic reads this too.
+    database_url: str = "sqlite:///./aegis.db"
+    # Log SQL. Never true in production.
+    db_echo: bool = False
+
 
 @lru_cache
 def get_settings() -> Settings:
