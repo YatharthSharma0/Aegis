@@ -19,7 +19,8 @@ short and true. The design vault
 |---|---|
 | Repo hygiene | `.gitignore`, `.editorconfig`, `LICENSE` (MIT), `README.md`, `CONTRIBUTORS.md` |
 | Backend | FastAPI. `uv` project, Python 3.12 pinned. Env via `app/config.py` + `.env.example`. **Trace API (Phase 2, PR #9)**: `POST /api/v1/trace` → 202 `{trace_id,status,stream_url}`; `GET /api/v1/trace/{id}` (polling — status + result + `result_hash`); `GET /api/v1/trace/{id}/graph` (nodes/edges). Layering: `app/api/` (routes + error envelope) → `app/domain/` (`TraceService`, `InvestigationStore` Protocol) → `app/engine_bridge.py` (only place the backend calls `app.engine`) → Phase 1 `forward_trace`. Runs on `BackgroundTasks` (labelled single-process demo fallback — durable worker is a later PR). No auth / audit-log / cases yet. `backend/openapi.json` committed + CI-checked. |
-| Persistence (Phase 2, PR #10) | SQLAlchemy 2.0 + Alembic. `app/db/` (`Base`, `TraceRun` model, engine/session factory). `SqlInvestigationStore` implements `InvestigationStore` (stores the full engine `Investigation` as JSON + `result_hash`); `get_trace_service` now uses it. `AEGIS_DATABASE_URL` (SQLite local default, Postgres via Compose). One migration `alembic/versions/0001_trace_runs.py`; `alembic check` runs in CI + `validate.sh` (schema-drift guard). Container entrypoint runs `alembic upgrade head`; non-prod `lifespan` runs `create_all()`. Compose gains a `db` (postgres:16) service. Tests use a throwaway SQLite DB (`tests/conftest.py`). `InMemoryInvestigationStore` kept for unit tests. |
+| Persistence (Phase 2, PR #10) | SQLAlchemy 2.0 + Alembic. `app/db/` (`Base`, `TraceRun` model, engine/session factory). `SqlInvestigationStore` implements `InvestigationStore` (stores the full engine `Investigation` as JSON + `result_hash`); `get_trace_service` now uses it. `AEGIS_DATABASE_URL` (SQLite local default, Postgres via Compose). Migrations `alembic/versions/000N_*.py`; `alembic check` runs in CI + `validate.sh` (schema-drift guard). Container entrypoint runs `alembic upgrade head`; non-prod `lifespan` runs `create_all()`. Compose gains a `db` (postgres:16) service. Tests use a throwaway SQLite DB (`tests/conftest.py`). `InMemoryInvestigationStore` kept for unit tests. |
+| Auth (Phase 2, PR #11) | JWT (PyJWT HS256) + argon2 passwords. `app/security/` (`passwords.py`, `tokens.py` — access carries `sub`+`role`, refresh carries `sub`+`jti`, `type` claim prevents cross-use). `app/domain/accounts.py` (`Role` enum, `Account`, `AccountService`: authenticate / issue / **rotate refresh** — old jti burned, reuse → 401) + `SqlAccountStore` (`users`, `refresh_tokens` tables, migration 0002). `POST /api/v1/auth/login` / `/refresh` / `GET /auth/me` (public except `/me`). Trace router now `dependencies=[Depends(get_current_user)]` → 401 without a token; `require_role(...)` / `require_admin` for later `/admin/*`. `AEGIS_JWT_SECRET` (+ TTLs); prod refuses the dev default. `scripts/create_user.py` (no public signup). 152 tests. |
 | Engine contract (Phase 1A) | `app/engine/` — **contract only, no live data fetching**. `canonical` (deterministic JSON + `schema:sha256` hashing, `SCHEMA_VERSION = aegis.engine.v1`); `errors` (exception taxonomy + `TrailLostReason`/`PartialReason` enums); `records` (provenance-preserving `ProviderSnapshot` / `NormalizedTransaction` / `Transfer` / `AddressActivity`, frozen pydantic, quantized decimals); `provider` (`ChainDataProvider` Protocol, read-only, returns data + snapshot); `result` (`Investigation` / `TraceResult` / `GraphNode` / `GraphEdge` / `VaspCandidate` / `ConfidenceTerms` / `TrailEvent`; `Investigation.result_hash()` excludes wall-clock timing). |
 | Engine data replay (Phase 1B, part 1) | `app/engine/tron.py` (base58check Tron address validation, USDT-TRC20 constants); `app/engine/providers/fixture.py` — `FixtureProvider` replays a recorded fixture dir, verifies per-file sha256 against the manifest, re-derives `offset:` pagination, deterministic. `app/engine/fixtures/growjoy_tron_trc20/` — **synthetic** (`_build.py` regenerates it), a task-scam USDT flow: seed→rot1→rot2→cons→dep→exch_hot with a mixer peel and a rot3 fan-in. **No live TronGrid client yet** (real TRC-20 endpoint lacks per-record block height/hash — deferred pending a provenance-policy call). |
 | Forward walk (Phase 1B, part 2) | `app/engine/walk.py` — `forward_trace(seed, chain, asset, provider, params, mixer_addresses, bridge_addresses)`. Two phases: BFS discovery (bounded by `max_hops` depth, `max_nodes`/`max_edges` budgets, wall-clock deadline; mixer/bridge nodes marked, not expanded) then haircut taint propagation in discovery-order (a DAG). Haircut ratio = `victim_taint_in / provider_total_in` so clean fan-in dilutes; each edge's taint ∝ its value; sum out ≤ sum in. Emits `TrailEvent`s (mixer/bridge/max_hops/min_value/min_taint/cycle), never a fabricated continuation. `python -m app.engine trace-fixture [--json]` runs it offline. |
@@ -38,8 +39,8 @@ no Ethereum — Phase 1D) · full wallet clustering (sweep-cluster construction 
 only the `EndpointContext.cluster_addresses` hook exists; attribution's
 via-cluster path is coded but unfed) · a real (non-synthetic) label pack · GNN
 typology model (Phase 1E) · NLP complaint extraction (Phase 1F) · grounded LLM
-report · **Phase 2 remainder**: JWT auth, hash-chained audit log, durable
-worker (replacing BackgroundTasks), case-management endpoints, `/report` +
+report · **Phase 2 remainder**: hash-chained audit log, durable worker
+(replacing BackgroundTasks), case-management endpoints, `/report` +
 `/sahyog-notice`, rate limiting, structured logging · Neo4j · WebSocket
 streaming · any real UI screen.
 
@@ -111,5 +112,10 @@ trust it.
   `SqlInvestigationStore` behind the `InvestigationStore` interface (stores the
   full `Investigation` JSON + `result_hash`). `AEGIS_DATABASE_URL` (SQLite
   local / Postgres via Compose). `alembic check` in CI + `validate.sh`. Compose
-  gains a `db` service; container entrypoint runs migrations. 125 tests. Next:
-  auth, audit log, durable worker.
+  gains a `db` service; container entrypoint runs migrations. 125 tests.
+- 2026-09-04 — Phase 2 auth (PR #11): JWT (PyJWT) + argon2. `app/security/` +
+  `app/domain/accounts.py` (`AccountService`: authenticate / issue / rotating
+  refresh) + `SqlAccountStore` (`users`, `refresh_tokens`, migration 0002).
+  `/api/v1/auth/{login,refresh,me}`; trace routes now require a bearer token;
+  `require_role`/`require_admin` ready for `/admin/*`. `scripts/create_user.py`.
+  152 tests. Next: audit log, durable worker.

@@ -12,7 +12,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, BackgroundTasks, Depends
 
-from app.api.deps import get_trace_service
+from app.api.deps import get_current_user, get_trace_service
 from app.domain.schemas import (
     TraceAccepted,
     TraceGraphResponse,
@@ -21,7 +21,8 @@ from app.domain.schemas import (
 )
 from app.domain.service import TraceService
 
-router = APIRouter(prefix="/api/v1", tags=["trace"])
+# Every route on this router requires a valid access token.
+router = APIRouter(prefix="/api/v1", tags=["trace"], dependencies=[Depends(get_current_user)])
 
 _Service = Annotated[TraceService, Depends(get_trace_service)]
 

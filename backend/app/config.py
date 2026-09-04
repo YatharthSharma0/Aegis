@@ -40,8 +40,23 @@ class Settings(BaseSettings):
     # Log SQL. Never true in production.
     db_echo: bool = False
 
+    # --- auth ------------------------------------------------------------
+    # HMAC key for signing JWTs. MUST be overridden in production (a startup
+    # check refuses to run with this dev default when environment=production).
+    jwt_secret: str = "dev-insecure-change-me-not-for-production-use"
+    jwt_algorithm: str = "HS256"
+    access_token_ttl_s: int = 900          # 15 minutes
+    refresh_token_ttl_s: int = 60 * 60 * 24 * 7  # 7 days
+
+    @property
+    def jwt_secret_is_dev_default(self) -> bool:
+        return self.jwt_secret == "dev-insecure-change-me-not-for-production-use"
+
 
 @lru_cache
 def get_settings() -> Settings:
     """Return the process-wide settings singleton."""
-    return Settings()
+    settings = Settings()
+    if settings.environment == "production" and settings.jwt_secret_is_dev_default:
+        raise RuntimeError("AEGIS_JWT_SECRET must be set in production")
+    return settings

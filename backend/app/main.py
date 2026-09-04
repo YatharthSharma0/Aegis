@@ -16,6 +16,7 @@ from pydantic import BaseModel
 
 from app import __version__
 from app.api.errors import register_exception_handlers
+from app.api.routes_auth import router as auth_router
 from app.api.routes_trace import router as trace_router
 from app.config import get_settings
 from app.db.engine import create_all
@@ -48,6 +49,7 @@ app.add_middleware(
 )
 
 register_exception_handlers(app)
+app.include_router(auth_router)
 app.include_router(trace_router)
 
 
