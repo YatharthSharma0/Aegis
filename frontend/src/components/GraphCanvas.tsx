@@ -1,9 +1,10 @@
 import cytoscape from "cytoscape";
 import dagre from "cytoscape-dagre";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { GraphEdgeOut, GraphNodeOut } from "../api/types";
 import { Mono } from "../ui/Mono";
+import { GraphToolbar } from "./GraphToolbar";
 
 let registered = false;
 function ensureDagre() {
@@ -94,34 +95,59 @@ const LEGEND_RISK: Array<[string, string]> = [
  * to read the evidence. Entity category is shape + ring colour; risk is the
  * node fill + label, kept as a separate visual dimension so a VASP endpoint
  * never reads as "confirmed fraud."
+ *
+ * Clicking a node selects it (reported to `onSelectNode`, if given) and
+ * enables "isolate path", which fades everything except that node's
+ * ancestors in the fund-flow DAG.
  */
 export function GraphCanvas({
   nodes,
   edges,
+  onSelectNode,
 }: {
   nodes: GraphNodeOut[];
   edges: GraphEdgeOut[];
+  onSelectNode?: (node: GraphNodeOut | null) => void;
 }) {
   const boxRef = useRef<HTMLDivElement | null>(null);
+  const cyRef = useRef<cytoscape.Core | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isolate, setIsolate] = useState(false);
+  const [layout, setLayout] = useState<"dagre" | "grid">("dagre");
+  const [minValue, setMinValue] = useState(0);
+
+  const nodeById = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
+
+  const visibleEdges = useMemo(
+    () => edges.filter((e) => Number(e.value) >= minValue),
+    [edges, minValue],
+  );
+  const visibleIds = useMemo(() => {
+    const ids = new Set(visibleEdges.flatMap((e) => [e.from, e.to]));
+    nodes.filter((n) => n.kind === "seed").forEach((n) => ids.add(n.id));
+    return ids;
+  }, [visibleEdges, nodes]);
 
   const elements = useMemo(
     () => [
-      ...nodes.map((n) => {
-        const entity = ENTITY_BY_KIND[n.kind] ?? DEFAULT_ENTITY;
-        const risk = riskBand(n.risk);
-        return {
-          data: {
-            id: n.id,
-            label: n.vasp_name ?? shortId(n.id),
-            fill: risk.colour,
-            ring: entity.ring,
-            shape: entity.shape,
-            size: entity.size,
-            verified: n.verified ? 1 : 0,
-          },
-        };
-      }),
-      ...edges.map((e, i) => ({
+      ...nodes
+        .filter((n) => visibleIds.has(n.id))
+        .map((n) => {
+          const entity = ENTITY_BY_KIND[n.kind] ?? DEFAULT_ENTITY;
+          const risk = riskBand(n.risk);
+          return {
+            data: {
+              id: n.id,
+              label: n.vasp_name ?? shortId(n.id),
+              fill: risk.colour,
+              ring: entity.ring,
+              shape: entity.shape,
+              size: entity.size,
+              verified: n.verified ? 1 : 0,
+            },
+          };
+        }),
+      ...visibleEdges.map((e, i) => ({
         data: {
           id: `e${i}`,
           source: e.from,
@@ -130,12 +156,16 @@ export function GraphCanvas({
         },
       })),
     ],
-    [nodes, edges],
+    [nodes, visibleIds, visibleEdges],
   );
 
   useEffect(() => {
     if (!boxRef.current) return;
     ensureDagre();
+    const layoutOpts =
+      layout === "dagre"
+        ? ({ name: "dagre", rankDir: "LR", nodeSep: 24, rankSep: 60 } as cytoscape.LayoutOptions)
+        : ({ name: "grid", rows: 2 } as cytoscape.LayoutOptions);
     const cy = cytoscape({
       container: boxRef.current,
       elements,
@@ -170,6 +200,10 @@ export function GraphCanvas({
           style: { "border-style": "solid" },
         },
         {
+          selector: "node:selected",
+          style: { "border-color": TOKEN.brand, "border-width": 4 },
+        },
+        {
           selector: "edge",
           style: {
             width: 1.5,
@@ -184,17 +218,78 @@ export function GraphCanvas({
             "text-rotation": "autorotate",
           },
         },
+        {
+          selector: ".aegis-faded",
+          style: { opacity: 0.15 },
+        },
+        {
+          selector: ".aegis-on-path",
+          style: {
+            "line-color": TOKEN.brand,
+            "target-arrow-color": TOKEN.brand,
+            opacity: 1,
+          },
+        },
       ],
-      layout: { name: "dagre", rankDir: "LR", nodeSep: 24, rankSep: 60 } as cytoscape.LayoutOptions,
+      layout: layoutOpts,
       minZoom: 0.2,
       maxZoom: 2.5,
     });
     cy.fit(undefined, 24);
-    return () => cy.destroy();
-  }, [elements]);
+
+    cy.on("tap", "node", (event) => {
+      const id = event.target.id();
+      setSelectedId((prev) => (prev === id ? null : id));
+    });
+    cy.on("tap", (event) => {
+      if (event.target === cy) setSelectedId(null);
+    });
+
+    cyRef.current = cy;
+    return () => {
+      cy.destroy();
+      cyRef.current = null;
+    };
+  }, [elements, layout]);
+
+  // Selection + isolate-path highlighting, kept separate from graph
+  // (re)construction so toggling either doesn't rebuild the whole layout.
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy) return;
+    cy.elements().removeClass("aegis-faded aegis-on-path").unselect();
+    if (!selectedId) return;
+    const node = cy.$id(selectedId);
+    if (node.empty()) return;
+    node.select();
+    if (isolate) {
+      cy.elements().addClass("aegis-faded");
+      const path = node.predecessors().union(node);
+      path.removeClass("aegis-faded").addClass("aegis-on-path");
+    }
+  }, [selectedId, isolate]);
+
+  useEffect(() => {
+    onSelectNode?.(selectedId ? (nodeById.get(selectedId) ?? null) : null);
+  }, [selectedId, nodeById, onSelectNode]);
+
+  useEffect(() => {
+    if (!selectedId) setIsolate(false);
+  }, [selectedId]);
 
   return (
     <div>
+      <GraphToolbar
+        layout={layout}
+        onLayoutChange={setLayout}
+        isolate={isolate}
+        onIsolateChange={setIsolate}
+        minValue={minValue}
+        onMinValueChange={setMinValue}
+        onClearSelection={() => setSelectedId(null)}
+        hasSelection={selectedId !== null}
+      />
+
       <div
         ref={boxRef}
         className="h-[420px] w-full rounded-sm border border-subtle bg-canvas"
@@ -244,7 +339,11 @@ export function GraphCanvas({
             </thead>
             <tbody>
               {edges.map((e, i) => (
-                <tr key={i} className="border-b border-subtle">
+                <tr
+                  key={i}
+                  className="cursor-pointer border-b border-subtle hover:bg-hover"
+                  onClick={() => setSelectedId(e.to)}
+                >
                   <td className="py-1 pr-3">
                     <Mono value={e.from} />
                   </td>

@@ -1,7 +1,8 @@
 import { AlertTriangle, CheckCircle2, Loader2, XCircle } from "lucide-react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import type { TraceStatus } from "../api/types";
+import type { GraphNodeOut, TraceStatus } from "../api/types";
 import { ErrorState } from "../components/ErrorState";
 import { GraphCanvas } from "../components/GraphCanvas";
 import { HopTimeline } from "../components/HopTimeline";
@@ -21,6 +22,7 @@ export function TraceResultPage() {
   const status = trace.data?.status;
   const ready = status === "done" || status === "partial";
   const graph = useTraceGraph(id, ready);
+  const [selectedNode, setSelectedNode] = useState<GraphNodeOut | null>(null);
 
   if (trace.isLoading) return <Spinner label="Loading trace" />;
   if (trace.isError || !trace.data) {
@@ -103,17 +105,77 @@ export function TraceResultPage() {
             <HopTimeline events={result.trail_events} />
           </Card>
 
-          <Card title="Money-flow graph">
-            {graph.isLoading && <Spinner label="Loading graph" />}
-            {graph.isError && (
-              <p className="text-sm text-risk-high" role="alert">
-                Could not load the graph.
-              </p>
-            )}
-            {graph.data && (
-              <GraphCanvas nodes={graph.data.nodes} edges={graph.data.edges} />
-            )}
-          </Card>
+          <div className="grid gap-4 lg:grid-cols-[1fr_260px]">
+            <Card title="Money-flow graph">
+              {graph.isLoading && <Spinner label="Loading graph" />}
+              {graph.isError && (
+                <p className="text-sm text-risk-high" role="alert">
+                  Could not load the graph.
+                </p>
+              )}
+              {graph.data && (
+                <GraphCanvas
+                  nodes={graph.data.nodes}
+                  edges={graph.data.edges}
+                  onSelectNode={setSelectedNode}
+                />
+              )}
+            </Card>
+
+            <Card title={selectedNode ? "Selected address" : "Selection"}>
+              {selectedNode ? (
+                <div className="space-y-2 text-sm">
+                  <Mono value={selectedNode.id} />
+                  <dl className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs">
+                    <div>
+                      <dt className="text-muted">Entity kind</dt>
+                      <dd className="text-secondary">
+                        {selectedNode.kind.replace(/_/g, " ")}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted">Risk</dt>
+                      <dd className="font-mono tabular-nums text-secondary">
+                        {selectedNode.risk ?? "not scored"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted">Attribution</dt>
+                      <dd className="text-secondary">
+                        {selectedNode.verified
+                          ? "Dataset-confirmed"
+                          : "Heuristic / unverified"}
+                      </dd>
+                    </div>
+                    {selectedNode.vasp_name && (
+                      <div>
+                        <dt className="text-muted">VASP</dt>
+                        <dd className="text-secondary">{selectedNode.vasp_name}</dd>
+                      </div>
+                    )}
+                  </dl>
+                  {selectedNode.typologies.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedNode.typologies.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-sm border border-subtle px-1.5 py-0.5 text-xs text-secondary"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-muted">
+                  Click a node in the graph (or a row in the transfers table)
+                  to inspect it here. Use the toolbar's "Isolate path" to fade
+                  everything except the route leading to it.
+                </p>
+              )}
+            </Card>
+          </div>
 
           <div className="flex gap-2">
             <Link

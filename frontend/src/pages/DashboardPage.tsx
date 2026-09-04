@@ -1,3 +1,4 @@
+import { ArrowRight, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { CaseStatusBadge } from "../components/CaseStatusBadge";
@@ -32,6 +33,24 @@ export function DashboardPage() {
           All cases
         </Link>
       </div>
+
+      <Link
+        to="/trace/new"
+        className="flex items-center gap-3 rounded-sm border border-subtle bg-raised px-4 py-3 text-sm transition-colors duration-fast hover:bg-hover"
+      >
+        <Search size={20} className="shrink-0 text-brand" aria-hidden />
+        <span className="flex-1">
+          <span className="block font-medium text-primary">
+            Resolve an investigation target
+          </span>
+          <span className="block text-xs text-muted">
+            Reported wallet address, optionally attached to a case
+          </span>
+        </span>
+        <span className="inline-flex items-center gap-1 text-xs text-link">
+          Open lookup <ArrowRight size={14} aria-hidden />
+        </span>
+      </Link>
 
       <Card
         title="Recent cases"
@@ -81,6 +100,38 @@ export function DashboardPage() {
           </ul>
         )}
       </Card>
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <MetricTile label="Chain support" value="Tron" hint="TRC-20 (USDT) forward trace" />
+        <MetricTile
+          label="Attribution model"
+          value="Two-tier"
+          hint="Dataset-confirmed vs. heuristic, with a transparent confidence score"
+        />
+        <MetricTile
+          label="Evidence model"
+          value="Lead, not verdict"
+          hint="An officer reviews every attribution before action"
+        />
+      </div>
+    </div>
+  );
+}
+
+function MetricTile({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint: string;
+}) {
+  return (
+    <div className="rounded-sm border border-subtle bg-raised p-3">
+      <div className="text-xs uppercase tracking-wide text-muted">{label}</div>
+      <div className="mt-1 text-base font-semibold text-primary">{value}</div>
+      <div className="mt-0.5 text-xs text-muted">{hint}</div>
     </div>
   );
 }
