@@ -1,0 +1,56 @@
+{
+  "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ": {
+    "first_seen_ms": 1755226860000,
+    "is_contract": false,
+    "last_seen_ms": 1755227040000,
+    "transfer_count": 3
+  },
+  "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW": {
+    "first_seen_ms": 1755227040000,
+    "is_contract": false,
+    "last_seen_ms": 1755227040000,
+    "transfer_count": 1
+  },
+  "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7": {
+    "first_seen_ms": 1755227100000,
+    "is_contract": false,
+    "last_seen_ms": 1755227160000,
+    "transfer_count": 2
+  },
+  "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo": {
+    "first_seen_ms": 1755226800000,
+    "is_contract": false,
+    "last_seen_ms": 1755226860000,
+    "transfer_count": 2
+  },
+  "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC": {
+    "first_seen_ms": 1755226800000,
+    "is_contract": false,
+    "last_seen_ms": 1755226800000,
+    "transfer_count": 1
+  },
+  "TR7C5XDTMqSmqarmAkCARJpwoxn3y6NxgV": {
+    "first_seen_ms": 1755226920000,
+    "is_contract": false,
+    "last_seen_ms": 1755226920000,
+    "transfer_count": 1
+  },
+  "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t": {
+    "first_seen_ms": 1755226800000,
+    "is_contract": true,
+    "last_seen_ms": 1755227160000,
+    "transfer_count": 7
+  },
+  "TVu3e6F8xVwuXiqyfgMyGenLMTKBy69YXH": {
+    "first_seen_ms": 1755227160000,
+    "is_contract": false,
+    "last_seen_ms": 1755227160000,
+    "transfer_count": 1
+  },
+  "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY": {
+    "first_seen_ms": 1755226920000,
+    "is_contract": false,
+    "last_seen_ms": 1755227100000,
+    "transfer_count": 3
+  }
+}
