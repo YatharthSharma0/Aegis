@@ -60,6 +60,14 @@ class Settings(BaseSettings):
     def jwt_secret_is_dev_default(self) -> bool:
         return self.jwt_secret == "dev-insecure-change-me-not-for-production-use"
 
+    # --- observability + rate limits -----------------------------------
+    log_json: bool = False              # emit one JSON object per log line
+    log_level: str = "INFO"
+    # Fixed-window (per minute) limits. 0 disables. In-process only — a
+    # multi-instance deployment needs a shared store (Redis).
+    trace_rate_per_min: int = 30
+    login_rate_per_min: int = 10
+
 
 @lru_cache
 def get_settings() -> Settings:

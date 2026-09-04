@@ -66,3 +66,15 @@ class AuthenticationError(DomainError):
 class AuthorizationError(DomainError):
     status = 403
     code = "forbidden"
+
+
+class RateLimitedError(DomainError):
+    status = 429
+    code = "rate_limited"
+
+    def __init__(self, retry_after_s: int, *, scope: str) -> None:
+        super().__init__(
+            f"too many {scope} requests; retry in {retry_after_s}s",
+            details={"retry_after_s": retry_after_s, "scope": scope},
+        )
+        self.retry_after_s = retry_after_s

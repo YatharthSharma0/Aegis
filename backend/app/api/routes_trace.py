@@ -24,6 +24,7 @@ from app.api.deps import (
     get_trace_service,
 )
 from app.api.middleware import get_request_id
+from app.api.ratelimit import rate_limit_trace
 from app.domain.audit import AuditService
 from app.domain.cases import CaseService
 from app.domain.schemas import (
@@ -43,7 +44,12 @@ _Audit = Annotated[AuditService, Depends(get_audit_service)]
 _RequestId = Annotated[str, Depends(get_request_id)]
 
 
-@router.post("/trace", status_code=202, response_model=TraceAccepted)
+@router.post(
+    "/trace",
+    status_code=202,
+    response_model=TraceAccepted,
+    dependencies=[Depends(rate_limit_trace)],
+)
 def start_trace(  # noqa: PLR0913, PLR0917 — FastAPI dependency parameters
     request: TraceRequest,
     service: _Service,

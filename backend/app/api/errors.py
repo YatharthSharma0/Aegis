@@ -18,4 +18,8 @@ def _envelope(status: int, code: str, message: str, details: dict[str, object]) 
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(DomainError)
     async def _handle_domain_error(_: Request, exc: DomainError) -> JSONResponse:
-        return _envelope(exc.status, exc.code, exc.message, exc.details)
+        response = _envelope(exc.status, exc.code, exc.message, exc.details)
+        retry_after = exc.details.get("retry_after_s")
+        if isinstance(retry_after, int):
+            response.headers["Retry-After"] = str(retry_after)
+        return response

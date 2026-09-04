@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.api.deps import CurrentUser, get_account_service
+from app.api.ratelimit import rate_limit_login
 from app.domain.accounts import AccountService, TokenPair
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
@@ -51,7 +52,9 @@ class MeResponse(BaseModel):
     unit: str | None
 
 
-@router.post("/login", response_model=TokenResponse)
+@router.post(
+    "/login", response_model=TokenResponse, dependencies=[Depends(rate_limit_login)]
+)
 def login(request: LoginRequest, accounts: _Accounts) -> TokenResponse:
     account = accounts.authenticate(request.email, request.password)
     return TokenResponse.of(accounts.issue_tokens(account))

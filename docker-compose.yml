@@ -28,6 +28,7 @@ services:
       AEGIS_CORS_ORIGINS: '["http://localhost:5173"]'
       AEGIS_DATABASE_URL: postgresql+psycopg://aegis:aegis@db:5432/aegis
       AEGIS_TRACE_WORKER: external   # the `worker` service drains the queue
+      AEGIS_LOG_JSON: "true"
     depends_on:
       db:
         condition: service_healthy
@@ -46,6 +47,7 @@ services:
       AEGIS_ENVIRONMENT: development
       AEGIS_DATABASE_URL: postgresql+psycopg://aegis:aegis@db:5432/aegis
       AEGIS_SKIP_MIGRATIONS: "1"    # the backend service runs them
+      AEGIS_LOG_JSON: "true"
     depends_on:
       backend:
         condition: service_healthy

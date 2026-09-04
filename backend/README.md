@@ -71,9 +71,12 @@ uv run alembic upgrade head && uv run alembic check   # migration drift (CI chec
 app/
   main.py          FastAPI app + health + lifespan (create_all in non-prod)
   config.py        environment-driven settings (the only place env vars are read)
-  api/             HTTP transport: routers (trace, auth), deps (+ current_user), error envelope
-  domain/          TraceService, AccountService, store interfaces + in-memory + SQL impls
-  security/        argon2 password hashing, JWT encode/decode
+  api/             HTTP transport: routers (trace/auth/cases/report/admin), deps,
+                   request-id + access-log middleware, rate limiting, error envelope
+  domain/          TraceService / AccountService / AuditService / CaseService,
+                   store interfaces + in-memory + SQL impls, report builder
+  security/        argon2 password hashing, JWT encode/decode, audit hash chain
+  logging.py       plain / JSON logging with request-id correlation
   db/              SQLAlchemy Base, ORM models, engine/session factory
   worker/          durable trace worker (claim + lease + retry); `python -m app.worker`
   engine_bridge.py the only place the backend calls app.engine
