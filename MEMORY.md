@@ -21,9 +21,9 @@ short and true. The design vault
 | Backend | FastAPI skeleton, `GET /health` only. `uv` project, Python 3.12 pinned, `uv.lock` committed. `ruff` + `mypy` (strict) + `pytest` configured and green. Env via `app/config.py` + `.env.example`. |
 | Frontend | Vite + React 18 + TS + Tailwind skeleton. Placeholder `App.tsx`. `eslint` (flat) + `tsc`/build + `vitest` configured. `/api` proxied to `:8000` in dev. |
 | Containers | `backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` (backend + frontend only). |
-| Validation | `scripts/validate.sh` runs ruff/mypy/pytest + eslint/build/vitest. |
-| CI | `.github/workflows/ci.yml` — path-filtered backend/frontend jobs + `gitleaks`. |
-| Docs | `docs/DATA_LICENSES.md` (stub), `docs/validation.md`, `CLAUDE.md`, this file. |
+| Validation | `scripts/validate.sh` runs ruff/mypy/pytest + eslint/build/vitest. `pytest-timeout` (30s) so a stalled test fails loudly instead of hanging. |
+| CI | `.github/workflows/ci.yml` — path-filtered backend/frontend jobs + `gitleaks` + `ci-ok` aggregation gate. |
+| Docs | `docs/DATA_LICENSES.md` (stub), `docs/validation.md` (incl. branch-protection table + accepted deviation), `CLAUDE.md`, this file. |
 
 ## Not built yet (later phases — do not assume in code)
 
@@ -33,13 +33,15 @@ Redis/Celery workers · WebSocket streaming · auth · any real UI screen.
 
 ## Open Phase 0 items
 
-- [x] Branch protection on `main` — applied 2026-09-04 by `YatharthSharma0` (repo
-      admin) via `gh api`. Requires the `ci-ok` status check (strict), PRs with 0
-      required approvals (self-merge allowed until teammates join), linear
-      history, no force-push, no deletion; admin bypass left on.
-- [x] CI verified green on a real PR (this file's own PR).
+- [x] Branch protection on `main` — applied 2026-09-04 by `YatharthSharma0` via
+      `gh api`. Requires `ci-ok` (strict), PRs before merge, linear history, no
+      force-push/deletion, **enforced for administrators**. Required approving
+      reviews = **0** (accepted deviation: single contributor can't approve own
+      PR; → 1 when collaborators join). Full table in `docs/validation.md`.
+- [x] CI verified green on a real PR (#1).
 - [ ] Fill `docs/DATA_LICENSES.md` rows as datasets are actually brought in.
-- [ ] Replace placeholder names/handles in `CONTRIBUTORS.md` with real members.
+- [ ] Replace placeholder names/handles in `CONTRIBUTORS.md` with real members
+      (single real contributor `YatharthSharma0` for now).
 - [ ] Raise `required_approving_review_count` to 1 once real collaborators join.
 
 ## Maintenance rule
@@ -54,3 +56,6 @@ trust it.
   backend + frontend skeletons, Docker/Compose, validate.sh, CI, docs.
 - 2026-09-04 — `main` branch protection applied; CI (`ci-ok` gate) verified on a
   real PR. Phase 0 foundation complete bar the two follow-ups above.
+- 2026-09-04 — Governance close-out: `enforce_admins` enabled; `docs/validation.md`
+  corrected (had said "≥1 review") with a branch-protection table + the accepted
+  0-review deviation documented; `pytest-timeout` added.

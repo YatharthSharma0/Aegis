@@ -4,9 +4,10 @@ Aegis is built by a six-person Smart India Hackathon 2026 team. Each member owns
 clearly-defined area and commits from their own GitHub account, so the repository
 history is an honest record of distributed work.
 
-> **Names below are placeholders** carried over from the design vault so this file
-> reads coherently. Replace each with the real member's name and GitHub handle
-> before the internal hackathon, keeping the role shape.
+> **⚠️ Names below are placeholders** carried over from the design vault so this
+> file reads coherently. **Known open Phase 0 item** — replace each with the real
+> member's name and GitHub handle before the internal hackathon, keeping the role
+> shape. Until then the repo has a single real contributor (`YatharthSharma0`).
 
 | Role | Name | GitHub | Primary ownership |
 |---|---|---|---|
@@ -22,8 +23,10 @@ history is an honest record of distributed work.
 - **Branching:** `feature/<area>-<short-desc>` per task. Small PRs, reviewable in ~10 minutes.
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/) — `type(scope): summary`
   (`feat fix refactor test docs chore perf build ci`). Logical units, not "wip" blobs.
-- **`main` is protected:** no direct pushes, ≥1 review, CI must pass. Branch protection is
-  configured in GitHub repo settings (Settings → Branches) — not a file in this repo.
+- **`main` is protected:** no direct pushes (enforced for admins too), CI must pass,
+  linear history. Required approving reviews are **0 for now** (a single contributor
+  cannot approve their own PR) and rise to **1** once real collaborators are added.
+  Configured in GitHub repo settings (Settings → Branches) — see `docs/validation.md`.
 - **Secrets:** never committed. `backend/.env.example` and `frontend/.env.example` are the
   single source of truth for configuration keys.
 - **Definition of Done:** implementation matches the design, `./scripts/validate.sh` passes,
