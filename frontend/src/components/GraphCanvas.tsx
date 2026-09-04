@@ -3,6 +3,7 @@ import dagre from "cytoscape-dagre";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { GraphEdgeOut, GraphNodeOut } from "../api/types";
+import { useTheme, type ThemeMode } from "../app/theme";
 import { Mono } from "../ui/Mono";
 import { GraphToolbar } from "./GraphToolbar";
 
@@ -14,34 +15,68 @@ function ensureDagre() {
   }
 }
 
-// Kept in sync with src/styles/tokens.css — Cytoscape styles can't read CSS
-// custom properties, so the hex values are duplicated here.
-const TOKEN = {
-  textPrimary: "#e7eff0",
-  textMuted: "#72858a",
-  borderSubtle: "#23343a",
-  brand: "#c8a96a",
-  unknown: "#839297",
-  warning: "#d1a650",
-  riskHigh: "#e0795e",
-  riskCritical: "#f05b61",
-  entityVasp: "#5fb7a7",
-  entityContract: "#7896c7",
-  entityBridge: "#a48bc3",
-  entityCluster: "#60767d",
+// Kept in sync with src/styles/tokens.css — Cytoscape can't read CSS custom
+// properties, so both themes' hex values are duplicated here.
+const TOKENS: Record<
+  ThemeMode,
+  {
+    textPrimary: string;
+    textMuted: string;
+    borderSubtle: string;
+    brand: string;
+    unknown: string;
+    warning: string;
+    riskHigh: string;
+    riskCritical: string;
+    entityVasp: string;
+    entityContract: string;
+    entityBridge: string;
+    entityCluster: string;
+  }
+> = {
+  night: {
+    textPrimary: "#e7eff0",
+    textMuted: "#72858a",
+    borderSubtle: "#23343a",
+    brand: "#c8a96a",
+    unknown: "#839297",
+    warning: "#d1a650",
+    riskHigh: "#e0795e",
+    riskCritical: "#f05b61",
+    entityVasp: "#5fb7a7",
+    entityContract: "#7896c7",
+    entityBridge: "#a48bc3",
+    entityCluster: "#60767d",
+  },
+  day: {
+    textPrimary: "#10181b",
+    textMuted: "#667980",
+    borderSubtle: "#dbe4e6",
+    brand: "#1a6fd6",
+    unknown: "#6f8086",
+    warning: "#b1720a",
+    riskHigh: "#d1362b",
+    riskCritical: "#a3211a",
+    entityVasp: "#17874c",
+    entityContract: "#2f5fb3",
+    entityBridge: "#6c4fae",
+    entityCluster: "#4c6066",
+  },
 };
+
+type Tokens = (typeof TOKENS)["night"];
 
 /** Risk bands per the blueprint: 0-29 low, 30-59 elevated, 60-79 high, 80-100
  * critical. Low reads as neutral (not "success") — risk color is reserved
  * for actual concern. */
-function riskBand(risk: string | null): { colour: string; label: string } {
-  if (risk === null) return { colour: TOKEN.unknown, label: "Not scored" };
+function riskBand(risk: string | null, t: Tokens): { colour: string; label: string } {
+  if (risk === null) return { colour: t.unknown, label: "Not scored" };
   const v = Number(risk);
-  if (!Number.isFinite(v)) return { colour: TOKEN.unknown, label: "Not scored" };
-  if (v >= 0.8) return { colour: TOKEN.riskCritical, label: "Critical" };
-  if (v >= 0.6) return { colour: TOKEN.riskHigh, label: "High" };
-  if (v >= 0.3) return { colour: TOKEN.warning, label: "Elevated" };
-  return { colour: TOKEN.unknown, label: "Low" };
+  if (!Number.isFinite(v)) return { colour: t.unknown, label: "Not scored" };
+  if (v >= 0.8) return { colour: t.riskCritical, label: "Critical" };
+  if (v >= 0.6) return { colour: t.riskHigh, label: "High" };
+  if (v >= 0.3) return { colour: t.warning, label: "Elevated" };
+  return { colour: t.unknown, label: "Low" };
 }
 
 interface EntitySpec {
@@ -53,41 +88,25 @@ interface EntitySpec {
 
 // Entity category is encoded by shape + ring colour, never by filling the
 // whole node — an exchange endpoint must not read as "fraud".
-const ENTITY_BY_KIND: Record<string, EntitySpec> = {
-  seed: { shape: "ellipse", ring: TOKEN.brand, size: 40, entityLabel: "Reported address" },
-  intermediary: { shape: "ellipse", ring: TOKEN.unknown, size: 30, entityLabel: "Unknown wallet" },
-  cluster_peer: { shape: "ellipse", ring: TOKEN.entityCluster, size: 30, entityLabel: "Cluster peer" },
-  vasp_deposit: { shape: "hexagon", ring: TOKEN.entityVasp, size: 36, entityLabel: "VASP deposit" },
-  mixer: { shape: "octagon", ring: TOKEN.riskHigh, size: 34, entityLabel: "Mixer / service of concern" },
-  bridge: { shape: "diamond", ring: TOKEN.entityBridge, size: 34, entityLabel: "Bridge" },
-  sink: { shape: "ellipse", ring: TOKEN.unknown, size: 30, entityLabel: "Unattributed sink" },
-};
+function entityByKind(t: Tokens): Record<string, EntitySpec> {
+  return {
+    seed: { shape: "ellipse", ring: t.brand, size: 40, entityLabel: "Reported address" },
+    intermediary: { shape: "ellipse", ring: t.unknown, size: 30, entityLabel: "Unknown wallet" },
+    cluster_peer: { shape: "ellipse", ring: t.entityCluster, size: 30, entityLabel: "Cluster peer" },
+    vasp_deposit: { shape: "hexagon", ring: t.entityVasp, size: 36, entityLabel: "VASP deposit" },
+    mixer: { shape: "octagon", ring: t.riskHigh, size: 34, entityLabel: "Mixer / service of concern" },
+    bridge: { shape: "diamond", ring: t.entityBridge, size: 34, entityLabel: "Bridge" },
+    sink: { shape: "ellipse", ring: t.unknown, size: 30, entityLabel: "Unattributed sink" },
+  };
+}
 
-const DEFAULT_ENTITY: EntitySpec = {
-  shape: "ellipse",
-  ring: TOKEN.unknown,
-  size: 30,
-  entityLabel: "Unknown wallet",
-};
+function defaultEntity(t: Tokens): EntitySpec {
+  return { shape: "ellipse", ring: t.unknown, size: 30, entityLabel: "Unknown wallet" };
+}
 
 function shortId(id: string) {
   return id.length > 14 ? `${id.slice(0, 6)}…${id.slice(-4)}` : id;
 }
-
-const LEGEND_ENTITIES: EntitySpec[] = [
-  ENTITY_BY_KIND.seed,
-  ENTITY_BY_KIND.intermediary,
-  ENTITY_BY_KIND.vasp_deposit,
-  ENTITY_BY_KIND.bridge,
-  ENTITY_BY_KIND.mixer,
-];
-
-const LEGEND_RISK: Array<[string, string]> = [
-  ["Low / not scored", TOKEN.unknown],
-  ["Elevated", TOKEN.warning],
-  ["High", TOKEN.riskHigh],
-  ["Critical", TOKEN.riskCritical],
-];
 
 /**
  * Money-flow graph. Cytoscape draws the picture; the `<details>` table below
@@ -115,6 +134,29 @@ export function GraphCanvas({
   const [isolate, setIsolate] = useState(false);
   const [layout, setLayout] = useState<"dagre" | "grid">("dagre");
   const [minValue, setMinValue] = useState(0);
+  const theme = useTheme();
+  const t = TOKENS[theme];
+  const entityByKindForTheme = useMemo(() => entityByKind(t), [t]);
+  const defaultEntityForTheme = useMemo(() => defaultEntity(t), [t]);
+  const legendEntities = useMemo(
+    () => [
+      entityByKindForTheme.seed,
+      entityByKindForTheme.intermediary,
+      entityByKindForTheme.vasp_deposit,
+      entityByKindForTheme.bridge,
+      entityByKindForTheme.mixer,
+    ],
+    [entityByKindForTheme],
+  );
+  const legendRisk = useMemo<Array<[string, string]>>(
+    () => [
+      ["Low / not scored", t.unknown],
+      ["Elevated", t.warning],
+      ["High", t.riskHigh],
+      ["Critical", t.riskCritical],
+    ],
+    [t],
+  );
 
   const nodeById = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
 
@@ -133,8 +175,8 @@ export function GraphCanvas({
       ...nodes
         .filter((n) => visibleIds.has(n.id))
         .map((n) => {
-          const entity = ENTITY_BY_KIND[n.kind] ?? DEFAULT_ENTITY;
-          const risk = riskBand(n.risk);
+          const entity = entityByKindForTheme[n.kind] ?? defaultEntityForTheme;
+          const risk = riskBand(n.risk, t);
           return {
             data: {
               id: n.id,
@@ -156,7 +198,7 @@ export function GraphCanvas({
         },
       })),
     ],
-    [nodes, visibleIds, visibleEdges],
+    [nodes, visibleIds, visibleEdges, entityByKindForTheme, defaultEntityForTheme, t],
   );
 
   useEffect(() => {
@@ -177,7 +219,7 @@ export function GraphCanvas({
             "background-opacity": 0.28,
             shape: "data(shape)" as cytoscape.Css.PropertyValueNode<cytoscape.Css.NodeShape>,
             label: "data(label)",
-            color: TOKEN.textPrimary,
+            color: t.textPrimary,
             "font-size": 10,
             "font-family": "IBM Plex Mono, monospace",
             "text-valign": "bottom",
@@ -201,20 +243,20 @@ export function GraphCanvas({
         },
         {
           selector: "node:selected",
-          style: { "border-color": TOKEN.brand, "border-width": 4 },
+          style: { "border-color": t.brand, "border-width": 4 },
         },
         {
           selector: "edge",
           style: {
             width: 1.5,
-            "line-color": TOKEN.borderSubtle,
-            "target-arrow-color": TOKEN.borderSubtle,
+            "line-color": t.borderSubtle,
+            "target-arrow-color": t.borderSubtle,
             "target-arrow-shape": "triangle",
             "curve-style": "bezier",
             label: "data(label)",
             "font-size": 8,
             "font-family": "IBM Plex Mono, monospace",
-            color: TOKEN.textMuted,
+            color: t.textMuted,
             "text-rotation": "autorotate",
           },
         },
@@ -225,8 +267,8 @@ export function GraphCanvas({
         {
           selector: ".aegis-on-path",
           style: {
-            "line-color": TOKEN.brand,
-            "target-arrow-color": TOKEN.brand,
+            "line-color": t.brand,
+            "target-arrow-color": t.brand,
             opacity: 1,
           },
         },
@@ -250,7 +292,7 @@ export function GraphCanvas({
       cy.destroy();
       cyRef.current = null;
     };
-  }, [elements, layout]);
+  }, [elements, layout, t]);
 
   // Selection + isolate-path highlighting, kept separate from graph
   // (re)construction so toggling either doesn't rebuild the whole layout.
@@ -297,7 +339,7 @@ export function GraphCanvas({
         aria-label={`Money-flow graph: ${nodes.length} addresses, ${edges.length} transfers`}
       />
       <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-muted">
-        {LEGEND_ENTITIES.map((spec) => (
+        {legendEntities.map((spec) => (
           <span key={spec.entityLabel} className="inline-flex items-center gap-1.5">
             <span
               className="inline-block h-2.5 w-2.5 border-2"
@@ -308,7 +350,7 @@ export function GraphCanvas({
           </span>
         ))}
         <span className="text-subtle">·</span>
-        {LEGEND_RISK.map(([label, colour]) => (
+        {legendRisk.map(([label, colour]) => (
           <span key={label} className="inline-flex items-center gap-1.5">
             <span
               className="inline-block h-2.5 w-2.5 rounded-full"

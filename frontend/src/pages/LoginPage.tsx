@@ -4,6 +4,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { ApiError } from "../api/client";
 import { useAuth } from "../app/useAuth";
+import { ThemeToggle } from "../components/ThemeToggle";
 import { useAuthStore } from "../state/authStore";
 import { Button } from "../ui/Button";
 import { textInputClass } from "../ui/inputClass";
@@ -46,7 +47,10 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-canvas px-4">
+    <div className="relative flex min-h-screen items-center justify-center bg-canvas px-4">
+      <div className="absolute right-4 top-4">
+        <ThemeToggle />
+      </div>
       <form
         onSubmit={submit}
         className="w-full max-w-[420px] rounded-sm border border-subtle bg-raised p-6"
