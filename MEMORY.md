@@ -19,6 +19,7 @@ short and true. The design vault
 |---|---|
 | Repo hygiene | `.gitignore`, `.editorconfig`, `LICENSE` (MIT), `README.md`, `CONTRIBUTORS.md` |
 | Backend | FastAPI skeleton, `GET /health` only. `uv` project, Python 3.12 pinned, `uv.lock` committed. `ruff` + `mypy` (strict) + `pytest` configured and green. Env via `app/config.py` + `.env.example`. |
+| Engine contract (Phase 1A) | `app/engine/` — **contract only, no data fetching yet**. `canonical` (deterministic JSON + `schema:sha256` hashing, `SCHEMA_VERSION = aegis.engine.v1`); `errors` (exception taxonomy + `TrailLostReason`/`PartialReason` enums); `records` (provenance-preserving `ProviderSnapshot` / `NormalizedTransaction` / `Transfer` / `AddressActivity`, frozen pydantic, quantized decimals); `provider` (`ChainDataProvider` Protocol, read-only, returns data + snapshot); `result` (`Investigation` / `TraceResult` / `GraphNode` / `GraphEdge` / `VaspCandidate` / `ConfidenceTerms` / `TrailEvent`; `Investigation.result_hash()` excludes wall-clock timing). 44 unit tests. |
 | Frontend | Vite + React 18 + TS + Tailwind skeleton. Placeholder `App.tsx`. `eslint` (flat) + `tsc`/build + `vitest` configured. `/api` proxied to `:8000` in dev. |
 | Containers | `backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` (backend + frontend only). |
 | Validation | `scripts/validate.sh` runs ruff/mypy/pytest + eslint/build/vitest. `pytest-timeout` (30s) so a stalled test fails loudly instead of hanging. |
@@ -27,9 +28,14 @@ short and true. The design vault
 
 ## Not built yet (later phases — do not assume in code)
 
-Blockchain tracing engine · wallet clustering · VASP attribution · GNN typology
-model · NLP complaint extraction · grounded LLM report · PostgreSQL · Neo4j ·
+Provider adapters (no TronGrid/Ethereum client yet — Phase 1B/1D) · recorded
+provider fixtures · the forward walk / haircut taint (Phase 1B) · wallet
+clustering · VASP attribution + label packs (Phase 1C) · GNN typology model ·
+NLP complaint extraction · grounded LLM report · PostgreSQL · Neo4j ·
 Redis/Celery workers · WebSocket streaming · auth · any real UI screen.
+
+The engine `result` types are the frozen boundary the Phase 2 backend will
+consume; do not change their shape without bumping `SCHEMA_VERSION`.
 
 ## Open Phase 0 items
 
@@ -60,3 +66,8 @@ trust it.
 - 2026-09-04 — Governance close-out: `enforce_admins` enabled; `docs/validation.md`
   corrected (had said "≥1 review") with a branch-protection table + the accepted
   0-review deviation documented; `pytest-timeout` added.
+- 2026-09-04 — Phase 1A (engine contract): `app/engine/` — canonical
+  serialization/hashing, error taxonomy, provenance-preserving normalized
+  records, `ChainDataProvider` interface, trace-result boundary. 44 tests.
+  Freezes the engine↔backend boundary; Phase 1B adds the TronGrid adapter +
+  recorded fixture next.
