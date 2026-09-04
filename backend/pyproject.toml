@@ -43,10 +43,8 @@ python_version = "3.12"
 strict = true
 warn_unused_configs = true
 plugins = ["pydantic.mypy"]
-
-[[tool.mypy.overrides]]
-module = "tests.*"
-disallow_untyped_defs = false
+# The gate type-checks `app` only (see scripts/validate.sh); tests use pytest's
+# own runtime checks. Add a `tests.*` override here if that changes.
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
