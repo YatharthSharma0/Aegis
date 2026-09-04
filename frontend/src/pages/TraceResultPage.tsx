@@ -1,8 +1,8 @@
 import { AlertTriangle, CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
-import { ApiError } from "../api/client";
 import type { TraceStatus } from "../api/types";
+import { ErrorState } from "../components/ErrorState";
 import { GraphCanvas } from "../components/GraphCanvas";
 import { HopTimeline } from "../components/HopTimeline";
 import { TypologyList } from "../components/TypologyList";
@@ -26,11 +26,11 @@ export function TraceResultPage() {
   if (trace.isError || !trace.data) {
     return (
       <div className="mx-auto max-w-3xl space-y-3">
-        <p className="text-sm text-risk-high" role="alert">
-          {trace.error instanceof ApiError && trace.error.status === 404
-            ? "That trace does not exist."
-            : "Could not load the trace."}
-        </p>
+        <ErrorState
+          error={trace.error}
+          onRetry={() => trace.refetch()}
+          context="load the trace"
+        />
         <Link to="/cases" className="text-sm text-indigo-300 hover:underline">
           Back to cases
         </Link>
