@@ -40,8 +40,9 @@ Redis/Celery workers · WebSocket streaming · auth · any real UI screen.
       PR; → 1 when collaborators join). Full table in `docs/validation.md`.
 - [x] CI verified green on a real PR (#1).
 - [ ] Fill `docs/DATA_LICENSES.md` rows as datasets are actually brought in.
-- [ ] Replace placeholder names/handles in `CONTRIBUTORS.md` with real members
-      (single real contributor `YatharthSharma0` for now).
+- [ ] Replace the remaining 5 placeholder names/handles in `CONTRIBUTORS.md` with
+      real members (Team Lead = Yatharth Sharma / `@YatharthSharma0` is filled;
+      single real contributor so far).
 - [ ] Raise `required_approving_review_count` to 1 once real collaborators join.
 
 ## Maintenance rule
