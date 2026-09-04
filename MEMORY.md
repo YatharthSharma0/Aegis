@@ -8,7 +8,8 @@ short and true. The design vault
 
 ## Current state
 
-- **Phase:** 0 — Foundation (in progress).
+- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, and 3 complete. Next: Phase 4
+  (integration — a real end-to-end run wiring engine ↔ backend ↔ frontend → M3).
 - **History:** an earlier "Aegis" showcase build existed and was discarded. This
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
@@ -31,7 +32,7 @@ short and true. The design vault
 | Forward walk (Phase 1B, part 2) | `app/engine/walk.py` — `forward_trace(seed, chain, asset, provider, params, mixer_addresses, bridge_addresses)`. Two phases: BFS discovery (bounded by `max_hops` depth, `max_nodes`/`max_edges` budgets, wall-clock deadline; mixer/bridge nodes marked, not expanded) then haircut taint propagation in discovery-order (a DAG). Haircut ratio = `victim_taint_in / provider_total_in` so clean fan-in dilutes; each edge's taint ∝ its value; sum out ≤ sum in. Emits `TrailEvent`s (mixer/bridge/max_hops/min_value/min_taint/cycle), never a fabricated continuation. `python -m app.engine trace-fixture [--json]` runs it offline. |
 | Account signals (Phase 1B, part 3) | `app/engine/signals.py` — `detect_account_signals([AddressStats]) -> SignalReport`. Behaviour heuristics for account chains (no CIOH): passthrough-rotation, peel-chain, rapid-fan-out, fan-in-consolidation (typologies) + deposit-fan-in, sweep-target, batch-withdrawals, high-activity-service (`vasp` kind, for 1C). Each hit carries `evidence` + `limitations`. Thresholds in `SignalConfig`. Wired into `forward_trace`: fills `TraceResult.typologies` + per-`GraphNode.typologies`. |
 | Attribution (Phase 1C — Gate M2) | `app/engine/labels.py` (`LabelPack`/`LabelSet`: versioned, checksum-verified; `LabelType` keeps `vasp`/`service` distinct from `sanctions`/`mixer`/`bridge`) + `app/engine/attribution.py` (`attribute([EndpointContext], LabelSet) -> tuple[VaspCandidate]`). Two-tier: dataset-confirmed (exact / via-cluster) vs heuristic ("Unidentified VASP-like endpoint", name stays None) vs conflict (never silently picks) vs unknown sink. Transparent confidence = `w1·source + w2·directness + w3·taint_retained + w4·corroboration − p1·mixer_on_path − p2·bridge` (doc weights, in `ConfidenceWeights`), clamped [0,1], full `ConfidenceTerms` breakdown attached. `forward_trace(..., labels=LabelSet)` derives mixer/bridge sets from the pack, runs attribution, fills `TraceResult.vasp_candidates` + summary. Synthetic `fixtures/labels/aegis_demo_pack/` (DemoExchange VASP + DemoMixer). `ConfidenceTerms` relaxed to allow negative penalty weights (score = clamped weighted sum). `trace-fixture --labels/--no-labels`. 105 engine tests. |
-| Frontend | Vite + React 18 + TS + Tailwind skeleton. Placeholder `App.tsx`. `eslint` (flat) + `tsc`/build + `vitest` configured. `/api` proxied to `:8000` in dev. |
+| Frontend (Phase 3, PRs #17–#21) | Live-mode React 18 + Vite + TS + Tailwind client. Types generated from `backend/openapi.json` (`npm run gen:api`, CI-checked). `src/api/client.ts` — bearer-token fetch wrapper, `{error:{code,message}}` → `ApiError`, one-shot refresh on 401. Zustand `persist` auth store (in-memory storage fallback). React Router v7 + TanStack Query v5. Routes (all auth-gated bar `/login`, under a role-aware `AppShell`): `/` dashboard, `/cases` + `/cases/:id` (list/detail/create/add-complaint → `/api/v1/cases`), `/trace/new` (address + chain + advanced params → `POST /trace`, picks up `?case=`), `/trace/:id` (`useTrace` 2s polling, stops on terminal; `GraphCanvas` = Cytoscape + dagre with a keyboard transfers table; `VaspMatchCard`/`HopTimeline`/`TypologyList`/`ConfidenceBadge`), `/trace/:id/report` (full report + editable SAHYOG notice with copy-out), `/admin/audit` (admin-only, hash-chain verification banner). `useHealth` + backend-unavailable banner; shared `ErrorState` (retry); route-change focus management; responsive shell. Risk/confidence never colour-only. 28 vitest tests. |
 | Containers | `backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` (backend + frontend only). |
 | Validation | `scripts/validate.sh` runs ruff/mypy/pytest + eslint/build/vitest. `pytest-timeout` (30s) so a stalled test fails loudly instead of hanging. |
 | CI | `.github/workflows/ci.yml` — path-filtered backend/frontend jobs + `gitleaks` + `ci-ok` aggregation gate. |
@@ -45,8 +46,9 @@ only the `EndpointContext.cluster_addresses` hook exists; attribution's
 via-cluster path is coded but unfed) · a real (non-synthetic) label pack · GNN
 typology model (Phase 1E) · NLP complaint extraction (Phase 1F) · grounded LLM
 report · Neo4j (graph store — Postgres JSON is the canonical store for now) ·
-WebSocket streaming (polling is the P1 path) · any real UI screen (frontend is
-still the Phase 0 skeleton).
+WebSocket streaming (polling is the P1 path) · demo-mode fixtures +
+`VITE_DATA_MODE` switch (P2) · a verified end-to-end run against the live backend
+(Phase 4 integration).
 
 The engine `result` types are the frozen boundary the Phase 2 backend will
 consume; do not change their shape without bumping `SCHEMA_VERSION`.
@@ -148,3 +150,17 @@ trust it.
   line per request. 197 tests. **Phase 2 complete** (P1 + all feature
   endpoints). Next per the execution plan: Phase 3 (frontend) or Phase 1D
   (Ethereum).
+- 2026-09-04 — Phase 3 frontend (PRs #17–#21), live-mode only. #17 foundation:
+  deps (React Router v7, TanStack Query v5, Zustand v5, Cytoscape, self-hosted
+  fonts, `openapi-typescript`), design tokens, typed API client with one-shot
+  refresh, auth store, UI kit, auth-gated shell + routing, working login. CI
+  regenerates `src/api/schema.d.ts` and fails on drift. #18 cases: dashboard +
+  case list/detail/create/add-complaint. #19 trace: new-trace form, `useTrace`
+  polling result page, Cytoscape money-flow graph + a11y transfers table,
+  VASP/hop/typology/confidence components. #20 report: full report page +
+  editable SAHYOG notice with copy-out. #21 polish: `useHealth` +
+  backend-unavailable banner, shared `ErrorState`, route-change focus,
+  responsive shell, admin audit-log screen. `./scripts/validate.sh frontend`
+  green — 28 vitest tests. Commits from PR #14 on carry no Claude co-author
+  trailers (author = Yatharth Sharma), per the maintainer's instruction.
+  **Phase 3 complete.** Next: Phase 4 (integration) → M3.
