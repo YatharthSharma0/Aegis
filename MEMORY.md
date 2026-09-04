@@ -15,7 +15,9 @@ short and true. The design vault
   including CI) is completely unaffected. Phase 6 (deployment) has a live
   staging deployment (see `docs/DEPLOYMENT.md`) but real gaps remain (no
   CI deploy job, no GitHub integration, worker start-command issue) —
-  see below, not fully closed either.
+  see below, not fully closed either. Phase 7 (production/operational
+  validation) is mostly a physical venue rehearsal an AI agent can't
+  perform — see below for exactly what was and wasn't checked.
 - **History:** an earlier "Aegis" showcase build existed and was discarded. This
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
@@ -500,3 +502,23 @@ trust it.
   Aegis is" section still names SIH26183 — that's the internal operating
   doc for AI agents working in this repo, not public-facing, and wasn't
   asked to change; don't conflate the two if reconciling them later.
+
+- 2026-09-05 — **Phase 7 (production/operational validation) — mostly out
+  of reach for an AI agent, assessed not fabricated-complete.** The
+  vault's plan for this phase is a physical hackathon-venue rehearsal
+  (USB backups, a second laptop, a presenter-absent drill) — none of
+  which can be done here. What was actually checked: the frontend
+  production build (`npm run build` + `npm run preview`) serves correctly
+  and degrades gracefully with no backend reachable (empty
+  `VITE_API_BASE_URL`, every API call fails exactly as it would with the
+  venue Wi-Fi down) — a headless HTTP check, not the plan's literal "real
+  browser, Wi-Fi off, screen capture" acceptance criterion, which still
+  needs a human at a real machine. The rollback drill was explicitly
+  **not run** — asked the user first since it means deliberately breaking
+  the live staging deployment, and they were still using it for an
+  in-progress demo; skipped on their instruction, not silently dropped.
+  `DEMO_MODE` (the plan's "ultimate offline fallback") doesn't exist —
+  it was deferred to P2 back in Phase 3 and never built; this phase can't
+  validate a fallback that isn't there, and the pitch shouldn't imply
+  otherwise. Full reasoning and per-task status in the vault's
+  `10-Execution-Plan/08-Phase-7-Production-Validation.md`.
