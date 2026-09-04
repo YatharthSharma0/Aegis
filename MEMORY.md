@@ -8,11 +8,8 @@ short and true. The design vault
 
 ## Current state
 
-- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, and 3 complete. Phase 4's
-  backend/integration-suite deliverable is done (see below); its
-  frontend-rendering failure-path checks remain manual (no browser
-  automation available this session). Next: that frontend check-in, then
-  Phase 4.5 (live TronGrid provider).
+- **Phase:** Phases 0, 1 (1A–1C, Gate M2), 2, 3, and 4 complete. Next: Phase
+  4.5 (live TronGrid provider).
 - **History:** an earlier "Aegis" showcase build existed and was discarded. This
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
@@ -286,3 +283,34 @@ trust it.
   same limitation as the 2026-09-04 "Frontend workability pass" entry
   above. Tracked as open, not silently dropped — see the vault's
   `10-Execution-Plan/05-Phase-4-Integration.md`, reconciled alongside this.
+
+- 2026-09-05 — **Phase 4 fully closed.** The three frontend failure paths
+  left open above still couldn't get real browser automation this session
+  (Chrome extension install wasn't completed) — but rather than leave them
+  as an unverified manual claim, gave each one a durable component test
+  instead, which is a stronger guarantee than a one-off visual check would
+  have been (it re-verifies on every future change, in CI):
+  - `frontend/src/app/AppShell.test.tsx` (new) — asserts the `useHealth`
+    offline banner (`role="alert"`, "Backend unreachable…") renders when
+    offline and is absent when not, and that the page content underneath
+    keeps rendering (a banner, not a blocking full-page state).
+  - `frontend/src/App.test.tsx` — added a test that starts an authenticated
+    session, renders a protected route, then calls
+    `useAuthStore.getState().clear()` *mid-render* (wrapped in
+    `act()`) — mirroring exactly what `api/client.ts` does when a 401's
+    refresh attempt also fails — and asserts the app reactively redirects
+    to `/login`. The existing test only covered visiting a protected route
+    while already signed out, which doesn't exercise the same code path.
+  - `frontend/src/pages/NewTracePage.test.tsx` — added a test that submits
+    an `ethereum`-chain trace (the dropdown offers 6 chains; only `tron` is
+    backend-supported today), mocks `startTrace` rejecting with the
+    backend's real `ApiError("invalid_request", "chain ethereum is not
+    supported yet", 400, …)` shape, and asserts the message renders inline
+    and the page does *not* navigate away as if the trace had started.
+
+  All 33 frontend vitest tests green (`./scripts/validate.sh frontend`),
+  verified end to end by hand once more too: brought up `docker compose`
+  (db/backend/worker only — an already-running local `npm run dev` server
+  on 5173 served the frontend, proxying to the compose backend on 8000) and
+  exercised login → trace → report over curl again to sanity-check nothing
+  regressed. No code changes to `app/` or `backend/` this pass — test-only.
