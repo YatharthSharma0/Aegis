@@ -29,6 +29,7 @@ jobs:
               - '.github/workflows/ci.yml'
             frontend:
               - 'frontend/**'
+              - 'backend/openapi.json'
               - '.github/workflows/ci.yml'
 
   backend:
@@ -75,6 +76,10 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - name: generated API types are up to date
+        run: |
+          npm run gen:api
+          git diff --exit-code src/api/schema.d.ts
       - run: npm run build
       - run: npm run test
 
