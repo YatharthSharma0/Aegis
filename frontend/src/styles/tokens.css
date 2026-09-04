@@ -1,0 +1,31 @@
+/* Design tokens — the "serious government intelligence console" palette from
+   the UI Style Guide. Consumed by Tailwind (see tailwind.config.js) and by
+   component CSS. Do not introduce new colours; extend here. */
+
+:root {
+  --navy-900: #0b1e3b;
+  --navy-800: #0f284d;
+  --navy-700: #16335c;
+  --navy-600: #1e4173;
+  --indigo-500: #3b5bdb;
+  --indigo-300: #91a7ff;
+  --paper: #f5f7fb;
+  --ink: #1a1f2b;
+  --mute: #5b6472;
+  --line: rgba(255, 255, 255, 0.08);
+
+  --risk-low: #2e7d32;
+  --risk-med: #e08600;
+  --risk-high: #c62828;
+  --vasp: #6d28d9;
+  --confirmed: #0e7c86;
+
+  --ok: #2e7d32;
+  --warn: #e08600;
+  --err: #c62828;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  color-scheme: dark;
+}

@@ -25,6 +25,8 @@ run_frontend() {
   echo "==> frontend: eslint / tsc + build / vitest"
   cd "$ROOT/frontend"
   npm run lint
+  npm run gen:api
+  git -C "$ROOT" diff --exit-code frontend/src/api/schema.d.ts
   npm run build
   npm run test
 }
