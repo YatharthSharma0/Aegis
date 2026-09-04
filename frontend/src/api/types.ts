@@ -34,7 +34,10 @@ export type CaseStatus = S["CaseStatus"];
 export type ComplaintSource = S["ComplaintSource"];
 
 export type AuditResponse = S["AuditResponse"];
+export type AuditEntryOut = S["AuditEntryOut"];
+export type AuditVerificationOut = S["AuditVerificationOut"];
 export type SahyogNoticeRequest = S["SahyogNoticeRequest"];
+export type HealthResponse = S["HealthResponse"];
 
 export type EvidenceOut = S["EvidenceOut"];
 
