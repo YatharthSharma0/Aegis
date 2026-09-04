@@ -134,6 +134,19 @@ def test_growjoy_trace_haircut(provider: FixtureProvider):
         assert edge.evidence.tx_hash == edge.tx_hash
 
 
+def test_growjoy_trace_flags_rotation_and_peel(provider: FixtureProvider):
+    inv = forward_trace(
+        provider.seed_address, chain=Chain.TRON, asset=usdt_trc20(), provider=provider
+    )
+    addr = json_addresses()
+    typ = {(t.name, t.addresses) for t in inv.result.typologies}
+    # rot2 forwards ~93% to cons and peels the rest -> both lenses fire on it
+    assert ("peel_chain", (addr["rot2"],)) in typ
+    assert ("passthrough_rotation", (addr["rot1"],)) in typ
+    rot2_node = next(n for n in inv.result.graph_nodes if n.address == addr["rot2"])
+    assert "peel_chain" in rot2_node.typologies
+
+
 def test_trace_is_deterministic(provider: FixtureProvider):
     a = forward_trace(provider.seed_address, chain=Chain.TRON, asset=usdt_trc20(),
                       provider=provider)

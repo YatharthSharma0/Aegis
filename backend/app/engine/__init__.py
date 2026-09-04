@@ -76,6 +76,14 @@ from app.engine.result import (
     TypologySignal,
     VaspCandidate,
 )
+from app.engine.signals import (
+    AddressStats,
+    SignalConfig,
+    SignalHit,
+    SignalKind,
+    SignalReport,
+    detect_account_signals,
+)
 from app.engine.tron import (
     USDT_TRC20_CONTRACT,
     is_valid_tron_address,
@@ -90,6 +98,7 @@ __all__ = [
     "ActivityResult",
     "AddressActivity",
     "AddressFormatError",
+    "AddressStats",
     "Asset",
     "AssetKind",
     "AttributionTier",
@@ -117,6 +126,10 @@ __all__ = [
     "ProviderSnapshot",
     "ProviderTimeoutError",
     "ProviderUnavailableError",
+    "SignalConfig",
+    "SignalHit",
+    "SignalKind",
+    "SignalReport",
     "TaintModel",
     "TraceParams",
     "TraceResult",
@@ -132,6 +145,7 @@ __all__ = [
     "VaspCandidate",
     "canonical_hash",
     "canonical_json",
+    "detect_account_signals",
     "forward_trace",
     "is_valid_tron_address",
     "sha256_hex",

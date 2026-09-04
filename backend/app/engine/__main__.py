@@ -45,6 +45,11 @@ def main(argv: Sequence[str] | None = None) -> int:
                 f"  {edge.from_address} -> {edge.to_address}  "
                 f"{edge.value} {edge.asset_symbol}  taint={edge.taint}"
             )
+        for typ in result.typologies:
+            print(
+                f"  typology [{typ.name}] score={typ.score} "
+                f"at {', '.join(typ.addresses)}"
+            )
         for event in result.trail_events:
             print(
                 f"  trail-lost [{event.reason.value}] at {event.address} "
