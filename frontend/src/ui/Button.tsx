@@ -10,11 +10,10 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const styles: Record<Variant, string> = {
-  primary: "bg-indigo-500 text-white hover:brightness-110",
-  secondary:
-    "border border-indigo-300 text-indigo-300 hover:bg-indigo-300/10",
-  ghost: "text-slate-300 hover:bg-white/5",
-  danger: "bg-risk-high text-white hover:brightness-110",
+  primary: "bg-brand text-ink hover:bg-brand-hover",
+  secondary: "border border-strong text-secondary hover:bg-hover hover:text-primary",
+  ghost: "text-secondary hover:bg-hover hover:text-primary",
+  danger: "bg-risk-high text-ink hover:brightness-110",
 };
 
 export function Button({
@@ -29,7 +28,7 @@ export function Button({
     <button
       className={cn(
         "inline-flex h-10 items-center justify-center gap-2 rounded-sm px-4 text-sm font-medium",
-        "transition-[filter,background-color] disabled:cursor-not-allowed disabled:opacity-50",
+        "transition-colors duration-fast disabled:cursor-not-allowed disabled:opacity-[.42]",
         styles[variant],
         className,
       )}

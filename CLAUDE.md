@@ -22,6 +22,14 @@ The system design lives in an Obsidian vault outside this repo
 the phased plan, and product decisions are defined there. This repo implements it.
 When code and vault disagree, that is a flag to raise, not a silent choice.
 
+The frontend's **visual design system** — the "forensic ledger" art direction,
+color/typography/spacing tokens, component anatomy, and per-page layout — lives
+in a separate vault: `~/Documents/Vaults/Aegis-Frontend-Blueprint/`. It governs
+look and feel; it does not override the product/functional scope above (do not
+pull forward WebSocket streaming, complaint-NLP extraction, clustering, or a
+command palette just because that vault describes them — implement only what
+the real backend supports, styled per that vault's tokens and components).
+
 ## Repository layout
 
 ```

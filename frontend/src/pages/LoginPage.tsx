@@ -1,3 +1,4 @@
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
@@ -5,6 +6,7 @@ import { ApiError } from "../api/client";
 import { useAuth } from "../app/useAuth";
 import { useAuthStore } from "../state/authStore";
 import { Button } from "../ui/Button";
+import { textInputClass } from "../ui/inputClass";
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -14,6 +16,7 @@ export function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -43,18 +46,25 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <div className="flex min-h-screen items-center justify-center bg-canvas px-4">
       <form
         onSubmit={submit}
-        className="w-full max-w-sm rounded border border-navy-700 bg-navy-800/60 p-6"
+        className="w-full max-w-[420px] rounded-sm border border-subtle bg-raised p-6"
       >
-        <h1 className="text-lg font-bold tracking-tight">Aegis</h1>
-        <p className="mb-6 text-xs uppercase tracking-widest text-mute">
-          Investigator sign-in
-        </p>
+        <div className="mb-6 flex items-center gap-2">
+          <span className="flex h-7 w-7 items-center justify-center border-2 border-brand text-xs font-semibold text-brand">
+            Æ
+          </span>
+          <div>
+            <h1 className="text-lg font-semibold tracking-tight text-primary">Aegis</h1>
+            <p className="text-xs uppercase tracking-widest text-muted">
+              Investigator sign-in · SIH26183
+            </p>
+          </div>
+        </div>
 
-        <label className="mb-1 block text-xs text-mute" htmlFor="email">
-          Email
+        <label className="mb-1 block text-xs text-muted" htmlFor="email">
+          Official email
         </label>
         <input
           id="email"
@@ -63,21 +73,31 @@ export function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="mb-4 w-full rounded-sm border border-navy-600 bg-navy-900 px-3 py-2 text-sm outline-none focus:border-indigo-300"
+          className={textInputClass("mb-4")}
         />
 
-        <label className="mb-1 block text-xs text-mute" htmlFor="password">
+        <label className="mb-1 block text-xs text-muted" htmlFor="password">
           Password
         </label>
-        <input
-          id="password"
-          type="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="mb-5 w-full rounded-sm border border-navy-600 bg-navy-900 px-3 py-2 text-sm outline-none focus:border-indigo-300"
-        />
+        <div className="relative mb-5">
+          <input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className={textInputClass("pr-10")}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute inset-y-0 right-0 flex w-9 items-center justify-center text-muted hover:text-secondary"
+          >
+            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
 
         {error && (
           <p role="alert" className="mb-4 text-sm text-risk-high">
@@ -88,6 +108,10 @@ export function LoginPage() {
         <Button type="submit" loading={busy} className="w-full">
           Sign in
         </Button>
+
+        <p className="mt-4 text-[11px] leading-snug text-muted">
+          Restricted access · Law-enforcement use only · No public sign-up
+        </p>
       </form>
     </div>
   );

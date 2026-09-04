@@ -14,20 +14,20 @@ export function DashboardPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-4">
       <header>
-        <h1 className="text-xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-sm text-mute">Recent cases and quick actions.</p>
+        <h1 className="text-xl font-bold tracking-tight text-primary">Dashboard</h1>
+        <p className="text-sm text-muted">Recent cases and quick actions.</p>
       </header>
 
       <div className="flex gap-2">
         <Link
           to="/trace/new"
-          className="rounded-sm bg-indigo-500 px-4 py-2 text-sm font-medium text-white hover:brightness-110"
+          className="rounded-sm bg-brand px-4 py-2 text-sm font-medium text-ink hover:bg-brand-hover"
         >
           New trace
         </Link>
         <Link
           to="/cases"
-          className="rounded-sm border border-indigo-300 px-4 py-2 text-sm font-medium text-indigo-300 hover:bg-indigo-300/10"
+          className="rounded-sm border border-strong px-4 py-2 text-sm font-medium text-secondary hover:bg-hover hover:text-primary"
         >
           All cases
         </Link>
@@ -36,7 +36,7 @@ export function DashboardPage() {
       <Card
         title="Recent cases"
         actions={
-          <Link to="/cases" className="text-xs text-indigo-300 hover:underline">
+          <Link to="/cases" className="text-xs text-link hover:underline">
             View all
           </Link>
         }
@@ -51,7 +51,7 @@ export function DashboardPage() {
             action={
               <Link
                 to="/cases"
-                className="text-sm font-medium text-indigo-300 hover:underline"
+                className="text-sm font-medium text-link hover:underline"
               >
                 Create the first case
               </Link>
@@ -59,18 +59,18 @@ export function DashboardPage() {
           />
         )}
         {cases.data && cases.data.length > 0 && (
-          <ul className="divide-y divide-navy-700">
+          <ul className="divide-y divide-subtle">
             {cases.data.map((c) => (
               <li key={c.id}>
                 <Link
                   to={`/cases/${c.id}`}
-                  className="flex items-center justify-between gap-4 py-3 hover:bg-white/5"
+                  className="flex items-center justify-between gap-4 py-3 transition-colors duration-fast hover:bg-hover"
                 >
                   <div className="min-w-0">
-                    <div className="truncate text-sm font-medium text-slate-200">
+                    <div className="truncate text-sm font-medium text-primary">
                       {c.title}
                     </div>
-                    <div className="text-xs text-mute">
+                    <div className="text-xs text-muted">
                       {c.ref_no} · updated {formatDateTime(c.updated_at)}
                     </div>
                   </div>

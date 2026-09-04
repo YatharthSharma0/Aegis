@@ -31,15 +31,15 @@ export function ErrorState({
   return (
     <div
       role="alert"
-      className="flex flex-col items-center gap-3 rounded border border-dashed border-risk-high/40 px-6 py-8 text-center"
+      className="flex flex-col items-center gap-3 rounded-sm border border-dashed border-strong px-6 py-8 text-center"
     >
-      <Icon size={22} className={offline ? "text-mute" : "text-risk-high"} aria-hidden />
-      <p className="max-w-sm text-sm text-slate-300">{message}</p>
+      <Icon size={22} className={offline ? "text-muted" : "text-risk-high"} aria-hidden />
+      <p className="max-w-sm text-sm text-secondary">{message}</p>
       {onRetry && (
         <button
           type="button"
           onClick={onRetry}
-          className="inline-flex items-center gap-1.5 rounded-sm border border-navy-600 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5"
+          className="inline-flex items-center gap-1.5 rounded-sm border border-subtle px-3 py-1.5 text-xs text-secondary transition-colors duration-fast hover:bg-hover hover:text-primary"
         >
           <RefreshCw size={13} aria-hidden />
           Try again

@@ -56,16 +56,16 @@ export function NewTracePage() {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <header>
-        <h1 className="text-xl font-bold tracking-tight">New trace</h1>
-        <p className="text-sm text-mute">
+        <h1 className="text-xl font-bold tracking-tight text-primary">New trace</h1>
+        <p className="text-sm text-muted">
           Enter the victim-reported address to trace the fund flow and attribute
           the receiving exchange.
         </p>
       </header>
 
       {caseId && (
-        <p className="rounded-sm border border-navy-700 bg-navy-800/60 px-3 py-2 text-xs text-mute">
-          Linked to case <span className="text-slate-300">{caseId}</span>
+        <p className="rounded-sm border border-subtle bg-raised px-3 py-2 text-xs text-muted">
+          Linked to case <span className="text-secondary">{caseId}</span>
         </p>
       )}
 
@@ -103,7 +103,7 @@ export function NewTracePage() {
             type="button"
             onClick={() => setShowAdvanced((v) => !v)}
             aria-expanded={showAdvanced}
-            className="text-xs text-indigo-300 hover:underline"
+            className="text-xs text-link hover:underline"
           >
             {showAdvanced ? "Hide" : "Show"} advanced parameters
           </button>

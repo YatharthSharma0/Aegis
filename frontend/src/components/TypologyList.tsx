@@ -4,7 +4,7 @@ import { Mono } from "../ui/Mono";
 /** Detected laundering typologies with their model and score. */
 export function TypologyList({ typologies }: { typologies: TypologyOut[] }) {
   if (typologies.length === 0) {
-    return <p className="text-sm text-mute">No laundering typologies detected.</p>;
+    return <p className="text-sm text-muted">No laundering typologies detected.</p>;
   }
   return (
     <ul className="space-y-3">
@@ -13,13 +13,13 @@ export function TypologyList({ typologies }: { typologies: TypologyOut[] }) {
         return (
           <li key={`${t.name}-${i}`}>
             <div className="flex items-center justify-between text-sm">
-              <span className="font-medium text-slate-200">{t.name}</span>
-              <span className="text-xs text-mute">
+              <span className="font-medium text-primary">{t.name}</span>
+              <span className="text-xs text-muted">
                 {t.model} · {(score * 100).toFixed(0)}%
               </span>
             </div>
             <div
-              className="mt-1 h-1.5 overflow-hidden rounded-full bg-navy-700"
+              className="mt-1 h-1.5 overflow-hidden rounded-full bg-hover"
               role="meter"
               aria-valuenow={Math.round(score * 100)}
               aria-valuemin={0}
@@ -27,7 +27,7 @@ export function TypologyList({ typologies }: { typologies: TypologyOut[] }) {
               aria-label={`${t.name} score`}
             >
               <span
-                className="block h-full bg-risk-med"
+                className="block h-full bg-warning"
                 style={{ width: `${score * 100}%` }}
               />
             </div>
@@ -37,7 +37,7 @@ export function TypologyList({ typologies }: { typologies: TypologyOut[] }) {
                   <Mono key={a} value={a} />
                 ))}
                 {t.addresses.length > 6 && (
-                  <span className="text-xs text-mute">
+                  <span className="text-xs text-muted">
                     +{t.addresses.length - 6} more
                   </span>
                 )}

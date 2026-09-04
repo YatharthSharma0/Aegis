@@ -11,15 +11,15 @@ export function Card({ title, actions, className, children, ...rest }: Props) {
   return (
     <section
       className={cn(
-        "rounded border border-navy-700 bg-navy-800/60 p-4 sm:p-5",
+        "rounded-sm border border-subtle bg-raised p-4 sm:p-5",
         className,
       )}
       {...rest}
     >
       {(title || actions) && (
-        <header className="mb-3 flex items-center justify-between gap-3">
+        <header className="mb-3 flex items-center justify-between gap-3 border-b border-subtle pb-2">
           {title && (
-            <h2 className="text-sm font-semibold tracking-wide text-slate-200">
+            <h2 className="text-sm font-semibold tracking-wide text-primary">
               {title}
             </h2>
           )}
