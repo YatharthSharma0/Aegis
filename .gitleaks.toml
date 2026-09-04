@@ -15,7 +15,7 @@ description = "TronGrid API key (TRON-PRO-API-KEY / AEGIS_TRONGRID_API_KEY)"
 regex = '''(?i)(TRON-PRO-API-KEY|AEGIS_TRONGRID_API_KEY)['"\s:=]+[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'''
 tags = ["key", "aegis", "trongrid"]
 
-[[allowlist]]
+[allowlist]
 description = "docs/example files that only ever show the env var name, never a value"
 paths = [
   '''backend/\.env\.example''',
