@@ -32,5 +32,5 @@ def _schema() -> Iterator[None]:
 def _clean_tables() -> Iterator[None]:
     yield
     with session_scope() as session:
-        for table in ("trace_runs", "refresh_tokens", "users"):
+        for table in ("audit_log", "trace_runs", "refresh_tokens", "users"):
             session.execute(text(f"DELETE FROM {table}"))

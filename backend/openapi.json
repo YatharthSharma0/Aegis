@@ -1,6 +1,211 @@
 {
   "components": {
     "schemas": {
+      "AuditEntryOut": {
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "actor_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actor Id"
+          },
+          "actor_role": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actor Role"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "case_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Id"
+          },
+          "chain": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chain"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          },
+          "prev_row_hash": {
+            "title": "Prev Row Hash",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "result_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Hash"
+          },
+          "row_hash": {
+            "title": "Row Hash",
+            "type": "string"
+          },
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          },
+          "ts": {
+            "format": "date-time",
+            "title": "Ts",
+            "type": "string"
+          }
+        },
+        "required": [
+          "seq",
+          "ts",
+          "actor_id",
+          "actor_role",
+          "action",
+          "trace_id",
+          "case_id",
+          "address",
+          "chain",
+          "detail",
+          "result_hash",
+          "request_id",
+          "prev_row_hash",
+          "row_hash"
+        ],
+        "title": "AuditEntryOut",
+        "type": "object"
+      },
+      "AuditResponse": {
+        "properties": {
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/AuditEntryOut"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/AuditVerificationOut"
+          }
+        },
+        "required": [
+          "verification",
+          "entries"
+        ],
+        "title": "AuditResponse",
+        "type": "object"
+      },
+      "AuditVerificationOut": {
+        "properties": {
+          "broken_at_seq": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Broken At Seq"
+          },
+          "checked": {
+            "title": "Checked",
+            "type": "integer"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "required": [
+          "ok",
+          "checked",
+          "broken_at_seq",
+          "reason"
+        ],
+        "title": "AuditVerificationOut",
+        "type": "object"
+      },
       "Chain": {
         "enum": [
           "bitcoin",
@@ -947,6 +1152,88 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/v1/admin/audit": {
+      "get": {
+        "operationId": "get_audit_api_v1_admin_audit_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action"
+            }
+          },
+          {
+            "in": "query",
+            "name": "actor_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Actor Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Audit",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/api/v1/auth/login": {
       "post": {
         "operationId": "login_api_v1_auth_login_post",
