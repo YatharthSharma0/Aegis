@@ -1,8 +1,9 @@
 """Aegis backend entrypoint.
 
-Phase 0: a minimal FastAPI application exposing a health check. The tracing
-engine, persistence, workers, and AI components are added in later phases per
-the execution plan.
+Exposes the health check and the Phase 2 trace API (``/api/v1/trace``). The
+trace runs the Phase 1 engine on a background task (single-process demo
+fallback); persistence, a durable worker, auth, and the audit log land in
+later Phase 2 PRs.
 """
 
 from typing import Literal
@@ -12,6 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app import __version__
+from app.api.errors import register_exception_handlers
+from app.api.routes_trace import router as trace_router
 from app.config import get_settings
 
 settings = get_settings()
@@ -30,6 +33,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+register_exception_handlers(app)
+app.include_router(trace_router)
+
 
 class HealthResponse(BaseModel):
     """Payload returned by the health check."""
@@ -41,6 +47,7 @@ class HealthResponse(BaseModel):
 
 
 @app.get("/health", response_model=HealthResponse, tags=["meta"])
+@app.get("/api/v1/health", response_model=HealthResponse, tags=["meta"])
 def health() -> HealthResponse:
     """Report that the service is up. Used by CI, Compose, and uptime checks."""
     return HealthResponse(
