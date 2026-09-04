@@ -12,7 +12,10 @@ short and true. The design vault
   (live TronGrid provider) is code-complete but not fully closed — see
   below; the two remaining tasks need a real TronGrid API key this
   environment doesn't have. Fixture mode (the default everywhere,
-  including CI) is completely unaffected. Next: Phase 6 (deployment).
+  including CI) is completely unaffected. Phase 6 (deployment) has a live
+  staging deployment (see `docs/DEPLOYMENT.md`) but real gaps remain (no
+  CI deploy job, no GitHub integration, worker start-command issue) —
+  see below, not fully closed either.
 - **History:** an earlier "Aegis" showcase build existed and was discarded. This
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
@@ -438,3 +441,46 @@ trust it.
   (backend + frontend). Vault's `10-Execution-Plan/
   06-Phase-5-Testing-Security.md` and `00-Build-Plan-Overview.md`
   reconciled to this reality.
+
+- 2026-09-05 — **Phase 6 (deployment) — live staging, not fully closed.**
+  Done same-day, under real time pressure (a demo was happening later that
+  day), via CLI against Vercel (frontend) + Railway (backend, worker,
+  Postgres) — full topology, env vars, and known gaps in
+  `docs/DEPLOYMENT.md` (non-secret only, per the vault's own instruction).
+  Staging URLs and login are demo-day-sensitive, not repeated here — see
+  that doc.
+
+  Two real bugs hit and fixed while standing this up:
+  - Railway's Postgres plugin's own `DATABASE_URL` variable defaults to a
+    bare `postgresql://` scheme (psycopg2 driver); this repo only has
+    `psycopg` (v3) installed (`ModuleNotFoundError: No module named
+    'psycopg2'` on every migration attempt). Fixed by building
+    `AEGIS_DATABASE_URL` from the plugin's individual `PGUSER`/
+    `PGPASSWORD`/`PGHOST`/`PGPORT`/`PGDATABASE` vars with the
+    `postgresql+psycopg://` scheme instead of referencing `DATABASE_URL`
+    directly.
+  - A deploy race (two redeploys triggered close together by consecutive
+    `railway variables --set` calls) left the database with tables
+    created but no `alembic_version` row, so every fresh container
+    crash-looped on `DuplicateTable` trying to migrate from scratch.
+    Fixed by deleting and recreating the Postgres service (empty at the
+    time — no real data lost) rather than hand-editing the schema; a
+    clean single redeploy then migrated correctly.
+
+  **Not done, tracked as real gaps in `docs/DEPLOYMENT.md`:** no CI deploy
+  job gated on `main` passing (the vault's own Phase 6 task), no GitHub
+  integration on either platform (every deploy so far is a manual CLI
+  invocation — Vercel's GitHub link failed on a missing login connection;
+  Railway was never connected either), the worker service's Custom Start
+  Command (dashboard-only, no CLI equivalent) didn't visibly take effect
+  after being set — it currently runs the full API image with its own
+  inline worker thread instead of the narrower standalone worker process,
+  which **does** work (verified via a full login → trace → result smoke
+  test against the deployed stack) but isn't the intended minimal
+  topology.
+
+  Also seeded 5 realistic demo cases (fictional `is_demo=true` complaints,
+  varied statuses) directly via the deployed API for the same-day demo —
+  see `docs/DEPLOYMENT.md` "Demo data". Not a committed seed script; a
+  one-off. Worth promoting to `backend/scripts/seed_demo_cases.py` if this
+  becomes a recurring need before future demos.
