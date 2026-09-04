@@ -27,11 +27,22 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:5173"]
 
     # --- trace engine wiring -------------------------------------------------
-    # Only "fixture" today; "live" (TronGrid) arrives in execution-plan Phase 4.5.
-    provider_mode: Literal["fixture"] = "fixture"
+    # fixture: always the recorded synthetic fixture (offline, deterministic).
+    # live: always TronGridProvider (requires trongrid_api_key).
+    # auto: live iff trongrid_api_key is set and the chain is Tron, else fixture.
+    provider_mode: Literal["fixture", "live", "auto"] = "fixture"
     fixture_id: str = "growjoy_tron_trc20"
     # Label packs applied to every trace (attribution). Empty = no attribution.
     label_packs: list[str] = ["aegis_demo_pack"]
+
+    # --- live provider (Phase 4.5) ---------------------------------------
+    # TronGrid API key. Never logged, never placed in a ProviderSnapshot's
+    # request_params, never in an error message — see docs/PROVIDERS.md.
+    trongrid_api_key: str | None = None
+    # On-disk response cache (endpoint+params -> raw JSON). None disables
+    # caching — every call hits the network. A rehearsal/demo run against the
+    # same addresses makes zero live calls once this is warm.
+    provider_cache_dir: str | None = "./.provider-cache"
 
     # --- persistence -------------------------------------------------------
     # SQLAlchemy URL. Local dev default is a file SQLite DB; Compose sets

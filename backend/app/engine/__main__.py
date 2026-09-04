@@ -3,16 +3,21 @@
     python -m app.engine trace-fixture --fixture growjoy_tron_trc20
     python -m app.engine trace-fixture --labels aegis_demo_pack
     python -m app.engine trace-fixture --no-labels --json > investigation.json
+
+    # Live (Phase 4.5) — requires AEGIS_TRONGRID_API_KEY:
+    python -m app.engine trace-fixture --live --address <real-tron-address>
 """
 
 from __future__ import annotations
 
 import argparse
+import os
 from collections.abc import Sequence
 
 from app.engine.canonical import canonical_json
+from app.engine.errors import ConfigurationError
 from app.engine.labels import LabelSet
-from app.engine.providers import FixtureProvider
+from app.engine.providers import FixtureProvider, get_provider
 from app.engine.records import Chain
 from app.engine.tron import usdt_trc20
 from app.engine.walk import forward_trace
@@ -27,11 +32,28 @@ def main(argv: Sequence[str] | None = None) -> int:
     trace.add_argument("--labels", default="aegis_demo_pack", help="label pack id")
     trace.add_argument("--no-labels", action="store_true", help="run without attribution")
     trace.add_argument("--json", action="store_true", help="print canonical Investigation JSON")
+    trace.add_argument(
+        "--live", action="store_true",
+        help="trace live Tron mainnet via TronGrid instead of the fixture "
+             "(requires AEGIS_TRONGRID_API_KEY and --address)",
+    )
     args = parser.parse_args(argv)
 
     if args.cmd == "trace-fixture":
-        provider = FixtureProvider(args.fixture)
-        address = args.address or provider.seed_address
+        if args.live:
+            if not args.address:
+                parser.error("--live requires --address (there is no fixture seed to fall back to)")
+            api_key = os.environ.get("AEGIS_TRONGRID_API_KEY")
+            if not api_key:
+                raise ConfigurationError("AEGIS_TRONGRID_API_KEY is not set")
+            cache_dir = os.environ.get("AEGIS_PROVIDER_CACHE_DIR", "./.provider-cache")
+            provider = get_provider(
+                Chain.TRON, "live", api_key=api_key, cache_dir=cache_dir
+            )
+            address = args.address
+        else:
+            provider = FixtureProvider(args.fixture)
+            address = args.address or provider.seed_address
         labels = None if args.no_labels else LabelSet.from_pack_ids([args.labels])
         investigation = forward_trace(
             address, chain=Chain.TRON, asset=usdt_trc20(), provider=provider, labels=labels

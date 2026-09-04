@@ -1,0 +1,23 @@
+# Extends gitleaks' default ruleset (secret-scan job in .github/workflows/ci.yml)
+# with one Aegis-specific rule: a TronGrid API key committed as a literal.
+#
+# TronGrid keys are UUIDs, which gitleaks' default generic-api-key rule can
+# already catch when assigned to a suggestively-named variable — this rule
+# narrows specifically on the header/env-var name so it fires even outside
+# that pattern (e.g. inside a docker-compose.yml or a shell one-liner).
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "aegis-trongrid-api-key"
+description = "TronGrid API key (TRON-PRO-API-KEY / AEGIS_TRONGRID_API_KEY)"
+regex = '''(?i)(TRON-PRO-API-KEY|AEGIS_TRONGRID_API_KEY)['"\s:=]+[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'''
+tags = ["key", "aegis", "trongrid"]
+
+[allowlist]
+description = "docs/example files that only ever show the env var name, never a value"
+paths = [
+  '''backend/\.env\.example''',
+  '''docs/PROVIDERS\.md''',
+]
