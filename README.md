@@ -116,7 +116,7 @@ final number.
 Every result is deterministically hashed: canonical JSON serialization with
 strict rules (sorted keys, fixed-point decimals, no floats, UTC timestamps)
 feeds a `schema_version:sha256` hash (`app/engine/canonical.py`). The same
-cached input always produces the same result hash — an investigator (or a
+cached input always produces the same result hash. An investigator (or a
 court) can verify a report wasn't altered after the fact.
 
 ### 5. Chain data — fixture vs. live
