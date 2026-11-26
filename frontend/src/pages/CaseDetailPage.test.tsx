@@ -31,7 +31,9 @@ async function renderAndType() {
   });
 }
 
-beforeEach(() => addComplaint.mockReset());
+beforeEach(() => {
+  addComplaint.mockReset();
+});
 
 it("attaches text only once the officer declares it fictional", async () => {
   addComplaint.mockResolvedValue({});
