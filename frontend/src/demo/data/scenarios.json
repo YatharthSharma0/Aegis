@@ -1,0 +1,4974 @@
+[
+ {
+  "description": "A mixer peel on the way to a labelled exchange hot wallet.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65212940,
+     "from": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC",
+     "taint": "1.000000000000",
+     "timestamp": "2025-08-15T03:00:00Z",
+     "to": "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo",
+     "tx_hash": "0x2b94ea9f89e46b047fe4cdfb5c8d26d39aa9884300f24e05d752f96a9b637f81",
+     "value": "1499.500000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212950,
+     "from": "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo",
+     "taint": "1.000000000000",
+     "timestamp": "2025-08-15T03:01:00Z",
+     "to": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+     "tx_hash": "0x65ed022128cb0a70fe9b335a8b248d72d9e852bd139abb929c20873f0d75020a",
+     "value": "1499.500000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212960,
+     "from": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+     "taint": "1.000000000000",
+     "timestamp": "2025-08-15T03:03:00Z",
+     "to": "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY",
+     "tx_hash": "0x72a6e1624cac336f8c28ccd8b6b2d08838c95973161ea850c36ea44f418ddf19",
+     "value": "1400.000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212961,
+     "from": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+     "taint": "1.000000000000",
+     "timestamp": "2025-08-15T03:04:00Z",
+     "to": "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW",
+     "tx_hash": "0x466dbb49e9e37ea26ccfc737ca11b8aa3412cfe71a5b3b0c2cd86c400b014534",
+     "value": "99.500000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212980,
+     "from": "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY",
+     "taint": "0.636363636364",
+     "timestamp": "2025-08-15T03:05:00Z",
+     "to": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+     "tx_hash": "0x43c47f56d5fd7ef7a4c1275b5426cdd950cdd9d157d51a1ce10c3cc708faf41a",
+     "value": "2200.000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65213000,
+     "from": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+     "taint": "0.636363636364",
+     "timestamp": "2025-08-15T03:06:00Z",
+     "to": "TVu3e6F8xVwuXiqyfgMyGenLMTKBy69YXH",
+     "tx_hash": "0x4384ee5796969e7807963baf034fcda592993fcf78a7dfb0a58eaee5db85f1d9",
+     "value": "2200.000000"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation",
+      "peel_chain"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW",
+     "kind": "mixer",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TVu3e6F8xVwuXiqyfgMyGenLMTKBy69YXH",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-task_scam"
+  },
+  "key": "task_scam",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-16T03:00:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:9a00705e215ea4e5107f9bd618071b624f4f6090a35bec9ade6904a731c7dcc6",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:9a00705e215ea4e5107f9bd618071b624f4f6090a35bec9ade6904a731c7dcc6 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "latest_block",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "7774c5424d6bf839672c778c3a499ff99266f459f5213e52215f39469bdfb82c",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "8ac7ada5b30a4bd3f2a4cdcaf83c45c7448512abb50d1e3933e59c00afe3fc3d",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}/transactions/trc20",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "b4793b5aa7c2fc3fe842c4bf8a0a2562dedefb78eb1d45a292dc56a5f9f236d9",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "8cfe76ee084109a9c08a63edaa59fb77371bc25783999a60eb3b30dd6cff56d0",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}/transactions/trc20",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 2,
+     "response_checksum": "82f85577a2ff3f47e7fedfbb27874da8f359a898173a2183ddb884673cc9fc0f",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "96ca2ec5fbb18e377a7f887450939e93ad57cc711f187f4f58a777ae7794c334",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}/transactions/trc20",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 3,
+     "response_checksum": "897be42ac304ff936c32fa141276dbab22efbfc049c7749e8e29dafc2aa78e97",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "651590ef3262c9c6297fd6eb44e17cff6495ec325b8725d17ac8e36086e9f9e3",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}/transactions/trc20",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 3,
+     "response_checksum": "8c2f4d857b3159d9dd085116c0f11791b371d35825613de4e21ef89209829ed6",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "5d36e9f10e84ed8c746dc7409c412f0255f99af3b970c927dca095af2be1798d",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}/transactions/trc20",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "47c17deb57bd266619d172c0a4a2ef4d6a561b630ef48bdc4eb534d5855f68f5",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "accf903d0a90e26c0a1f3ed043756947cf6a45b20b212d34d990b00ef60635ff",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}/transactions/trc20",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 2,
+     "response_checksum": "2374aa2207a4ed4d8035bf519044181356447115b1daa6cbf257c986ff94e472",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "b38c692d955b2bd7881be8d1f712ffcb77b36034c825af35124779a44c7a11d0",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    },
+    {
+     "captured_at": "2026-08-20T00:00:00+00:00",
+     "endpoint": "/v1/accounts/{address}/transactions/trc20",
+     "notes": "synthetic fixture replay",
+     "provider": "fixture:trongrid",
+     "record_count": 1,
+     "response_checksum": "a9ca8618e08cdb44477884d93d66aa80f1fe2eecb80b9eed35601b466bed90f0",
+     "tip_block": {
+      "hash": "0xcc95c8109ac4f5df02040dc65b6bf88a3a04b88fb022d72d1010191c455f8d68",
+      "height": 65213001
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65212940,
+     "from": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC",
+     "provider": "fixture:trongrid",
+     "snapshot_id": "growjoy_tron_trc20:trc20:TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+     "step": 1,
+     "timestamp": "2025-08-15T03:00:00+00:00",
+     "to": "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo",
+     "tx_hash": "0x2b94ea9f89e46b047fe4cdfb5c8d26d39aa9884300f24e05d752f96a9b637f81",
+     "value": "1499.500000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212950,
+     "from": "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo",
+     "provider": "fixture:trongrid",
+     "snapshot_id": "growjoy_tron_trc20:trc20:TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+     "step": 2,
+     "timestamp": "2025-08-15T03:01:00+00:00",
+     "to": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+     "tx_hash": "0x65ed022128cb0a70fe9b335a8b248d72d9e852bd139abb929c20873f0d75020a",
+     "value": "1499.500000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212960,
+     "from": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+     "provider": "fixture:trongrid",
+     "snapshot_id": "growjoy_tron_trc20:trc20:TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+     "step": 3,
+     "timestamp": "2025-08-15T03:03:00+00:00",
+     "to": "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY",
+     "tx_hash": "0x72a6e1624cac336f8c28ccd8b6b2d08838c95973161ea850c36ea44f418ddf19",
+     "value": "1400.000000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212961,
+     "from": "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ",
+     "provider": "fixture:trongrid",
+     "snapshot_id": "growjoy_tron_trc20:trc20:TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+     "step": 4,
+     "timestamp": "2025-08-15T03:04:00+00:00",
+     "to": "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW",
+     "tx_hash": "0x466dbb49e9e37ea26ccfc737ca11b8aa3412cfe71a5b3b0c2cd86c400b014534",
+     "value": "99.500000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65212980,
+     "from": "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY",
+     "provider": "fixture:trongrid",
+     "snapshot_id": "growjoy_tron_trc20:trc20:TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+     "step": 5,
+     "timestamp": "2025-08-15T03:05:00+00:00",
+     "to": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+     "tx_hash": "0x43c47f56d5fd7ef7a4c1275b5426cdd950cdd9d157d51a1ce10c3cc708faf41a",
+     "value": "2200.000000",
+     "victim_taint": "0.636363636364"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65213000,
+     "from": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+     "provider": "fixture:trongrid",
+     "snapshot_id": "growjoy_tron_trc20:trc20:THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+     "step": 6,
+     "timestamp": "2025-08-15T03:06:00+00:00",
+     "to": "TVu3e6F8xVwuXiqyfgMyGenLMTKBy69YXH",
+     "tx_hash": "0x4384ee5796969e7807963baf034fcda592993fcf78a7dfb0a58eaee5db85f1d9",
+     "value": "2200.000000",
+     "victim_taint": "0.636363636364"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65213001
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-16T03:00:04+00:00",
+    "generated_by": null,
+    "partial_reason": null,
+    "reported_address": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC",
+    "result_hash": "aegis.engine.v1:9a00705e215ea4e5107f9bd618071b624f4f6090a35bec9ade6904a731c7dcc6",
+    "status": "done",
+    "trace_id": "demo-task_scam"
+   },
+   "officer_summary": "Traced 6 tainted transfer(s) over 5 hop(s) from TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC; trail-lost: mixer_like. Nearest off-ramp: DemoExchange (dataset_confirmed, confidence 0.4784).",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [
+    {
+     "address": "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW",
+     "amount": "99.500000",
+     "asset": "USDT",
+     "reason": "mixer_like"
+    }
+   ],
+   "typologies": [
+    {
+     "addresses": [
+      "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ"
+     ],
+     "model": "rule",
+     "name": "peel_chain",
+     "score": "0.93"
+    },
+    {
+     "addresses": [
+      "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    }
+   ],
+   "vasp_candidates": [
+    {
+     "confidence": "0.4784",
+     "confidence_formula": {
+      "raw_score": "0.478385",
+      "score": "0.4784",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "1",
+       "path_directness": "0.1667",
+       "source_score": "1.0000",
+       "taint_retained": "0.9336"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+     "evidence": [
+      {
+       "block_hash": "0x6b21059f99fad79df1315c9588cb07a89ea980255d7b7dbfbfdebf2b6775960c",
+       "block_height": 65213000,
+       "provider": "fixture:trongrid",
+       "snapshot_id": "growjoy_tron_trc20:trc20:THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+       "tx_hash": "0x4384ee5796969e7807963baf034fcda592993fcf78a7dfb0a58eaee5db85f1d9"
+      }
+     ],
+     "hops_from_seed": 5,
+     "label": null,
+     "name": "DemoExchange",
+     "rank": 1,
+     "reaching_paths": 1,
+     "signals": [],
+     "source": "aegis_demo_pack",
+     "tier": "dataset_confirmed",
+     "verified": true
+    }
+   ]
+  },
+  "seed": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC",
+  "title": "Part-time task scam",
+  "trace": {
+   "block_heights": {
+    "tron": 65213001
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-16T03:00:00Z",
+   "error": null,
+   "finished_at": "2026-08-16T03:00:04Z",
+   "result": {
+    "summary": "Traced 6 tainted transfer(s) over 5 hop(s) from TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC; trail-lost: mixer_like. Nearest off-ramp: DemoExchange (dataset_confirmed, confidence 0.4784).",
+    "trail_events": [
+     {
+      "address": "TBhz6rKUfXj9nqXbRmcrzpJ4stfYaVr4YW",
+      "amount": "99.500000",
+      "asset_symbol": "USDT",
+      "reason": "mixer_like",
+      "timestamp": null
+     }
+    ],
+    "typologies": [
+     {
+      "addresses": [
+       "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TAZz7ZUemxtZKhTx6ePYLBnkdPry9JYkNQ"
+      ],
+      "model": "rule",
+      "name": "peel_chain",
+      "score": "0.93"
+     },
+     {
+      "addresses": [
+       "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TJtKmgLJNN88VkHwrxhFvtMoojVp5GxAEo"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TY6LupNcmNCdsTZrtio8P1XAfwFgekLLbY"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     }
+    ],
+    "vasp_candidates": [
+     {
+      "confidence": "0.4784",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "1",
+       "path_directness": "0.1667",
+       "source_score": "1.0000",
+       "taint_retained": "0.9336"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7",
+      "evidence": [
+       {
+        "block_hash": "0x6b21059f99fad79df1315c9588cb07a89ea980255d7b7dbfbfdebf2b6775960c",
+        "block_height": 65213000,
+        "captured_at": "2026-08-20T00:00:00Z",
+        "provider": "fixture:trongrid",
+        "snapshot_id": "growjoy_tron_trc20:trc20:THbKGfX2GzkmJ74vHBQ92GxXQZVUida4y7:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t:0",
+        "tx_hash": "0x4384ee5796969e7807963baf034fcda592993fcf78a7dfb0a58eaee5db85f1d9"
+       }
+      ],
+      "hops_from_seed": 5,
+      "label": null,
+      "name": "DemoExchange",
+      "rank": 1,
+      "reaching_paths": 1,
+      "signals": [],
+      "source": "aegis_demo_pack",
+      "tier": "dataset_confirmed",
+      "verified": true
+     }
+    ]
+   },
+   "result_hash": "aegis.engine.v1:9a00705e215ea4e5107f9bd618071b624f4f6090a35bec9ade6904a731c7dcc6",
+   "start_address": "TK2Weg3fYewPVRw9vA8AbxFpZhcemD6dyC",
+   "started_at": "2026-08-16T03:00:00Z",
+   "status": "done",
+   "trace_id": "demo-task_scam"
+  }
+ },
+ {
+  "description": "Layered through three wallets with a side peel, into a labelled exchange.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-03T05:30:00Z",
+     "to": "TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7",
+     "tx_hash": "0x96faa3616c0c6070f1a46c9a514d15cc1767ae0c30b779d65c72c4362a508e16",
+     "value": "25000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300120,
+     "from": "TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-03T05:36:00Z",
+     "to": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "tx_hash": "0x05d172e9f60815682fdca261539149ff8a0b4317a762a1e666e13b003480b5b5",
+     "value": "25000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300220,
+     "from": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-03T05:41:00Z",
+     "to": "TR69dvShzacBqfXASQyjHFxH12JiMJHG5f",
+     "tx_hash": "0xc9bb0a037b40b51a292f72c138176345a482fb0299d54c99c0106cd8af454cc4",
+     "value": "23200"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300240,
+     "from": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-03T05:42:00Z",
+     "to": "THZoyNwarrGNSseHUxR7v4ZZYhna471wfX",
+     "tx_hash": "0xa8e37d400bd381c487c2da75e0d16f58910ac434dbf4d573f58abcce2b2d48e4",
+     "value": "1800"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300380,
+     "from": "TR69dvShzacBqfXASQyjHFxH12JiMJHG5f",
+     "taint": "0.773333333333",
+     "timestamp": "2026-08-03T05:49:00Z",
+     "to": "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+     "tx_hash": "0x37bb2046637957d1cef922e48f1cf9cf0c8f0c262bca9d8bbab48c498e07658e",
+     "value": "30000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300620,
+     "from": "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+     "taint": "0.773333333333",
+     "timestamp": "2026-08-03T06:01:00Z",
+     "to": "TSkoUriGzQ6bEfmQkiFRCvxYWweaTrVRyT",
+     "tx_hash": "0x23232bd68439f16ee71a9648a0167ba2bc2adbdafe5c2244e58624afafa5e3da",
+     "value": "30000"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation",
+      "peel_chain"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TR69dvShzacBqfXASQyjHFxH12JiMJHG5f",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "THZoyNwarrGNSseHUxR7v4ZZYhna471wfX",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TSkoUriGzQ6bEfmQkiFRCvxYWweaTrVRyT",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-investment"
+  },
+  "key": "investment",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-04T05:30:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/tip",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "1f8fc389f524dba17e1d8142565fa2694bbc7ce22955d9d9b037e5f0b4e256ca",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "6e5731580d29d2407eeb051a837e61c3cc9e5e74a3173b505dcf45772b69de73",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "d6d608294e2a782839b67abd934bf4c828e4b5aabaac1667e6adcd4daae6f497",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "dac70f32fd7a756a95a568965b9bcaac5890bf3c49990a0261dbe0f684110115",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "0ffe1a624fd47488abb02985f5b086268f29807c83601282041a2b564a403711",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "51a5fdce18f1b0bb62849a2874b186e68b4e5e7554310bc5cbac9892999a4a3c",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 3,
+     "response_checksum": "f9f4f97b3be8a775ecaeded3d5bc4e991acaf1038115699494e299a20b5e0007",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "003b0d986a7dc4198f58ec723a300a039100990e5919a311251bb5c03ff29460",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 3,
+     "response_checksum": "dc22ddb1cf2fb5b2f94a76745e54b87d4b12a14aa8e2da274275c14243796edf",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "9ab7fc18bf806db30297b41a73b1404ea1d0a750209bacab662c7a43000a51df",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "efedcc20414123701cc2bd86c8600cc71e121aa0a1749f9bc53b94b797e22ea7",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "d57e71f40e4315f6fdddec1c3f4d8dae033e12dc1258483e68324e5d0bcd6ef3",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "45d1b1430df572d429aea93a539abaddcf2ef667ac531b0c102666ff2ddcc777",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "89056343b56c30301ff65b914a2fa8a93f4ca266231dba1186a1cb15f653d5fa",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    },
+    {
+     "captured_at": "2026-08-04T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "bd904d20874bea88acc3bc4bc9806b03d0dba46e367f5d7636244cd66d501c3c",
+     "tip_block": {
+      "hash": "0xe06231d6f77e25bb6c4c658a07e68ad7967853d7186889fd22bd5cd9e8a9dba7",
+      "height": 65300720
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:investment:trc20:TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
+     "step": 1,
+     "timestamp": "2026-08-03T05:30:00+00:00",
+     "to": "TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7",
+     "tx_hash": "0x96faa3616c0c6070f1a46c9a514d15cc1767ae0c30b779d65c72c4362a508e16",
+     "value": "25000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300120,
+     "from": "TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:investment:trc20:TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7",
+     "step": 2,
+     "timestamp": "2026-08-03T05:36:00+00:00",
+     "to": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "tx_hash": "0x05d172e9f60815682fdca261539149ff8a0b4317a762a1e666e13b003480b5b5",
+     "value": "25000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300220,
+     "from": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:investment:trc20:THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "step": 3,
+     "timestamp": "2026-08-03T05:41:00+00:00",
+     "to": "TR69dvShzacBqfXASQyjHFxH12JiMJHG5f",
+     "tx_hash": "0xc9bb0a037b40b51a292f72c138176345a482fb0299d54c99c0106cd8af454cc4",
+     "value": "23200",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300240,
+     "from": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:investment:trc20:THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "step": 4,
+     "timestamp": "2026-08-03T05:42:00+00:00",
+     "to": "THZoyNwarrGNSseHUxR7v4ZZYhna471wfX",
+     "tx_hash": "0xa8e37d400bd381c487c2da75e0d16f58910ac434dbf4d573f58abcce2b2d48e4",
+     "value": "1800",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300380,
+     "from": "TR69dvShzacBqfXASQyjHFxH12JiMJHG5f",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:investment:trc20:TR69dvShzacBqfXASQyjHFxH12JiMJHG5f",
+     "step": 5,
+     "timestamp": "2026-08-03T05:49:00+00:00",
+     "to": "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+     "tx_hash": "0x37bb2046637957d1cef922e48f1cf9cf0c8f0c262bca9d8bbab48c498e07658e",
+     "value": "30000",
+     "victim_taint": "0.773333333333"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300620,
+     "from": "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:investment:trc20:TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+     "step": 6,
+     "timestamp": "2026-08-03T06:01:00+00:00",
+     "to": "TSkoUriGzQ6bEfmQkiFRCvxYWweaTrVRyT",
+     "tx_hash": "0x23232bd68439f16ee71a9648a0167ba2bc2adbdafe5c2244e58624afafa5e3da",
+     "value": "30000",
+     "victim_taint": "0.773333333333"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65300720
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-04T05:30:04+00:00",
+    "generated_by": null,
+    "partial_reason": null,
+    "reported_address": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
+    "result_hash": "aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f",
+    "status": "done",
+    "trace_id": "demo-investment"
+   },
+   "officer_summary": "Traced 6 tainted transfer(s) over 5 hop(s) from TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx. Nearest off-ramp: SampleCoin Exchange (dataset_confirmed, confidence 0.7273).",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [],
+   "typologies": [
+    {
+     "addresses": [
+      "TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P"
+     ],
+     "model": "rule",
+     "name": "peel_chain",
+     "score": "0.93"
+    },
+    {
+     "addresses": [
+      "TR69dvShzacBqfXASQyjHFxH12JiMJHG5f"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    }
+   ],
+   "vasp_candidates": [
+    {
+     "confidence": "0.7273",
+     "confidence_formula": {
+      "raw_score": "0.727265",
+      "score": "0.7273",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.1667",
+       "source_score": "1.0000",
+       "taint_retained": "0.9280"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+     "evidence": [
+      {
+       "block_hash": "0xddb27422b5d5b8fa5c35a499b31b9a38e5242620f7ecc3c6e70e052c34d996d8",
+       "block_height": 65300620,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:investment:trc20:TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+       "tx_hash": "0x23232bd68439f16ee71a9648a0167ba2bc2adbdafe5c2244e58624afafa5e3da"
+      }
+     ],
+     "hops_from_seed": 5,
+     "label": null,
+     "name": "SampleCoin Exchange",
+     "rank": 1,
+     "reaching_paths": 1,
+     "signals": [],
+     "source": "synthetic_demo_labels",
+     "tier": "dataset_confirmed",
+     "verified": true
+    },
+    {
+     "confidence": "0.1186",
+     "confidence_formula": {
+      "raw_score": "0.118560",
+      "score": "0.1186",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2500",
+       "source_score": "0.0000",
+       "taint_retained": "0.0720"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "evidence": [
+      {
+       "block_hash": "0x2ecdeb515d0d054ef285b6272fe8f9b086b012a7ffa5672b1ea040c80ab3c90b",
+       "block_height": 65300240,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:investment:trc20:THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+       "tx_hash": "0xa8e37d400bd381c487c2da75e0d16f58910ac434dbf4d573f58abcce2b2d48e4"
+      }
+     ],
+     "hops_from_seed": 3,
+     "label": "No VASP identified within trace bounds",
+     "name": null,
+     "rank": 2,
+     "reaching_paths": 1,
+     "signals": [],
+     "source": "heuristic",
+     "tier": "unknown",
+     "verified": false
+    }
+   ]
+  },
+  "seed": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
+  "title": "Fake investment platform",
+  "trace": {
+   "block_heights": {
+    "tron": 65300720
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-04T05:30:00Z",
+   "error": null,
+   "finished_at": "2026-08-04T05:30:04Z",
+   "result": {
+    "summary": "Traced 6 tainted transfer(s) over 5 hop(s) from TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx. Nearest off-ramp: SampleCoin Exchange (dataset_confirmed, confidence 0.7273).",
+    "trail_events": [],
+    "typologies": [
+     {
+      "addresses": [
+       "TEtR4UzjUiiLnby8WzPx9Q7bfnz889pur7"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P"
+      ],
+      "model": "rule",
+      "name": "peel_chain",
+      "score": "0.93"
+     },
+     {
+      "addresses": [
+       "TR69dvShzacBqfXASQyjHFxH12JiMJHG5f"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     }
+    ],
+    "vasp_candidates": [
+     {
+      "confidence": "0.7273",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.1667",
+       "source_score": "1.0000",
+       "taint_retained": "0.9280"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+      "evidence": [
+       {
+        "block_hash": "0xddb27422b5d5b8fa5c35a499b31b9a38e5242620f7ecc3c6e70e052c34d996d8",
+        "block_height": 65300620,
+        "captured_at": "2026-08-04T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:investment:trc20:TXGqDD6azf5LUifa3R5T3crcZksK7urvSx",
+        "tx_hash": "0x23232bd68439f16ee71a9648a0167ba2bc2adbdafe5c2244e58624afafa5e3da"
+       }
+      ],
+      "hops_from_seed": 5,
+      "label": null,
+      "name": "SampleCoin Exchange",
+      "rank": 1,
+      "reaching_paths": 1,
+      "signals": [],
+      "source": "synthetic_demo_labels",
+      "tier": "dataset_confirmed",
+      "verified": true
+     },
+     {
+      "confidence": "0.1186",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2500",
+       "source_score": "0.0000",
+       "taint_retained": "0.0720"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+      "evidence": [
+       {
+        "block_hash": "0x2ecdeb515d0d054ef285b6272fe8f9b086b012a7ffa5672b1ea040c80ab3c90b",
+        "block_height": 65300240,
+        "captured_at": "2026-08-04T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:investment:trc20:THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+        "tx_hash": "0xa8e37d400bd381c487c2da75e0d16f58910ac434dbf4d573f58abcce2b2d48e4"
+       }
+      ],
+      "hops_from_seed": 3,
+      "label": "No VASP identified within trace bounds",
+      "name": null,
+      "rank": 2,
+      "reaching_paths": 1,
+      "signals": [],
+      "source": "heuristic",
+      "tier": "unknown",
+      "verified": false
+     }
+    ]
+   },
+   "result_hash": "aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f",
+   "start_address": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
+   "started_at": "2026-08-04T05:30:00Z",
+   "status": "done",
+   "trace_id": "demo-investment"
+  }
+ },
+ {
+  "description": "Wide fan-out to mule wallets, regrouped and cashed out at two exchanges.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65300020,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:31:00Z",
+     "to": "TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L",
+     "tx_hash": "0x7054a181d1dacaa8d3837664ae60e35240bbf8a41eaee5622f86356f3d785065",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300040,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:32:00Z",
+     "to": "TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz",
+     "tx_hash": "0xd0a1d7df0369a3b7e584b11df72bbeae0992e51b70ebac0b5f6986abd3f14a8d",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300060,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:33:00Z",
+     "to": "TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP",
+     "tx_hash": "0x52a03531d5d3bc57138a86a0a9efeebad243797a1977002942ffbb074c0e3c1e",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300080,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:34:00Z",
+     "to": "TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF",
+     "tx_hash": "0xa4383d5855f0d8d2ba251dbda4f03d8f8b3da3064615991455227c259f15c920",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300100,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:35:00Z",
+     "to": "TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR",
+     "tx_hash": "0xe964c698f9870009f4fd2ef887a2eaf496b94fd3b168799756204259f9ddf18f",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300120,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:36:00Z",
+     "to": "TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq",
+     "tx_hash": "0x74c84cce1a45db4f09b5f6e13967ca868c6bd764f3827c183751ce84e5cca0e0",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300140,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:37:00Z",
+     "to": "TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64",
+     "tx_hash": "0xdb5b3f71f111102e1f391e08347f6298d00ea9b9e44601e89f5684df773a2683",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300160,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:38:00Z",
+     "to": "TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by",
+     "tx_hash": "0xe9c42507936bc605af1af7b573c6ee81b9eee7771d510f57e1097a8591ebbfd1",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300420,
+     "from": "TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:51:00Z",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0x49a45964ceb12e8757a14cebde6bfd4d0479264f58a1faf43b9f7cbf28d5db7a",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300440,
+     "from": "TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:52:00Z",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0xf10ddee0372f7be8ea4401cbe26487dc4466c3f609f95562edbcc4a81df6b520",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300460,
+     "from": "TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:53:00Z",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0xc12a19618a6154837246ea4515a79b21556dff1922fe1f177b650fe75a6b557d",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300480,
+     "from": "TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:54:00Z",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0x17abdc46a8d9534796c315cd282cd7b947c1dc73fae641a8028b21827eb6052e",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300500,
+     "from": "TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T05:55:00Z",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0x78c2351b3d4b003b17c84e2e48473cc52fc1c215c54c0cce035d99d618208b5b",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300720,
+     "from": "TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T06:06:00Z",
+     "to": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "tx_hash": "0xfd38f95b78c34faa19f33ec605681f8d1feeca933b8b0935f56c6d7791dea14a",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300740,
+     "from": "TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T06:07:00Z",
+     "to": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "tx_hash": "0x70ffeeff6ccf70bc9d7c44004b413881d0481c4ef37f9833f402b58e70e8dcec",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300760,
+     "from": "TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T06:08:00Z",
+     "to": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "tx_hash": "0x2d0cbdbeae97fd486146e4c786c67065a6014f0d04b99a9f90f3ca7604ecac75",
+     "value": "6000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300820,
+     "from": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T06:11:00Z",
+     "to": "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+     "tx_hash": "0x7bbbe7ce2c6b079f9469d6641454bfe9d3082cd8fee2b972b5d105670640bc46",
+     "value": "30000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300880,
+     "from": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T06:14:00Z",
+     "to": "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+     "tx_hash": "0x42060dbc7b8daa54c02bece3aa51f6c9bce387f30e0504ff7cfdca120ad864e1",
+     "value": "18000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65301040,
+     "from": "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T06:22:00Z",
+     "to": "THLmEq7fNKLwivCiMvXj3AQsiXDU1bkS2k",
+     "tx_hash": "0xa9b1763f3a193d4876a4fbc52d65343f1887abd555385ff1af1c52bfd56e0533",
+     "value": "30000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65301140,
+     "from": "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-07T06:27:00Z",
+     "to": "TNZK374TviWG5JqEvmTjZozXcEK6SAemjk",
+     "tx_hash": "0x21b98a45fd81e3374e855a8efbfe6a2e365d2b731d023ba706bccf6695daa129",
+     "value": "18000"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [
+      "rapid_fan_out"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation",
+      "fan_in_consolidation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "THLmEq7fNKLwivCiMvXj3AQsiXDU1bkS2k",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TNZK374TviWG5JqEvmTjZozXcEK6SAemjk",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-digital_arrest"
+  },
+  "key": "digital_arrest",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-08T05:30:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:977fa248dbfaa7677ca8b5c31d538907591a726e521b54afe5ab28da204b1f48",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:977fa248dbfaa7677ca8b5c31d538907591a726e521b54afe5ab28da204b1f48 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/tip",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "a5f1021f413cd7731a51e9053254a993d777d810ac10038e31a70e9a75157c8f",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "b762ca823b2e253c339d6bd0b3326b236b2979b583000768fb97a7486bf8c273",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 8,
+     "response_checksum": "f00dfdb6e8b99d3928ee0a66919ae180b2858fe7f14e1ce4f8afdfd76f74fe87",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "454a0ddfca4e82820ab9875dffd60801a6c3999d4feb8e01469ae3b8466b981d",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "8666b4d4f0fc009070b2d030b5b0f6eb97f99da307631831eb98857fd8a164e8",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "9aa189311bee0ef9e92f9fd8de283e04aa73bc83dfd060d6402a451748a1856f",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "eb6663ceb3ac6c6d13ccb65d29cdedde1de05f7c467a29ba157faac43b588d02",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "33f9fd98751539db5b096a963078af750c7a4426cc25ed6098b08ddf18a3021e",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "c97740ed29678077b57da8c36c82394ad7d15d8cc187b160347bb71b171bdcca",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "0f316251350826b64452f72a8ec4582bf42a08880b8b6bdd41e8f863e4249e69",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "502ad643ae0ad4c4f68536ae88465f1a4488a005b09155a2084b9c34941c9c9b",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "805eaf79d819c97c6dbf1851b791cce13f35a5b86cb64ab435d18448b3947ee3",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "7fb640aa7c3f793de8ac9656495f9fb012e160cca1cf940856df217325045842",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "827317f083dc4ff6f6cba88db486380d28fdce0b36ee3c3e09c5674361490e88",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "c2f2631130bb93d53bfd1acb14230afc4629f53d0135b78efa3f3d92eabf1e52",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "bf069d69377038ae8c4305d7b8856689264b61ab35bec53af7ed33f01a5d7f5a",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "4f94d9942ce4cafe63f9008151003e8911b97a673ed2d47f1fd645a779d5e20b",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "9cb3131715c0292f834af33016feb349f812578eecd40d117e2b5ddbcf1cad7e",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "adcd1d160fa18b0c4a4dce6e5469b5d619249580ca962338b1584a2b27b0bebb",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "778e4ff4694a1b0fb3934bc026ba923eaced9d75f387e90a89d718e8988ad76c",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 6,
+     "response_checksum": "ce53cbf33cafba5bc4c2069e0d09d6556e96305df209dae73ee508b90ab71123",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "6e518f1dbb7ce9ae848ca5aff5e292d943a72f279df54beb02175ca73fcc5282",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 4,
+     "response_checksum": "04e772a3cc94276b52ec45213ddc8226892849b25018d6a3cad0a2a8112268ca",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "6ff5bcb2d602d4c58594709fd6350fc4081ae82c7b648dc6b0ba68ed4740f8ec",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "aa8ed89008e1c4d95d7c0c09af1483448b66b8e166fc77e743000214234a9605",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "ddffc6cc16317aaeb88922cedec17a166f0f959d5dc8f34cab014d189c9692e1",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "e1aef6da6fe194e686d17ba82f31da4ae8d467b01ca1d091a02aa0f5e5d58842",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "69a8a1512282dc4c3497e592418cf0610bd3e4cae0751638f9bc85b53b4bd3ec",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "916a5541a08bd75974acc195d9cfd3032b2a864170538ad8be2e32f428dcf16c",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "14626d44f23530b92429d9a904335e1624b3e13241ee5da2597c774fb262b89b",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    },
+    {
+     "captured_at": "2026-08-08T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "aec7fcc70e58c744aa996ad744c4caef6ee47e842c2786c6b7c7fe80f5eebd92",
+     "tip_block": {
+      "hash": "0x116c023738bf6974094b0df6c7d2a29e84b4bbbded342fcfe6a9901e6b1dfcef",
+      "height": 65301240
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65300020,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 1,
+     "timestamp": "2026-08-07T05:31:00+00:00",
+     "to": "TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L",
+     "tx_hash": "0x7054a181d1dacaa8d3837664ae60e35240bbf8a41eaee5622f86356f3d785065",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300040,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 2,
+     "timestamp": "2026-08-07T05:32:00+00:00",
+     "to": "TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz",
+     "tx_hash": "0xd0a1d7df0369a3b7e584b11df72bbeae0992e51b70ebac0b5f6986abd3f14a8d",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300060,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 3,
+     "timestamp": "2026-08-07T05:33:00+00:00",
+     "to": "TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP",
+     "tx_hash": "0x52a03531d5d3bc57138a86a0a9efeebad243797a1977002942ffbb074c0e3c1e",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300080,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 4,
+     "timestamp": "2026-08-07T05:34:00+00:00",
+     "to": "TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF",
+     "tx_hash": "0xa4383d5855f0d8d2ba251dbda4f03d8f8b3da3064615991455227c259f15c920",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300100,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 5,
+     "timestamp": "2026-08-07T05:35:00+00:00",
+     "to": "TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR",
+     "tx_hash": "0xe964c698f9870009f4fd2ef887a2eaf496b94fd3b168799756204259f9ddf18f",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300120,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 6,
+     "timestamp": "2026-08-07T05:36:00+00:00",
+     "to": "TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq",
+     "tx_hash": "0x74c84cce1a45db4f09b5f6e13967ca868c6bd764f3827c183751ce84e5cca0e0",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300140,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 7,
+     "timestamp": "2026-08-07T05:37:00+00:00",
+     "to": "TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64",
+     "tx_hash": "0xdb5b3f71f111102e1f391e08347f6298d00ea9b9e44601e89f5684df773a2683",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300160,
+     "from": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+     "step": 8,
+     "timestamp": "2026-08-07T05:38:00+00:00",
+     "to": "TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by",
+     "tx_hash": "0xe9c42507936bc605af1af7b573c6ee81b9eee7771d510f57e1097a8591ebbfd1",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300420,
+     "from": "TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L",
+     "step": 9,
+     "timestamp": "2026-08-07T05:51:00+00:00",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0x49a45964ceb12e8757a14cebde6bfd4d0479264f58a1faf43b9f7cbf28d5db7a",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300440,
+     "from": "TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz",
+     "step": 10,
+     "timestamp": "2026-08-07T05:52:00+00:00",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0xf10ddee0372f7be8ea4401cbe26487dc4466c3f609f95562edbcc4a81df6b520",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300460,
+     "from": "TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP",
+     "step": 11,
+     "timestamp": "2026-08-07T05:53:00+00:00",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0xc12a19618a6154837246ea4515a79b21556dff1922fe1f177b650fe75a6b557d",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300480,
+     "from": "TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF",
+     "step": 12,
+     "timestamp": "2026-08-07T05:54:00+00:00",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0x17abdc46a8d9534796c315cd282cd7b947c1dc73fae641a8028b21827eb6052e",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300500,
+     "from": "TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR",
+     "step": 13,
+     "timestamp": "2026-08-07T05:55:00+00:00",
+     "to": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "tx_hash": "0x78c2351b3d4b003b17c84e2e48473cc52fc1c215c54c0cce035d99d618208b5b",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300720,
+     "from": "TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq",
+     "step": 14,
+     "timestamp": "2026-08-07T06:06:00+00:00",
+     "to": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "tx_hash": "0xfd38f95b78c34faa19f33ec605681f8d1feeca933b8b0935f56c6d7791dea14a",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300740,
+     "from": "TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64",
+     "step": 15,
+     "timestamp": "2026-08-07T06:07:00+00:00",
+     "to": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "tx_hash": "0x70ffeeff6ccf70bc9d7c44004b413881d0481c4ef37f9833f402b58e70e8dcec",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300760,
+     "from": "TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by",
+     "step": 16,
+     "timestamp": "2026-08-07T06:08:00+00:00",
+     "to": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "tx_hash": "0x2d0cbdbeae97fd486146e4c786c67065a6014f0d04b99a9f90f3ca7604ecac75",
+     "value": "6000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300820,
+     "from": "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4",
+     "step": 17,
+     "timestamp": "2026-08-07T06:11:00+00:00",
+     "to": "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+     "tx_hash": "0x7bbbe7ce2c6b079f9469d6641454bfe9d3082cd8fee2b972b5d105670640bc46",
+     "value": "30000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300880,
+     "from": "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5",
+     "step": 18,
+     "timestamp": "2026-08-07T06:14:00+00:00",
+     "to": "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+     "tx_hash": "0x42060dbc7b8daa54c02bece3aa51f6c9bce387f30e0504ff7cfdca120ad864e1",
+     "value": "18000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65301040,
+     "from": "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+     "step": 19,
+     "timestamp": "2026-08-07T06:22:00+00:00",
+     "to": "THLmEq7fNKLwivCiMvXj3AQsiXDU1bkS2k",
+     "tx_hash": "0xa9b1763f3a193d4876a4fbc52d65343f1887abd555385ff1af1c52bfd56e0533",
+     "value": "30000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65301140,
+     "from": "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:digital_arrest:trc20:TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+     "step": 20,
+     "timestamp": "2026-08-07T06:27:00+00:00",
+     "to": "TNZK374TviWG5JqEvmTjZozXcEK6SAemjk",
+     "tx_hash": "0x21b98a45fd81e3374e855a8efbfe6a2e365d2b731d023ba706bccf6695daa129",
+     "value": "18000",
+     "victim_taint": "1.000000000000"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65301240
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-08T05:30:04+00:00",
+    "generated_by": null,
+    "partial_reason": null,
+    "reported_address": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+    "result_hash": "aegis.engine.v1:977fa248dbfaa7677ca8b5c31d538907591a726e521b54afe5ab28da204b1f48",
+    "status": "done",
+    "trace_id": "demo-digital_arrest"
+   },
+   "officer_summary": "Traced 20 tainted transfer(s) over 4 hop(s) from TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv. Nearest off-ramp: DemoExchange (dataset_confirmed, confidence 0.6717).",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [],
+   "typologies": [
+    {
+     "addresses": [
+      "TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4"
+     ],
+     "model": "rule",
+     "name": "fan_in_consolidation",
+     "score": "0.33"
+    },
+    {
+     "addresses": [
+      "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv"
+     ],
+     "model": "rule",
+     "name": "rapid_fan_out",
+     "score": "0.33"
+    },
+    {
+     "addresses": [
+      "TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    },
+    {
+     "addresses": [
+      "TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    }
+   ],
+   "vasp_candidates": [
+    {
+     "confidence": "0.6717",
+     "confidence_formula": {
+      "raw_score": "0.671660",
+      "score": "0.6717",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2000",
+       "source_score": "1.0000",
+       "taint_retained": "0.6250"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+     "evidence": [
+      {
+       "block_hash": "0xbecd9d55bd0822cb254f975bd4112b9d7a28682f1a2aaea8083138bcf596db92",
+       "block_height": 65301040,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:digital_arrest:trc20:TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+       "tx_hash": "0xa9b1763f3a193d4876a4fbc52d65343f1887abd555385ff1af1c52bfd56e0533"
+      }
+     ],
+     "hops_from_seed": 4,
+     "label": null,
+     "name": "DemoExchange",
+     "rank": 1,
+     "reaching_paths": 1,
+     "signals": [],
+     "source": "synthetic_demo_labels",
+     "tier": "dataset_confirmed",
+     "verified": true
+    },
+    {
+     "confidence": "0.6217",
+     "confidence_formula": {
+      "raw_score": "0.621660",
+      "score": "0.6217",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2000",
+       "source_score": "1.0000",
+       "taint_retained": "0.3750"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+     "evidence": [
+      {
+       "block_hash": "0xc209ab76bf7e5c16b3783c7ed1cf07de1bdd756d4299e6c8fa82ef96f3e0ef87",
+       "block_height": 65301140,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:digital_arrest:trc20:TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+       "tx_hash": "0x21b98a45fd81e3374e855a8efbfe6a2e365d2b731d023ba706bccf6695daa129"
+      }
+     ],
+     "hops_from_seed": 4,
+     "label": null,
+     "name": "Example OTC Desk",
+     "rank": 2,
+     "reaching_paths": 1,
+     "signals": [],
+     "source": "synthetic_demo_labels",
+     "tier": "dataset_confirmed",
+     "verified": true
+    }
+   ]
+  },
+  "seed": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+  "title": "Digital-arrest extortion",
+  "trace": {
+   "block_heights": {
+    "tron": 65301240
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-08T05:30:00Z",
+   "error": null,
+   "finished_at": "2026-08-08T05:30:04Z",
+   "result": {
+    "summary": "Traced 20 tainted transfer(s) over 4 hop(s) from TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv. Nearest off-ramp: DemoExchange (dataset_confirmed, confidence 0.6717).",
+    "trail_events": [],
+    "typologies": [
+     {
+      "addresses": [
+       "TAv3j6c9JyuLVZ3QkaRtre6jCvVi15Gw64"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "TGFJFcoRNV63NJRoNUDozCL6js6GRVyzXP"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "TGxTFkcyWjrfKqeKabTgTajoDoubyWx6by"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "THQGr3VfrmH2qXudNe7rSy1dNMPFeoRSp5"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TN3UXkTdp43nwaJWBRFZe3YX3cdktRkf3L"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "TPUUEU1kJWCgC2tWvBGS3TKW1i6nkhPnxF"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "TSpqwkqAueZaNSLysrDH4nDQQkBhepGCP4"
+      ],
+      "model": "rule",
+      "name": "fan_in_consolidation",
+      "score": "0.33"
+     },
+     {
+      "addresses": [
+       "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv"
+      ],
+      "model": "rule",
+      "name": "rapid_fan_out",
+      "score": "0.33"
+     },
+     {
+      "addresses": [
+       "TUmEgpDurERoXDTKb2JeeAueUY2H7cXuWz"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TVbdvJrk4rWrqjHvjK6EzRUrrxvNYPEZnR"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     },
+     {
+      "addresses": [
+       "TYU697gFfBwtVGKNM9aiMST1rYuvQcbUnq"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     }
+    ],
+    "vasp_candidates": [
+     {
+      "confidence": "0.6717",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2000",
+       "source_score": "1.0000",
+       "taint_retained": "0.6250"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+      "evidence": [
+       {
+        "block_hash": "0xbecd9d55bd0822cb254f975bd4112b9d7a28682f1a2aaea8083138bcf596db92",
+        "block_height": 65301040,
+        "captured_at": "2026-08-08T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:digital_arrest:trc20:TVAR1hGGvWbmfkmjmpG8f6Dk73vjNZEWpx",
+        "tx_hash": "0xa9b1763f3a193d4876a4fbc52d65343f1887abd555385ff1af1c52bfd56e0533"
+       }
+      ],
+      "hops_from_seed": 4,
+      "label": null,
+      "name": "DemoExchange",
+      "rank": 1,
+      "reaching_paths": 1,
+      "signals": [],
+      "source": "synthetic_demo_labels",
+      "tier": "dataset_confirmed",
+      "verified": true
+     },
+     {
+      "confidence": "0.6217",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2000",
+       "source_score": "1.0000",
+       "taint_retained": "0.3750"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+      "evidence": [
+       {
+        "block_hash": "0xc209ab76bf7e5c16b3783c7ed1cf07de1bdd756d4299e6c8fa82ef96f3e0ef87",
+        "block_height": 65301140,
+        "captured_at": "2026-08-08T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:digital_arrest:trc20:TRnKoFdbHYQDgeJVW6evS3xE1493gCUzXK",
+        "tx_hash": "0x21b98a45fd81e3374e855a8efbfe6a2e365d2b731d023ba706bccf6695daa129"
+       }
+      ],
+      "hops_from_seed": 4,
+      "label": null,
+      "name": "Example OTC Desk",
+      "rank": 2,
+      "reaching_paths": 1,
+      "signals": [],
+      "source": "synthetic_demo_labels",
+      "tier": "dataset_confirmed",
+      "verified": true
+     }
+    ]
+   },
+   "result_hash": "aegis.engine.v1:977fa248dbfaa7677ca8b5c31d538907591a726e521b54afe5ab28da204b1f48",
+   "start_address": "TT27HMxrRAMPWWfA7F1uhF8UyNc5YpP8Fv",
+   "started_at": "2026-08-08T05:30:00Z",
+   "status": "done",
+   "trace_id": "demo-digital_arrest"
+  }
+ },
+ {
+  "description": "Ends at an unlabelled wallet that behaves like an exchange deposit address.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-11T05:30:00Z",
+     "to": "TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf",
+     "tx_hash": "0xc46e9845b610a1b8cd5047aa54f1d2a6b63c5e5ec6432619890a2533eeca9352",
+     "value": "4200"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300160,
+     "from": "TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-11T05:38:00Z",
+     "to": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "tx_hash": "0xf225c6d8320608c82f8195b05143c6d7314b314e8baa2dfcac2fa1ff52803810",
+     "value": "4200"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300440,
+     "from": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-11T05:52:00Z",
+     "to": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "tx_hash": "0x54668e5e8a8eac222edc62bd8d5dee1da237da71c2dcf6eb7be6806c853931d8",
+     "value": "4200"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300540,
+     "from": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "taint": "0.329411764706",
+     "timestamp": "2026-08-11T05:57:00Z",
+     "to": "TMZAVnLyNH6cT86fceu4aPDxdPQ91FK8x1",
+     "tx_hash": "0x9e4431b11ea1cd3c83ec5a1857ffeca53e81846457149bc6406b3d936e090498",
+     "value": "12750"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "fan_in_consolidation",
+      "deposit_fan_in"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TMZAVnLyNH6cT86fceu4aPDxdPQ91FK8x1",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-heuristic"
+  },
+  "key": "heuristic",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-12T05:30:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/tip",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "00325568285fae519145e9e3d97564ca36610f3512210f729b3affdf6cf0562d",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "aa8401bfd9cc07ece8e548567c29da4e3d17a19ed40d67fe8853fb1707de58b7",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "6601d2a459ecfa268b1b62c9784214c0555090d28032d4f5b984bb32f937868b",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "a69163c0114cb9b3d2323171254d0824d3c1b97e030770b0f61b87a66b3cfa2f",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "0f0d2afa3dd8309ee0832c19415ccd592b57df047a8a6daaeff6d402da61b1e9",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "112d751a6624fb905c8a155bb93874b4a497d32f3925d15f43b15834fe5a087b",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "5b219897f510f1fb1cf2ffb47e59c70cd9c60c485b98460c429a2358df41a05e",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "6d1e05560532a93129086950099a22fba5dc677b21068ba8ea85500500e9547e",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 8,
+     "response_checksum": "880bb12a4801c98afb8128c45cb2071ec94e60f4e63579b914755a12edac66c4",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "ddc7dd2d486d9bedbbeaecfd46f223a5af70bf340da07cdab0f02657b5f55730",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    },
+    {
+     "captured_at": "2026-08-12T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "aaabd5594940c0449f4be1ed5763b25ac2e92786b01aa8d5a99941181f42c78f",
+     "tip_block": {
+      "hash": "0x26120e5247bd87f05798ed64c7fdb1b7109411e802a62b12503c9ba5d6ddfb4e",
+      "height": 65300640
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:heuristic:trc20:TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
+     "step": 1,
+     "timestamp": "2026-08-11T05:30:00+00:00",
+     "to": "TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf",
+     "tx_hash": "0xc46e9845b610a1b8cd5047aa54f1d2a6b63c5e5ec6432619890a2533eeca9352",
+     "value": "4200",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300160,
+     "from": "TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:heuristic:trc20:TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf",
+     "step": 2,
+     "timestamp": "2026-08-11T05:38:00+00:00",
+     "to": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "tx_hash": "0xf225c6d8320608c82f8195b05143c6d7314b314e8baa2dfcac2fa1ff52803810",
+     "value": "4200",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300440,
+     "from": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:heuristic:trc20:TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "step": 3,
+     "timestamp": "2026-08-11T05:52:00+00:00",
+     "to": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "tx_hash": "0x54668e5e8a8eac222edc62bd8d5dee1da237da71c2dcf6eb7be6806c853931d8",
+     "value": "4200",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300540,
+     "from": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:heuristic:trc20:TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "step": 4,
+     "timestamp": "2026-08-11T05:57:00+00:00",
+     "to": "TMZAVnLyNH6cT86fceu4aPDxdPQ91FK8x1",
+     "tx_hash": "0x9e4431b11ea1cd3c83ec5a1857ffeca53e81846457149bc6406b3d936e090498",
+     "value": "12750",
+     "victim_taint": "0.329411764706"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65300640
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-12T05:30:04+00:00",
+    "generated_by": null,
+    "partial_reason": null,
+    "reported_address": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
+    "result_hash": "aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395",
+    "status": "done",
+    "trace_id": "demo-heuristic"
+   },
+   "officer_summary": "Traced 4 tainted transfer(s) over 4 hop(s) from TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88. Nearest off-ramp: Unidentified VASP-like endpoint (heuristic, confidence 0.4617).",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [],
+   "typologies": [
+    {
+     "addresses": [
+      "TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC"
+     ],
+     "model": "rule",
+     "name": "fan_in_consolidation",
+     "score": "0.47"
+    }
+   ],
+   "vasp_candidates": [
+    {
+     "confidence": "0.4617",
+     "confidence_formula": {
+      "raw_score": "0.461660",
+      "score": "0.4617",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2500",
+       "source_score": "0.3500",
+       "taint_retained": "1.0000"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "evidence": [
+      {
+       "block_hash": "0x33a8f273f97612a85ae5759d67df0426d8b55bedd562e2076a876c34cc4d2935",
+       "block_height": 65300440,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:heuristic:trc20:TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+       "tx_hash": "0x54668e5e8a8eac222edc62bd8d5dee1da237da71c2dcf6eb7be6806c853931d8"
+      }
+     ],
+     "hops_from_seed": 3,
+     "label": "Unidentified VASP-like endpoint",
+     "name": null,
+     "rank": 1,
+     "reaching_paths": 1,
+     "signals": [
+      "deposit_fan_in"
+     ],
+     "source": "heuristic",
+     "tier": "heuristic",
+     "verified": false
+    },
+    {
+     "confidence": "0.2967",
+     "confidence_formula": {
+      "raw_score": "0.296660",
+      "score": "0.2967",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2000",
+       "source_score": "0.0000",
+       "taint_retained": "1.0000"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "evidence": [
+      {
+       "block_hash": "0x19161ad00b3a0e53badd83af7e22e5a7e6a1f247e22635341cb03b9a3f24f00c",
+       "block_height": 65300540,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:heuristic:trc20:TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+       "tx_hash": "0x9e4431b11ea1cd3c83ec5a1857ffeca53e81846457149bc6406b3d936e090498"
+      }
+     ],
+     "hops_from_seed": 4,
+     "label": "No VASP identified within trace bounds",
+     "name": null,
+     "rank": 2,
+     "reaching_paths": 1,
+     "signals": [],
+     "source": "heuristic",
+     "tier": "unknown",
+     "verified": false
+    }
+   ]
+  },
+  "seed": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
+  "title": "Loan-app fraud",
+  "trace": {
+   "block_heights": {
+    "tron": 65300640
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-12T05:30:00Z",
+   "error": null,
+   "finished_at": "2026-08-12T05:30:04Z",
+   "result": {
+    "summary": "Traced 4 tainted transfer(s) over 4 hop(s) from TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88. Nearest off-ramp: Unidentified VASP-like endpoint (heuristic, confidence 0.4617).",
+    "trail_events": [],
+    "typologies": [
+     {
+      "addresses": [
+       "TG8nHHP3Kbqjvj5GtYSaaH3hB1bRsDn9Sf"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC"
+      ],
+      "model": "rule",
+      "name": "fan_in_consolidation",
+      "score": "0.47"
+     }
+    ],
+    "vasp_candidates": [
+     {
+      "confidence": "0.4617",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2500",
+       "source_score": "0.3500",
+       "taint_retained": "1.0000"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+      "evidence": [
+       {
+        "block_hash": "0x33a8f273f97612a85ae5759d67df0426d8b55bedd562e2076a876c34cc4d2935",
+        "block_height": 65300440,
+        "captured_at": "2026-08-12T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:heuristic:trc20:TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+        "tx_hash": "0x54668e5e8a8eac222edc62bd8d5dee1da237da71c2dcf6eb7be6806c853931d8"
+       }
+      ],
+      "hops_from_seed": 3,
+      "label": "Unidentified VASP-like endpoint",
+      "name": null,
+      "rank": 1,
+      "reaching_paths": 1,
+      "signals": [
+       "deposit_fan_in"
+      ],
+      "source": "heuristic",
+      "tier": "heuristic",
+      "verified": false
+     },
+     {
+      "confidence": "0.2967",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2000",
+       "source_score": "0.0000",
+       "taint_retained": "1.0000"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+      "evidence": [
+       {
+        "block_hash": "0x19161ad00b3a0e53badd83af7e22e5a7e6a1f247e22635341cb03b9a3f24f00c",
+        "block_height": 65300540,
+        "captured_at": "2026-08-12T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:heuristic:trc20:TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+        "tx_hash": "0x9e4431b11ea1cd3c83ec5a1857ffeca53e81846457149bc6406b3d936e090498"
+       }
+      ],
+      "hops_from_seed": 4,
+      "label": "No VASP identified within trace bounds",
+      "name": null,
+      "rank": 2,
+      "reaching_paths": 1,
+      "signals": [],
+      "source": "heuristic",
+      "tier": "unknown",
+      "verified": false
+     }
+    ]
+   },
+   "result_hash": "aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395",
+   "start_address": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
+   "started_at": "2026-08-12T05:30:00Z",
+   "status": "done",
+   "trace_id": "demo-heuristic"
+  }
+ },
+ {
+  "description": "Most funds leave through a cross-chain bridge, where the trail stops.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-14T05:30:00Z",
+     "to": "TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC",
+     "tx_hash": "0xe5d1fa9207e72527bde2dc24be47d5f0e2e7fa204a0e5b86078ee6437ab5ec75",
+     "value": "18500"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300060,
+     "from": "TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-14T05:33:00Z",
+     "to": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "tx_hash": "0xb9f1ef4e997e6ea9b0f70d0a21191e18deacc034d43d3962a53c4c14ed017ffc",
+     "value": "18500"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300140,
+     "from": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-14T05:37:00Z",
+     "to": "TQKKLhq4ZR5rTpGR92V6xLrTDDBNB4Ds29",
+     "tx_hash": "0x743bc534cee9f91bcf108d8f2b3baf8a4ba510c6a0fd79d07b1547711a96ed75",
+     "value": "15000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300180,
+     "from": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-14T05:39:00Z",
+     "to": "TWS69fpBPzxJKZoFQLeHqSaiW7wgtH7Kch",
+     "tx_hash": "0xb10328c127a757d01b11481382a9ac271b875157fb6a6dda68b381a4053b1ca0",
+     "value": "3500"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TQKKLhq4ZR5rTpGR92V6xLrTDDBNB4Ds29",
+     "kind": "bridge",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TWS69fpBPzxJKZoFQLeHqSaiW7wgtH7Kch",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-bridge"
+  },
+  "key": "bridge",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-15T05:30:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/tip",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "a022ef19d2805740edafd3baee43fba865527d4455168b5f17e695051375b5eb",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "ef62371151a123df96ca4181f35096504653a134f44ba337fc4a9bc967ecfd91",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "d065004098581318fa59915e27c1e4c9720e04e5999e0b2f7e375f4da66411a5",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "150526caf226ff21de0eaf780df90916ee937c5dda840776a9fa8ae23b12af9e",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "88756701617afe170c460994ac1d1ebeb02ce51c6d23f4c6e69eca5cffb5b7ee",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "4c561f0e400c3eeb8383744fdaec7a5b0ca55fb16aeaf731b1e363e77a11107f",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 3,
+     "response_checksum": "b731c701513f21ce118169abb2776289730f02f43744e9f2c35ea8704ff249b1",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "085b3939d2b1f1501150ecfac56e6eae45ef420adf57282be2595e7df4fec912",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "62b7ba0a853da6c0e9e08d2709e5a649ab89777a3fd21c7186d12bf83770505e",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "f7bc54332d5b202bcac000ffdc5eb274ae4c2573f080b5ab06411d53d4552c64",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    },
+    {
+     "captured_at": "2026-08-15T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "68c81ec2d7925c747b72f4a43572ead69a3b4775d4eb154043f494dcc5b2e795",
+     "tip_block": {
+      "hash": "0x7582d1aa895f8f6772be96b0abb94f8f6a9373cd4d6b91ba7fc5654dbc7e9b3d",
+      "height": 65300280
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:bridge:trc20:TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
+     "step": 1,
+     "timestamp": "2026-08-14T05:30:00+00:00",
+     "to": "TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC",
+     "tx_hash": "0xe5d1fa9207e72527bde2dc24be47d5f0e2e7fa204a0e5b86078ee6437ab5ec75",
+     "value": "18500",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300060,
+     "from": "TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:bridge:trc20:TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC",
+     "step": 2,
+     "timestamp": "2026-08-14T05:33:00+00:00",
+     "to": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "tx_hash": "0xb9f1ef4e997e6ea9b0f70d0a21191e18deacc034d43d3962a53c4c14ed017ffc",
+     "value": "18500",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300140,
+     "from": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:bridge:trc20:TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "step": 3,
+     "timestamp": "2026-08-14T05:37:00+00:00",
+     "to": "TQKKLhq4ZR5rTpGR92V6xLrTDDBNB4Ds29",
+     "tx_hash": "0x743bc534cee9f91bcf108d8f2b3baf8a4ba510c6a0fd79d07b1547711a96ed75",
+     "value": "15000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300180,
+     "from": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:bridge:trc20:TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "step": 4,
+     "timestamp": "2026-08-14T05:39:00+00:00",
+     "to": "TWS69fpBPzxJKZoFQLeHqSaiW7wgtH7Kch",
+     "tx_hash": "0xb10328c127a757d01b11481382a9ac271b875157fb6a6dda68b381a4053b1ca0",
+     "value": "3500",
+     "victim_taint": "1.000000000000"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65300280
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-15T05:30:04+00:00",
+    "generated_by": null,
+    "partial_reason": null,
+    "reported_address": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
+    "result_hash": "aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6",
+    "status": "done",
+    "trace_id": "demo-bridge"
+   },
+   "officer_summary": "Traced 4 tainted transfer(s) over 3 hop(s) from TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha; trail-lost: bridge. Nearest off-ramp: No VASP identified within trace bounds (unknown, confidence 0.1420).",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [
+    {
+     "address": "TQKKLhq4ZR5rTpGR92V6xLrTDDBNB4Ds29",
+     "amount": "15000.000000",
+     "asset": "USDT",
+     "reason": "bridge"
+    }
+   ],
+   "typologies": [
+    {
+     "addresses": [
+      "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    }
+   ],
+   "vasp_candidates": [
+    {
+     "confidence": "0.1420",
+     "confidence_formula": {
+      "raw_score": "0.142000",
+      "score": "0.1420",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2500",
+       "source_score": "0.0000",
+       "taint_retained": "0.1892"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "evidence": [
+      {
+       "block_hash": "0xac0e16ce73406f6438d00492ca139a82255351660c5c3981cf5ff1e7db4677d2",
+       "block_height": 65300180,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:bridge:trc20:TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+       "tx_hash": "0xb10328c127a757d01b11481382a9ac271b875157fb6a6dda68b381a4053b1ca0"
+      }
+     ],
+     "hops_from_seed": 3,
+     "label": "No VASP identified within trace bounds",
+     "name": null,
+     "rank": 1,
+     "reaching_paths": 1,
+     "signals": [],
+     "source": "heuristic",
+     "tier": "unknown",
+     "verified": false
+    }
+   ]
+  },
+  "seed": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
+  "title": "Phishing wallet drain",
+  "trace": {
+   "block_heights": {
+    "tron": 65300280
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-15T05:30:00Z",
+   "error": null,
+   "finished_at": "2026-08-15T05:30:04Z",
+   "result": {
+    "summary": "Traced 4 tainted transfer(s) over 3 hop(s) from TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha; trail-lost: bridge. Nearest off-ramp: No VASP identified within trace bounds (unknown, confidence 0.1420).",
+    "trail_events": [
+     {
+      "address": "TQKKLhq4ZR5rTpGR92V6xLrTDDBNB4Ds29",
+      "amount": "15000.000000",
+      "asset_symbol": "USDT",
+      "reason": "bridge",
+      "timestamp": null
+     }
+    ],
+    "typologies": [
+     {
+      "addresses": [
+       "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TTXJDzAYQjJXMLsCvcV1xd8EpDm6jykjXC"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     }
+    ],
+    "vasp_candidates": [
+     {
+      "confidence": "0.1420",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.2500",
+       "source_score": "0.0000",
+       "taint_retained": "0.1892"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+      "evidence": [
+       {
+        "block_hash": "0xac0e16ce73406f6438d00492ca139a82255351660c5c3981cf5ff1e7db4677d2",
+        "block_height": 65300180,
+        "captured_at": "2026-08-15T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:bridge:trc20:TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+        "tx_hash": "0xb10328c127a757d01b11481382a9ac271b875157fb6a6dda68b381a4053b1ca0"
+       }
+      ],
+      "hops_from_seed": 3,
+      "label": "No VASP identified within trace bounds",
+      "name": null,
+      "rank": 1,
+      "reaching_paths": 1,
+      "signals": [],
+      "source": "heuristic",
+      "tier": "unknown",
+      "verified": false
+     }
+    ]
+   },
+   "result_hash": "aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6",
+   "start_address": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
+   "started_at": "2026-08-15T05:30:00Z",
+   "status": "done",
+   "trace_id": "demo-bridge"
+  }
+ },
+ {
+  "description": "Two label sources name different operators for the same endpoint.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-18T05:30:00Z",
+     "to": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "tx_hash": "0x07eafe9fa08d6bd20cb290b07ece10986442ff272cfe5b2cc93dff907a75c545",
+     "value": "9600"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300300,
+     "from": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-18T05:45:00Z",
+     "to": "TNaYiJGdtAFq2h9hkhNXR7pc3dgk9oTyGW",
+     "tx_hash": "0x6b672768b7ce84d67679dda710a9ee2511dfb686272dd017bda5586d6c9b8dc0",
+     "value": "9600"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TNaYiJGdtAFq2h9hkhNXR7pc3dgk9oTyGW",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-conflict"
+  },
+  "key": "conflict",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-19T05:30:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-19T05:30:00+00:00",
+     "endpoint": "synthetic/tip",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "0c1ad70b85930e7fb322ffcf6d8a55e98092b4b2a1f90b5b063d0908c5163724",
+     "tip_block": {
+      "hash": "0x158d13bb2ccf6dbd5521324f63588f621664d21d08a7295c0b3f022ba9f26362",
+      "height": 65300400
+     }
+    },
+    {
+     "captured_at": "2026-08-19T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "7e55ee931ef18a97a499fb8219f7844bd527b18d6278760b1c78fb5b7fe13e08",
+     "tip_block": {
+      "hash": "0x158d13bb2ccf6dbd5521324f63588f621664d21d08a7295c0b3f022ba9f26362",
+      "height": 65300400
+     }
+    },
+    {
+     "captured_at": "2026-08-19T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "9a2c726ff7fdff1d7759ed73282915b61aea375ac68a67fbe616f4bb7ba1e34d",
+     "tip_block": {
+      "hash": "0x158d13bb2ccf6dbd5521324f63588f621664d21d08a7295c0b3f022ba9f26362",
+      "height": 65300400
+     }
+    },
+    {
+     "captured_at": "2026-08-19T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "fb8682507b323a1f9161cd47a95c033bd86a66a2ae71d4f0d3b661cc48b3d5e9",
+     "tip_block": {
+      "hash": "0x158d13bb2ccf6dbd5521324f63588f621664d21d08a7295c0b3f022ba9f26362",
+      "height": 65300400
+     }
+    },
+    {
+     "captured_at": "2026-08-19T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "126018e9759eec3cadb37e234ce03797c4c75ec8ef6c5fec75ce73f1d7a3b115",
+     "tip_block": {
+      "hash": "0x158d13bb2ccf6dbd5521324f63588f621664d21d08a7295c0b3f022ba9f26362",
+      "height": 65300400
+     }
+    },
+    {
+     "captured_at": "2026-08-19T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "3c6eb75c52607097da3f09807de020c9ed558f721f19c076dd7e3f22efc2b016",
+     "tip_block": {
+      "hash": "0x158d13bb2ccf6dbd5521324f63588f621664d21d08a7295c0b3f022ba9f26362",
+      "height": 65300400
+     }
+    },
+    {
+     "captured_at": "2026-08-19T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "e1e0f6d37a27fd7e5d138de4b70565fa461fd5f9534b06b67244384c91d36d17",
+     "tip_block": {
+      "hash": "0x158d13bb2ccf6dbd5521324f63588f621664d21d08a7295c0b3f022ba9f26362",
+      "height": 65300400
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:conflict:trc20:TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
+     "step": 1,
+     "timestamp": "2026-08-18T05:30:00+00:00",
+     "to": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "tx_hash": "0x07eafe9fa08d6bd20cb290b07ece10986442ff272cfe5b2cc93dff907a75c545",
+     "value": "9600",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300300,
+     "from": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:conflict:trc20:TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "step": 2,
+     "timestamp": "2026-08-18T05:45:00+00:00",
+     "to": "TNaYiJGdtAFq2h9hkhNXR7pc3dgk9oTyGW",
+     "tx_hash": "0x6b672768b7ce84d67679dda710a9ee2511dfb686272dd017bda5586d6c9b8dc0",
+     "value": "9600",
+     "victim_taint": "1.000000000000"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65300400
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-19T05:30:04+00:00",
+    "generated_by": null,
+    "partial_reason": null,
+    "reported_address": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
+    "result_hash": "aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5",
+    "status": "done",
+    "trace_id": "demo-conflict"
+   },
+   "officer_summary": "Traced 2 tainted transfer(s) over 2 hop(s) from TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T. Nearest off-ramp: conflicting attributions: Example OTC Desk, SampleCoin Exchange (conflict, confidence 0.5417).",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [],
+   "typologies": [
+    {
+     "addresses": [
+      "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    }
+   ],
+   "vasp_candidates": [
+    {
+     "confidence": "0.5417",
+     "confidence_formula": {
+      "raw_score": "0.541655",
+      "score": "0.5417",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.3333",
+       "source_score": "0.5000",
+       "taint_retained": "1.0000"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "evidence": [
+      {
+       "block_hash": "0x1af944b8344f6662720f0350d5c3fd0bb7fbd81c948112402d65913dff664f81",
+       "block_height": 65300300,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:conflict:trc20:TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+       "tx_hash": "0x6b672768b7ce84d67679dda710a9ee2511dfb686272dd017bda5586d6c9b8dc0"
+      }
+     ],
+     "hops_from_seed": 2,
+     "label": "conflicting attributions: Example OTC Desk, SampleCoin Exchange",
+     "name": null,
+     "rank": 1,
+     "reaching_paths": 1,
+     "signals": [
+      "claims:Example OTC Desk",
+      "claims:SampleCoin Exchange"
+     ],
+     "source": "conflicting label packs",
+     "tier": "conflict",
+     "verified": false
+    }
+   ]
+  },
+  "seed": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
+  "title": "P2P merchant scam",
+  "trace": {
+   "block_heights": {
+    "tron": 65300400
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-19T05:30:00Z",
+   "error": null,
+   "finished_at": "2026-08-19T05:30:04Z",
+   "result": {
+    "summary": "Traced 2 tainted transfer(s) over 2 hop(s) from TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T. Nearest off-ramp: conflicting attributions: Example OTC Desk, SampleCoin Exchange (conflict, confidence 0.5417).",
+    "trail_events": [],
+    "typologies": [
+     {
+      "addresses": [
+       "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     }
+    ],
+    "vasp_candidates": [
+     {
+      "confidence": "0.5417",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.3333",
+       "source_score": "0.5000",
+       "taint_retained": "1.0000"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+      "evidence": [
+       {
+        "block_hash": "0x1af944b8344f6662720f0350d5c3fd0bb7fbd81c948112402d65913dff664f81",
+        "block_height": 65300300,
+        "captured_at": "2026-08-19T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:conflict:trc20:TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+        "tx_hash": "0x6b672768b7ce84d67679dda710a9ee2511dfb686272dd017bda5586d6c9b8dc0"
+       }
+      ],
+      "hops_from_seed": 2,
+      "label": "conflicting attributions: Example OTC Desk, SampleCoin Exchange",
+      "name": null,
+      "rank": 1,
+      "reaching_paths": 1,
+      "signals": [
+       "claims:Example OTC Desk",
+       "claims:SampleCoin Exchange"
+      ],
+      "source": "conflicting label packs",
+      "tier": "conflict",
+      "verified": false
+     }
+    ]
+   },
+   "result_hash": "aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5",
+   "start_address": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
+   "started_at": "2026-08-19T05:30:00Z",
+   "status": "done",
+   "trace_id": "demo-conflict"
+  }
+ },
+ {
+  "description": "Funds still resting in an unattributed wallet that is on a sample watchlist.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-21T05:30:00Z",
+     "to": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "tx_hash": "0xf5f43d1927d2850c621cb41f02283af46f0b1bc99d0d7c088fcc4404aded31da",
+     "value": "52000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300900,
+     "from": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-21T06:15:00Z",
+     "to": "TAFQTTWdmNS1LMz5vsaVSWKXvnH77vogJv",
+     "tx_hash": "0x4081613bcf70ad57e85293fce573fbea5dc683f9553749055de6779171074144",
+     "value": "52000"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TAFQTTWdmNS1LMz5vsaVSWKXvnH77vogJv",
+     "kind": "sink",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-watchlist"
+  },
+  "key": "watchlist",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-22T05:30:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-22T05:30:00+00:00",
+     "endpoint": "synthetic/tip",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "9707cc7d1bfb1a4ed57dbc7c9cab35d8abb7c4ddeff7722e669c7c4746bb9bfc",
+     "tip_block": {
+      "hash": "0x009f83c1cad70751e3d3935117a88beee0ba17a02a3123b09e7496167bad330f",
+      "height": 65301000
+     }
+    },
+    {
+     "captured_at": "2026-08-22T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "67348e6d3e797a459ac3efbe35e8868cb6b173f1f647b189f7d3e2f2fb11985a",
+     "tip_block": {
+      "hash": "0x009f83c1cad70751e3d3935117a88beee0ba17a02a3123b09e7496167bad330f",
+      "height": 65301000
+     }
+    },
+    {
+     "captured_at": "2026-08-22T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "1c69f728fa94667f8e4d689a49d14e173c62aea2e129c8ae13cd5fbce29d57bd",
+     "tip_block": {
+      "hash": "0x009f83c1cad70751e3d3935117a88beee0ba17a02a3123b09e7496167bad330f",
+      "height": 65301000
+     }
+    },
+    {
+     "captured_at": "2026-08-22T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "186a81b873647da2beffc2fc1c53be17ebb20afc546cb861374c0f5c0335c320",
+     "tip_block": {
+      "hash": "0x009f83c1cad70751e3d3935117a88beee0ba17a02a3123b09e7496167bad330f",
+      "height": 65301000
+     }
+    },
+    {
+     "captured_at": "2026-08-22T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "a010dc4e0b50852928a5749f64965fd35aba0bef63075d1072a923be9db92650",
+     "tip_block": {
+      "hash": "0x009f83c1cad70751e3d3935117a88beee0ba17a02a3123b09e7496167bad330f",
+      "height": 65301000
+     }
+    },
+    {
+     "captured_at": "2026-08-22T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "f95cf9812e5b7badf4de7d6c63c76a2d3bf37fd5de7dc910ae9e4d4a4caf4558",
+     "tip_block": {
+      "hash": "0x009f83c1cad70751e3d3935117a88beee0ba17a02a3123b09e7496167bad330f",
+      "height": 65301000
+     }
+    },
+    {
+     "captured_at": "2026-08-22T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "c7680cbadc07d37b89ed154d30164581c9fb842ce01e4f42022d6867a5043e35",
+     "tip_block": {
+      "hash": "0x009f83c1cad70751e3d3935117a88beee0ba17a02a3123b09e7496167bad330f",
+      "height": 65301000
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:watchlist:trc20:TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
+     "step": 1,
+     "timestamp": "2026-08-21T05:30:00+00:00",
+     "to": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "tx_hash": "0xf5f43d1927d2850c621cb41f02283af46f0b1bc99d0d7c088fcc4404aded31da",
+     "value": "52000",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300900,
+     "from": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:watchlist:trc20:TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "step": 2,
+     "timestamp": "2026-08-21T06:15:00+00:00",
+     "to": "TAFQTTWdmNS1LMz5vsaVSWKXvnH77vogJv",
+     "tx_hash": "0x4081613bcf70ad57e85293fce573fbea5dc683f9553749055de6779171074144",
+     "value": "52000",
+     "victim_taint": "1.000000000000"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65301000
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-22T05:30:04+00:00",
+    "generated_by": null,
+    "partial_reason": null,
+    "reported_address": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
+    "result_hash": "aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf",
+    "status": "done",
+    "trace_id": "demo-watchlist"
+   },
+   "officer_summary": "Traced 2 tainted transfer(s) over 2 hop(s) from TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn. Nearest off-ramp: No VASP identified within trace bounds (unknown, confidence 0.3167).",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [],
+   "typologies": [
+    {
+     "addresses": [
+      "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "0.80"
+    }
+   ],
+   "vasp_candidates": [
+    {
+     "confidence": "0.3167",
+     "confidence_formula": {
+      "raw_score": "0.316655",
+      "score": "0.3167",
+      "terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.3333",
+       "source_score": "0.0000",
+       "taint_retained": "1.0000"
+      },
+      "weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      }
+     },
+     "deposit_address": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "evidence": [
+      {
+       "block_hash": "0x55773b9e44c147b26426901880d336df444266c74c3120a39dd9e3ddf9a0aabd",
+       "block_height": 65300900,
+       "provider": "demo:synthetic",
+       "snapshot_id": "demo:watchlist:trc20:TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+       "tx_hash": "0x4081613bcf70ad57e85293fce573fbea5dc683f9553749055de6779171074144"
+      }
+     ],
+     "hops_from_seed": 2,
+     "label": "No VASP identified within trace bounds",
+     "name": null,
+     "rank": 1,
+     "reaching_paths": 1,
+     "signals": [
+      "ofac_sanctioned:Sample Watchlist Entry"
+     ],
+     "source": "heuristic",
+     "tier": "unknown",
+     "verified": false
+    }
+   ]
+  },
+  "seed": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
+  "title": "Ransom payment",
+  "trace": {
+   "block_heights": {
+    "tron": 65301000
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-22T05:30:00Z",
+   "error": null,
+   "finished_at": "2026-08-22T05:30:04Z",
+   "result": {
+    "summary": "Traced 2 tainted transfer(s) over 2 hop(s) from TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn. Nearest off-ramp: No VASP identified within trace bounds (unknown, confidence 0.3167).",
+    "trail_events": [],
+    "typologies": [
+     {
+      "addresses": [
+       "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "0.80"
+     }
+    ],
+    "vasp_candidates": [
+     {
+      "confidence": "0.3167",
+      "confidence_terms": {
+       "bridge_uncertainty": "0.0000",
+       "corroboration": "0.3333",
+       "mixer_on_path": "0",
+       "path_directness": "0.3333",
+       "source_score": "0.0000",
+       "taint_retained": "1.0000"
+      },
+      "confidence_weights": {
+       "bridge_uncertainty": "-0.10",
+       "corroboration": "0.20",
+       "mixer_on_path": "-0.25",
+       "path_directness": "0.15",
+       "source_score": "0.45",
+       "taint_retained": "0.20"
+      },
+      "deposit_address": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+      "evidence": [
+       {
+        "block_hash": "0x55773b9e44c147b26426901880d336df444266c74c3120a39dd9e3ddf9a0aabd",
+        "block_height": 65300900,
+        "captured_at": "2026-08-22T05:30:00Z",
+        "provider": "demo:synthetic",
+        "snapshot_id": "demo:watchlist:trc20:TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+        "tx_hash": "0x4081613bcf70ad57e85293fce573fbea5dc683f9553749055de6779171074144"
+       }
+      ],
+      "hops_from_seed": 2,
+      "label": "No VASP identified within trace bounds",
+      "name": null,
+      "rank": 1,
+      "reaching_paths": 1,
+      "signals": [
+       "ofac_sanctioned:Sample Watchlist Entry"
+      ],
+      "source": "heuristic",
+      "tier": "unknown",
+      "verified": false
+     }
+    ]
+   },
+   "result_hash": "aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf",
+   "start_address": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
+   "started_at": "2026-08-22T05:30:00Z",
+   "status": "done",
+   "trace_id": "demo-watchlist"
+  }
+ },
+ {
+  "description": "The walk hits its node budget, so the result is marked partial.",
+  "graph": {
+   "edges": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-24T05:30:00Z",
+     "to": "TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7",
+     "tx_hash": "0x768fc2c8b40e31350930ec377b01051b5cc34bd16ba35cbfd26bb49d7dc22897",
+     "value": "7400"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300080,
+     "from": "TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-24T05:34:00Z",
+     "to": "TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR",
+     "tx_hash": "0x42b0b63d3f0ebe9867f9dbed104bf67138124241dcd44bb6f35697b736218036",
+     "value": "7400"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300160,
+     "from": "TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-24T05:38:00Z",
+     "to": "TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG",
+     "tx_hash": "0x24e5512b78aa9da7c640b3b5f48359bcf5abc826f3e80ddb4fadff91e8dd152b",
+     "value": "7400"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300240,
+     "from": "TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG",
+     "taint": "1.000000000000",
+     "timestamp": "2026-08-24T05:42:00Z",
+     "to": "TQvTW2zWUbfgB86gKumzc6eAdFcawLvnRj",
+     "tx_hash": "0xd43d76385ef81b690bf89ea6f2698ca736969770c6c9e409cb9b5aba934c21f3",
+     "value": "7400"
+    }
+   ],
+   "nodes": [
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC",
+     "kind": "seed",
+     "risk": null,
+     "typologies": [],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    },
+    {
+     "chain": "tron",
+     "cluster_id": null,
+     "id": "TQvTW2zWUbfgB86gKumzc6eAdFcawLvnRj",
+     "kind": "intermediary",
+     "risk": null,
+     "typologies": [
+      "passthrough_rotation"
+     ],
+     "vasp_name": null,
+     "verified": null
+    }
+   ],
+   "trace_id": "demo-partial"
+  },
+  "key": "partial",
+  "report": {
+   "caveats": [
+    "Attribution confidence is a transparent weighted score, not a verdict.",
+    "Heuristic (unverified) endpoints require lawful inquiry to confirm the operator.",
+    "This system is assistive; a human officer reviews before any action."
+   ],
+   "certification": {
+    "generated_at": "2026-08-25T05:30:04+00:00",
+    "method": "value-weighted forward trace with haircut taint propagation",
+    "reproducibility_anchor": "aegis.engine.v1:463760a50242d2b9b73150d1894c31a3fcedefcf2bb44b1db7235aff2b1134f1",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:463760a50242d2b9b73150d1894c31a3fcedefcf2bb44b1db7235aff2b1134f1 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+   },
+   "data_sources": [
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/tip",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "38ddaf622368c6e45b0796f11027d6397321bb98ba3fa65f289d088ec4579b18",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "b9ad84a40c97e49d30cedfe6f95989ff5fca3865429f03963bf851d467baeffc",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 1,
+     "response_checksum": "1e9af94e64761ea14d6c454e4bdf8701b32ac4544226e6adc0565d93becd73c1",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "e16ee754bd02fbad6cb15090057a94b6d7e5a7088815c35344355f90d0781cd8",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "7397d43fa06d2e558eb7c99616f42f9ad8dcfd3c769e83e53cb588f372ceec9d",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "717c09ce8c3e4ad197006f588b7186e6056325f387b8e07da01ca634e87a01c1",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "3dab5d14cf391ab837357630cff3c6f033d7a3eb33b5e8b33f9327577117faf0",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "9ff918a23247eaa30200492b882b1bd485d124633987bb58d0738e40206fd10f",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "6541121203bdfbf6f8c8ffe716af75ede5b50af90ad35e0e4d75fb1aff6c55a1",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/activity",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 0,
+     "response_checksum": "344965563225736259a7b244de32c612be7a8bdd90a10ff3e4012176a3e673f9",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    },
+    {
+     "captured_at": "2026-08-25T05:30:00+00:00",
+     "endpoint": "synthetic/trc20",
+     "notes": "SYNTHETIC demo data - not read from any blockchain",
+     "provider": "demo:synthetic",
+     "record_count": 2,
+     "response_checksum": "87d3e09c039af54a6f0a33ef13c434462f61281891ad490cd7c221c4fd1419c8",
+     "tip_block": {
+      "hash": "0x4e2047536640e0d5ad1db9ee4d5ee9aed526ef804e13cf3c17741afe90db1f1b",
+      "height": 65300740
+     }
+    }
+   ],
+   "fund_flow": [
+    {
+     "asset": "USDT",
+     "block_height": 65300000,
+     "from": "TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:partial:trc20:TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC",
+     "step": 1,
+     "timestamp": "2026-08-24T05:30:00+00:00",
+     "to": "TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7",
+     "tx_hash": "0x768fc2c8b40e31350930ec377b01051b5cc34bd16ba35cbfd26bb49d7dc22897",
+     "value": "7400",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300080,
+     "from": "TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:partial:trc20:TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7",
+     "step": 2,
+     "timestamp": "2026-08-24T05:34:00+00:00",
+     "to": "TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR",
+     "tx_hash": "0x42b0b63d3f0ebe9867f9dbed104bf67138124241dcd44bb6f35697b736218036",
+     "value": "7400",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300160,
+     "from": "TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:partial:trc20:TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR",
+     "step": 3,
+     "timestamp": "2026-08-24T05:38:00+00:00",
+     "to": "TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG",
+     "tx_hash": "0x24e5512b78aa9da7c640b3b5f48359bcf5abc826f3e80ddb4fadff91e8dd152b",
+     "value": "7400",
+     "victim_taint": "1.000000000000"
+    },
+    {
+     "asset": "USDT",
+     "block_height": 65300240,
+     "from": "TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG",
+     "provider": "demo:synthetic",
+     "snapshot_id": "demo:partial:trc20:TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG",
+     "step": 4,
+     "timestamp": "2026-08-24T05:42:00+00:00",
+     "to": "TQvTW2zWUbfgB86gKumzc6eAdFcawLvnRj",
+     "tx_hash": "0xd43d76385ef81b690bf89ea6f2698ca736969770c6c9e409cb9b5aba934c21f3",
+     "value": "7400",
+     "victim_taint": "1.000000000000"
+    }
+   ],
+   "header": {
+    "block_heights": {
+     "tron": 65300740
+    },
+    "case_id": null,
+    "chain": "tron",
+    "generated_at": "2026-08-25T05:30:04+00:00",
+    "generated_by": null,
+    "partial_reason": "node_budget",
+    "reported_address": "TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC",
+    "result_hash": "aegis.engine.v1:463760a50242d2b9b73150d1894c31a3fcedefcf2bb44b1db7235aff2b1134f1",
+    "status": "partial",
+    "trace_id": "demo-partial"
+   },
+   "officer_summary": "Traced 4 tainted transfer(s) over 4 hop(s) from TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC.",
+   "report_type": "aegis.investigation_report.v1",
+   "trail_events": [],
+   "typologies": [
+    {
+     "addresses": [
+      "TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    },
+    {
+     "addresses": [
+      "TQvTW2zWUbfgB86gKumzc6eAdFcawLvnRj"
+     ],
+     "model": "rule",
+     "name": "passthrough_rotation",
+     "score": "1.00"
+    }
+   ],
+   "vasp_candidates": []
+  },
+  "seed": "TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC",
+  "title": "Long layering chain",
+  "trace": {
+   "block_heights": {
+    "tron": 65300740
+   },
+   "case_id": null,
+   "chain": "tron",
+   "created_at": "2026-08-25T05:30:00Z",
+   "error": null,
+   "finished_at": "2026-08-25T05:30:04Z",
+   "result": {
+    "summary": "Traced 4 tainted transfer(s) over 4 hop(s) from TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC.",
+    "trail_events": [],
+    "typologies": [
+     {
+      "addresses": [
+       "TKyuk6ZNPPgbfvbnVhpfWFYGPLPgsYgzfR"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TLmJHMzjGk1gjpGJELPhDrC6LtAffoDDR7"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TPuWGS47VXqYWAosJLn53eEyAKPFJHzXZG"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     },
+     {
+      "addresses": [
+       "TQvTW2zWUbfgB86gKumzc6eAdFcawLvnRj"
+      ],
+      "model": "rule",
+      "name": "passthrough_rotation",
+      "score": "1.00"
+     }
+    ],
+    "vasp_candidates": []
+   },
+   "result_hash": "aegis.engine.v1:463760a50242d2b9b73150d1894c31a3fcedefcf2bb44b1db7235aff2b1134f1",
+   "start_address": "TJQ5ptrTgcmABMQY9GRfAD76pshUtLAkvC",
+   "started_at": "2026-08-25T05:30:00Z",
+   "status": "partial",
+   "trace_id": "demo-partial"
+  }
+ }
+]
