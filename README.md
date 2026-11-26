@@ -18,6 +18,7 @@ not a black-box guess.
 ## Table of contents
 
 - [What it does](#what-it-does)
+- [Demo mode](#demo-mode-no-backend-needed)
 - [How it works](#how-it-works)
   - [1. The trace — forward walk with haircut taint propagation](#1-the-trace--forward-walk-with-haircut-taint-propagation)
   - [2. Typology detection](#2-typology-detection)
@@ -199,6 +200,32 @@ detection is rule-based, not a trained model — all deliberate scope calls to
 keep the system's actual behavior fully explainable, not because a model
 would be strictly worse.
 
+## Demo mode (no backend needed)
+
+The frontend runs on its own by default, with synthetic sample data — the
+quickest way to show the app:
+
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:5173
+```
+
+On the sign-in page, choose the investigating officer or the administrator
+(who also sees the audit log). There are fictional cases, eight trace
+scenarios, reports, notice drafts and an audit trail. **New trace** lists the
+sample addresses it can trace; any other address is refused rather than given
+an invented result. Edits stay in your browser until you press **Reset demo
+data**.
+
+The trace results are produced by running the real engine over synthetic
+transfers. After changing the engine, regenerate them with
+`cd backend && uv run python scripts/export_demo_data.py` (a test fails if
+they are stale).
+
+To use the real backend instead, set `VITE_DATA_MODE=live` (in
+`frontend/.env`, or in the hosting platform's build variables).
+
 ## Installing and running it
 
 Prerequisites: [`uv`](https://docs.astral.sh/uv/) (manages Python 3.12), Node 20+, and either Docker with Compose *or* nothing else if you run backend/frontend directly.
@@ -227,7 +254,7 @@ uv run uvicorn app.main:app --reload   # http://localhost:8000
 # Frontend (separate terminal)
 cd frontend
 npm install
-npm run dev                            # http://localhost:5173
+VITE_DATA_MODE=live npm run dev        # http://localhost:5173
 ```
 
 No `.env` file is required to start — `backend/.env.example`'s defaults are

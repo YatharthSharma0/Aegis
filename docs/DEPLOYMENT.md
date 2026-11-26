@@ -27,7 +27,9 @@ No Neo4j / graph database — this repo never adopted one (Postgres/SQLite only;
 
 **`aegis-worker`** — `AEGIS_DATABASE_URL` (same as above), `AEGIS_SKIP_MIGRATIONS=1` (the API service already runs them), `AEGIS_ENVIRONMENT=staging`, `AEGIS_LOG_JSON=true`, `AEGIS_PROVIDER_MODE=fixture`.
 
-**Vercel (`aegis-frontend`)** — `VITE_API_BASE_URL` set to the deployed backend's origin (no trailing slash; `frontend/.env.example` documents this is empty/relative in local dev, where Vite proxies `/api`).
+**Vercel (`aegis-frontend`)** — `VITE_DATA_MODE=live` is required to use the
+backend; without it the next deploy is a demo-mode build with sample data only
+(which needs no other variable). `VITE_API_BASE_URL` set to the deployed backend's origin (no trailing slash; `frontend/.env.example` documents this is empty/relative in local dev, where Vite proxies `/api`).
 
 ## Why fixture mode on staging
 

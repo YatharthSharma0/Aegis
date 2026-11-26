@@ -84,6 +84,12 @@ orientation for an agent already working in the code.
   key — see `docs/PROVIDERS.md`). Don't pull these forward without checking
   `MEMORY.md` first.
 
+## Demo mode
+
+The frontend defaults to `VITE_DATA_MODE=demo` and needs no backend. Keep
+`frontend/src/demo/server.ts` in step with any API change, and never edit
+`demo/data/scenarios.json` by hand — regenerate it.
+
 ## Tech constraints
 
 - Python **3.12** (pinned in `backend/.python-version` and CI). Managed by `uv`;

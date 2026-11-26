@@ -22,6 +22,10 @@ short and true. The design vault
   repo is a from-scratch rebuild started 2026-09-04. Ignore any external note
   describing a "working full-stack MVP" — it does not exist here.
 
+- **Demo mode (frontend):** `VITE_DATA_MODE=demo` is the default; the app runs
+  with no backend on synthetic data (`frontend/src/demo/`). `live` restores the
+  real API. Compose and component tests set `live`.
+
 ## What exists
 
 | Area | State |
@@ -522,3 +526,13 @@ trust it.
   validate a fallback that isn't there, and the pitch shouldn't imply
   otherwise. Full reasoning and per-task status in the vault's
   `10-Execution-Plan/08-Phase-7-Production-Validation.md`.
+
+- 2026-11-26 — Frontend demo mode: an in-browser stand-in for the API behind
+  `api()` in `src/api/client.ts` (API modules unchanged), with fictional cases
+  and eight trace scenarios exported from the real engine by
+  `backend/scripts/export_demo_data.py`. Differences from the backend: only
+  sample addresses can be traced, trace parameters are ignored, and complaint
+  text is accepted regardless of `is_demo` (it never leaves the browser). Also
+  upgraded five packages flagged by `pip-audit`. Noticed, not fixed: the UI
+  sends `is_demo: false` when attaching a complaint, which the live backend
+  always refuses; Compose's `VITE_API_BASE_URL=/api` yields `/api/api/v1/…`.
