@@ -4,6 +4,7 @@
  * token once on a 401 before giving up and clearing the session.
  */
 import { useAuthStore } from "../state/authStore";
+import { DEMO_MODE } from "./mode";
 import type { TokenResponse } from "./types";
 
 // Paths passed to this client already include the `/api/v1` prefix. In dev,
@@ -78,6 +79,8 @@ async function tryRefresh(): Promise<boolean> {
 }
 
 export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T> {
+  if (DEMO_MODE) return demoApi<T>(path, opts);
+
   let res: Response;
   try {
     res = await raw(path, opts);
@@ -114,6 +117,20 @@ export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T
     );
   }
   return payload as T;
+}
+
+/** Showcase mode: same contract as `api`, served without any network call.
+ * Imported lazily so a live build never loads the sample data. */
+async function demoApi<T>(path: string, opts: RequestOptions): Promise<T> {
+  const { demoRequest } = await import("../demo/server");
+  try {
+    return (await demoRequest(path, opts)) as T;
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401 && opts.auth !== false) {
+      useAuthStore.getState().clear();
+    }
+    throw err;
+  }
 }
 
 export const get = <T,>(path: string, signal?: AbortSignal) =>
