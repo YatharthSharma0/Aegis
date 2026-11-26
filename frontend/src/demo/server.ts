@@ -66,7 +66,10 @@ function currentUser(): MeResponse {
 /** Any email and password work; an `admin…` address gets the admin account. */
 function login(body: { email: string }) {
   const admin = body.email.trim().toLowerCase().startsWith("admin");
-  return tokensFor(DEMO_ACCOUNTS[admin ? 1 : 0]);
+  const user = DEMO_ACCOUNTS[admin ? 1 : 0];
+  audit(user, { action: "auth.login" });
+  saveDemoState();
+  return tokensFor(user);
 }
 
 function audit(user: MeResponse, fields: Partial<AuditFields> & { action: string }) {

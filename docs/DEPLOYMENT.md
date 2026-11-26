@@ -20,6 +20,8 @@ No Neo4j / graph database — this repo never adopted one (Postgres/SQLite only;
 
 **`aegis-backend`** — every key in `backend/.env.example`, plus:
 - `AEGIS_ENVIRONMENT=staging`
+- `AEGIS_TRUSTED_PROXY_HOPS=1` (Railway's edge proxy; without it every user
+  shares one login rate limit. Check the logged client address after deploying)
 - `AEGIS_TRACE_WORKER=external` (the separate worker service drains the queue)
 - `AEGIS_PROVIDER_MODE=fixture` (deliberate — see "Why fixture mode" below)
 - `AEGIS_CORS_ORIGINS` set to the exact deployed Vercel origin (JSON array, one entry — never `*`)

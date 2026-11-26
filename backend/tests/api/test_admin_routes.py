@@ -42,3 +42,14 @@ def test_response_carries_a_request_id_header(client: TestClient):
 def test_supplied_request_id_is_echoed(client: TestClient):
     resp = client.get("/api/v1/health", headers={"X-Request-ID": "trace-me-123"})
     assert resp.headers["X-Request-ID"] == "trace-me-123"
+
+
+def test_logins_are_audited_without_the_password(client: TestClient, admin_headers):
+    client.post("/api/v1/auth/login", json={"email": "No@Such.User", "password": "wrong-pass-1"})
+    entries = client.get("/api/v1/admin/audit", headers=admin_headers).json()["entries"]
+    ok = next(e for e in entries if e["action"] == "auth.login")
+    assert ok["actor_role"] == "admin" and ok["request_id"]
+    failed = next(e for e in entries if e["action"] == "auth.login_failed")
+    assert failed["actor_id"] is None
+    assert failed["detail"] == {"email": "no@such.user"}
+    assert "wrong-pass-1" not in str(entries)

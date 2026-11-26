@@ -7,13 +7,23 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.api.deps import CurrentUser, get_account_service
+from app.api.deps import (
+    CurrentUser,
+    audit_actor_of,
+    get_account_service,
+    get_audit_service,
+)
+from app.api.middleware import get_request_id
 from app.api.ratelimit import rate_limit_login
 from app.domain.accounts import AccountService, TokenPair
+from app.domain.audit import AuditService
+from app.domain.errors import AuthenticationError
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
 _Accounts = Annotated[AccountService, Depends(get_account_service)]
+_Audit = Annotated[AuditService, Depends(get_audit_service)]
+_RequestId = Annotated[str, Depends(get_request_id)]
 
 
 class LoginRequest(BaseModel):
@@ -55,9 +65,22 @@ class MeResponse(BaseModel):
 @router.post(
     "/login", response_model=TokenResponse, dependencies=[Depends(rate_limit_login)]
 )
-def login(request: LoginRequest, accounts: _Accounts) -> TokenResponse:
-    account = accounts.authenticate(request.email, request.password)
-    return TokenResponse.of(accounts.issue_tokens(account))
+def login(
+    request: LoginRequest, accounts: _Accounts, audit: _Audit, request_id: _RequestId
+) -> TokenResponse:
+    try:
+        account = accounts.authenticate(request.email, request.password)
+    except AuthenticationError:
+        # The attempted address only, never the password. Capped: it is unvalidated.
+        audit.record(
+            "auth.login_failed",
+            detail={"email": request.email.strip().lower()[:254]},
+            request_id=request_id,
+        )
+        raise
+    tokens = accounts.issue_tokens(account)
+    audit.record("auth.login", actor=audit_actor_of(account), request_id=request_id)
+    return TokenResponse.of(tokens)
 
 
 @router.post("/refresh", response_model=TokenResponse)
