@@ -1,39 +1,44 @@
+// Tailwind cannot add an opacity to a bare var(), so utilities such as
+// `border-success/40` were silently dropped. color-mix applies it.
+const token = (name) =>
+  `color-mix(in srgb, var(${name}) calc(<alpha-value> * 100%), transparent)`;
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        canvas: "var(--bg-canvas)",
-        base: "var(--bg-base)",
-        raised: "var(--bg-raised)",
-        elevated: "var(--bg-elevated)",
-        hover: "var(--bg-hover)",
-        paper: "var(--paper)",
-        ink: "var(--ink)",
-        primary: "var(--text-primary)",
-        secondary: "var(--text-secondary)",
-        muted: "var(--text-muted)",
-        subtle: "var(--border-subtle)",
-        strong: "var(--border-strong)",
+        canvas: token("--bg-canvas"),
+        base: token("--bg-base"),
+        raised: token("--bg-raised"),
+        elevated: token("--bg-elevated"),
+        hover: token("--bg-hover"),
+        paper: token("--paper"),
+        ink: token("--ink"),
+        primary: token("--text-primary"),
+        secondary: token("--text-secondary"),
+        muted: token("--text-muted"),
+        subtle: token("--border-subtle"),
+        strong: token("--border-strong"),
         brand: {
-          DEFAULT: "var(--brand)",
-          hover: "var(--brand-hover)",
+          DEFAULT: token("--brand"),
+          hover: token("--brand-hover"),
         },
-        link: "var(--link)",
-        info: "var(--info)",
-        success: "var(--success)",
-        warning: "var(--warning)",
+        link: token("--link"),
+        info: token("--info"),
+        success: token("--success"),
+        warning: token("--warning"),
         risk: {
-          high: "var(--risk-high)",
-          critical: "var(--risk-critical)",
+          high: token("--risk-high"),
+          critical: token("--risk-critical"),
         },
-        unknown: "var(--unknown)",
+        unknown: token("--unknown"),
         entity: {
-          vasp: "var(--entity-vasp)",
-          contract: "var(--entity-contract)",
-          bridge: "var(--entity-bridge)",
-          cluster: "var(--entity-cluster)",
+          vasp: token("--entity-vasp"),
+          contract: token("--entity-contract"),
+          bridge: token("--entity-bridge"),
+          cluster: token("--entity-cluster"),
         },
       },
       fontFamily: {
