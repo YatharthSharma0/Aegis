@@ -269,9 +269,9 @@ function updateCase(user: MeResponse, id: string, body: UpdateCaseRequest): Case
   return current;
 }
 
-/** Text stays in this browser, so `is_demo` is not enforced as the backend does. */
 function addComplaint(user: MeResponse, caseId: string, body: AddComplaintRequest) {
   findCase(caseId);
+  if (!body.is_demo) throw invalid("real complaint text cannot be stored yet");
   if (!body.text.trim()) throw invalid("complaint text is empty");
   const complaint: DemoComplaint = {
     id: newId("complaint"), case_id: caseId, source: body.source ?? "manual",

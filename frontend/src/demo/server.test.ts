@@ -85,7 +85,7 @@ it("creates and updates a case, refusing a duplicate reference", async () => {
   await expect(call("POST", "/api/v1/cases", body)).rejects.toMatchObject({ status: 409 });
   await call("PATCH", `/api/v1/cases/${created.id}`, { status: "closed" });
   await call("POST", `/api/v1/cases/${created.id}/complaints`, {
-    source: "manual", text: "fictional", is_demo: false,
+    source: "manual", text: "fictional", is_demo: true,
   });
   const detail = await call<CaseDetailOut>("GET", `/api/v1/cases/${created.id}`);
   expect(detail.status).toBe("closed");

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { DEMO_MODE } from "../api/mode";
+import { ApiError } from "../api/client";
 import type { CaseStatus } from "../api/types";
 import { CaseStatusBadge } from "../components/CaseStatusBadge";
 import { ErrorState } from "../components/ErrorState";
@@ -163,13 +163,22 @@ export function CaseDetailPage() {
 function AddComplaintForm({ caseId }: { caseId: string }) {
   const add = useAddComplaint(caseId);
   const [text, setText] = useState("");
+  // Real complaint text cannot be stored until it is encrypted at rest, so the
+  // officer has to declare each entry fictional.
+  const [fictional, setFictional] = useState(false);
+  const ready = text.trim() !== "" && fictional;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!text.trim()) return;
+    if (!ready) return;
     add.mutate(
-      { text: text.trim(), source: "manual", is_demo: false },
-      { onSuccess: () => setText("") },
+      { text: text.trim(), source: "manual", is_demo: true },
+      {
+        onSuccess: () => {
+          setText("");
+          setFictional(false);
+        },
+      },
     );
   };
 
@@ -178,24 +187,34 @@ function AddComplaintForm({ caseId }: { caseId: string }) {
       <Field
         label="Add complaint text"
         htmlFor="complaint"
-        hint={DEMO_MODE ? "Demo mode: use fictional text only. It stays in this browser." : undefined}
+        hint="Real victim reports cannot be stored yet. Use fictional sample text only."
       >
         <textarea
           id="complaint"
           rows={3}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Paste the victim's NCRP / 1930 report…"
+          placeholder="A fictional sample complaint…"
           className={textInputClass()}
         />
       </Field>
+      <label className="flex items-center gap-2 text-xs text-secondary">
+        <input
+          type="checkbox"
+          checked={fictional}
+          onChange={(e) => setFictional(e.target.checked)}
+        />
+        This is fictional sample text, not a real person's report
+      </label>
       <div className="flex items-center gap-2">
-        <Button type="submit" loading={add.isPending} disabled={!text.trim()}>
+        <Button type="submit" loading={add.isPending} disabled={!ready}>
           Attach
         </Button>
         {add.isError && (
           <span className="text-xs text-risk-high" role="alert">
-            Could not attach the complaint.
+            {add.error instanceof ApiError
+              ? add.error.message
+              : "Could not attach the complaint."}
           </span>
         )}
       </div>
