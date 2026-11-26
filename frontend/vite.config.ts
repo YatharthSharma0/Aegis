@@ -16,5 +16,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./src/setupTests.ts",
+    // Component tests exercise the real API client; demo-mode tests opt in.
+    env: { VITE_DATA_MODE: "live" },
   },
 });
