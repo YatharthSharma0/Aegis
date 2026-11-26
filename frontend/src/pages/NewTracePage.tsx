@@ -3,8 +3,10 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { ApiError } from "../api/client";
+import { DEMO_MODE } from "../api/mode";
 import { startTrace } from "../api/trace";
 import type { Chain, TaintModel, TraceRequest } from "../api/types";
+import { SampleAddresses } from "../components/SampleAddresses";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import { Field } from "../ui/Field";
@@ -180,6 +182,15 @@ export function NewTracePage() {
           </div>
         </form>
       </Card>
+
+      {DEMO_MODE && (
+        <SampleAddresses
+          onSelect={(sample) => {
+            setAddress(sample);
+            setChain("tron");
+          }}
+        />
+      )}
     </div>
   );
 }

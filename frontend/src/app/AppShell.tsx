@@ -2,6 +2,9 @@ import { CloudOff, FileText, FolderOpen, LayoutDashboard, LogOut, Search } from 
 import { useEffect, useRef, type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
+import { DEMO_MODE } from "../api/mode";
+import { DemoBanner } from "../components/DemoBanner";
+
 import { ThemeToggle } from "../components/ThemeToggle";
 import { useHealth } from "../features/system/useHealth";
 import { cn } from "../ui/cn";
@@ -50,10 +53,17 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex-1" />
         <span
           className="inline-flex items-center gap-1.5 rounded-sm border border-strong px-2 py-0.5 text-xs font-medium text-secondary"
-          title="This deployment reads live blockchain data — no demo fixtures"
+          title={
+            DEMO_MODE
+              ? "Showcase mode: synthetic sample data, no backend"
+              : "Connected to the Aegis backend"
+          }
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-success" aria-hidden />
-          Live
+          <span
+            className={cn("h-1.5 w-1.5 rounded-full", DEMO_MODE ? "bg-warning" : "bg-success")}
+            aria-hidden
+          />
+          {DEMO_MODE ? "Demo data" : "Live"}
         </span>
         <ThemeToggle />
         <div className="hidden text-right text-xs text-muted sm:block">
@@ -97,6 +107,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
+          {DEMO_MODE && <DemoBanner />}
           {offline && (
             <div
               role="alert"

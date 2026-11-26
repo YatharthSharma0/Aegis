@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 
 import { ApiError } from "../api/client";
+import { DEMO_MODE } from "../api/mode";
 import type { InvestigationReport } from "../api/report";
 import { ConfidenceBadge } from "../components/ConfidenceBadge";
 import { ErrorState } from "../components/ErrorState";
@@ -65,6 +66,11 @@ export function ReportPage() {
       {/* Evidence document — warm paper preview inside the dark app chrome,
           per the forensic-ledger direction (Report and Notice). */}
       <div className="divide-y divide-ink/15 rounded-sm border border-strong bg-paper text-ink shadow-[0_12px_32px_rgb(0_0_0_/_.32)]">
+        {DEMO_MODE && (
+          <p className="px-4 py-2 text-center text-xs font-semibold uppercase tracking-widest sm:px-5">
+            Sample document — synthetic data, not evidence
+          </p>
+        )}
         <Section title="Header">
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-3">
             <Detail label="Trace ID">
