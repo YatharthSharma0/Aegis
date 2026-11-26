@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { DEMO_MODE } from "../api/mode";
 import type { CaseStatus } from "../api/types";
 import { CaseStatusBadge } from "../components/CaseStatusBadge";
 import { ErrorState } from "../components/ErrorState";
@@ -174,7 +175,11 @@ function AddComplaintForm({ caseId }: { caseId: string }) {
 
   return (
     <form onSubmit={submit} className="space-y-2">
-      <Field label="Add complaint text" htmlFor="complaint">
+      <Field
+        label="Add complaint text"
+        htmlFor="complaint"
+        hint={DEMO_MODE ? "Demo mode: use fictional text only. It stays in this browser." : undefined}
+      >
         <textarea
           id="complaint"
           rows={3}

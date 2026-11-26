@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { ApiError } from "../api/client";
+import { DEMO_MODE } from "../api/mode";
 import { useAuth } from "../app/useAuth";
+import { DemoSignIn } from "../components/DemoSignIn";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { useAuthStore } from "../state/authStore";
 import { Button } from "../ui/Button";
@@ -24,12 +26,11 @@ export function LoginPage() {
   const dest = (location.state as { from?: string } | null)?.from ?? "/";
   if (authed) return <Navigate to={dest} replace />;
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const signIn = async (userEmail: string, userPassword: string) => {
     setBusy(true);
     setError(null);
     try {
-      await login(email, password);
+      await login(userEmail, userPassword);
       navigate(dest, { replace: true });
     } catch (err) {
       if (err instanceof ApiError && err.code === "rate_limited") {
@@ -44,6 +45,11 @@ export function LoginPage() {
     } finally {
       setBusy(false);
     }
+  };
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    void signIn(email, password);
   };
 
   return (
@@ -112,6 +118,8 @@ export function LoginPage() {
         <Button type="submit" loading={busy} className="w-full">
           Sign in
         </Button>
+
+        {DEMO_MODE && <DemoSignIn disabled={busy} onSelect={signIn} />}
 
         <p className="mt-4 text-[11px] leading-snug text-muted">
           Restricted access · Law-enforcement use only · No public sign-up
