@@ -128,7 +128,7 @@ it("drafts a notice that is clearly marked as sample data", async () => {
   );
   expect(draft.notice_draft.to).toContain("SampleCoin Exchange");
   expect(draft.notice_draft.body_markdown).toContain("NOT FOR ISSUE");
-  expect(draft.notice_draft.body_markdown).toContain("30000.000000 USDT");
+  expect(draft.notice_draft.body_markdown).toContain("23200.000000 USDT");
 });
 
 it("keeps the audit log admin-only, and detects tampering", async () => {

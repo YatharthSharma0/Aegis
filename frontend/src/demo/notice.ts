@@ -15,9 +15,10 @@ export function buildNotice(
   const basis =
     params.legal_basis || "IT Act s.79(3)(b) read with BNSS provisions on preservation";
   const asset = report.fund_flow[0]?.asset ?? "";
+  // The victim's share of what arrived, not the gross amount transferred.
   const traced = report.fund_flow
     .filter((s) => s.to === candidate.deposit_address)
-    .reduce((sum, s) => sum + Number(s.value), 0)
+    .reduce((sum, s) => sum + Number(s.value) * Number(s.victim_taint), 0)
     .toFixed(6);
 
   const body = `${SAMPLE_MARK}

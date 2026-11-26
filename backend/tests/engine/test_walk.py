@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 import json
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal
+from types import SimpleNamespace
 
 import pytest
 
 from app.engine.canonical import sha256_hex
 from app.engine.errors import PartialReason, TrailLostReason
-from app.engine.labels import LabelSet
+from app.engine.labels import Label, LabelSet, LabelType
 from app.engine.provider import ActivityResult, BlockResult, ChainDataProvider, TransferPage
 from app.engine.providers import FixtureProvider
 from app.engine.providers.fixture import DEFAULT_FIXTURE_ROOT
@@ -279,3 +280,83 @@ def json_addresses() -> dict[str, str]:
     return json.loads(
         (DEFAULT_FIXTURE_ROOT / FIXTURE_ID / "manifest.json").read_text()
     )["addresses"]
+
+
+# --------------------------------------------------------------------------
+# Haircut balance and transfer order
+# --------------------------------------------------------------------------
+
+
+def _trace(transfers: list[tuple[str, str, str]]):
+    """Trace from A; StubProvider timestamps follow the list order."""
+    return forward_trace(
+        "A", chain=Chain.TRON, asset=usdt_trc20(), provider=StubProvider(transfers)
+    )
+
+
+def test_clean_balance_dilutes_a_partial_spend():
+    # B holds 900 clean + 100 victim and sends 100: only 10 of it is victim money.
+    inv = _trace([("C", "B", "900"), ("A", "B", "100"), ("B", "D", "100")])
+    assert _edges_by_pair(inv)[("B", "D")].taint == Decimal("0.1")
+
+
+def test_spend_before_the_victim_funds_arrive_is_not_tainted():
+    inv = _trace([("C", "B", "50"), ("B", "early", "50"), ("A", "B", "100"), ("B", "D", "100")])
+    edges = _edges_by_pair(inv)
+    assert ("B", "early") not in edges
+    assert edges[("B", "D")].taint == Decimal(1)
+    assert "early" not in {n.address for n in inv.result.graph_nodes}
+
+
+def test_clean_money_arriving_after_a_spend_does_not_dilute_it():
+    inv = _trace([("A", "B", "100"), ("B", "D", "100"), ("C", "B", "900")])
+    assert _edges_by_pair(inv)[("B", "D")].taint == Decimal(1)
+
+
+def test_taint_survives_a_round_trip():
+    inv = _trace([("A", "B", "100"), ("B", "C", "100"), ("C", "B", "100"), ("B", "D", "100")])
+    assert _edges_by_pair(inv)[("B", "D")].taint == Decimal(1)
+
+
+def test_a_wallet_never_passes_on_more_taint_than_it_received():
+    inv = _trace([("A", "B", "100"), ("B", "C", "70"), ("B", "D", "70"), ("B", "E", "70")])
+    passed = sum(e.value * e.taint for e in inv.result.graph_edges if e.from_address == "B")
+    assert passed <= Decimal(100)
+
+
+# --------------------------------------------------------------------------
+# Which address a notice should name
+# --------------------------------------------------------------------------
+
+
+def _labelled(address: str, category: str) -> LabelSet:
+    label = Label(
+        address=address, chain=Chain.TRON, label_type=LabelType.VASP, entity_name="Ex",
+        category=category, pack_id="t", source="t", last_verified=date(2026, 1, 1),
+    )
+    return LabelSet([SimpleNamespace(labels=(label,), meta=None)])
+
+
+@pytest.mark.parametrize(
+    ("transfers", "category", "expected"),
+    [
+        # a wallet that sweeps only into the hot wallet is the deposit address
+        ([("A", "B", "100"), ("B", "D", "100"), ("D", "HOT", "100")],
+         "exchange_hot_wallet", "D"),
+        # the matched address is itself the deposit address
+        ([("A", "B", "100"), ("B", "DEP", "100")], "exchange_deposit", "DEP"),
+        # the previous wallet also pays others, so it is not the exchange's
+        ([("A", "B", "100"), ("B", "HOT", "60"), ("B", "other", "40")],
+         "exchange_hot_wallet", "HOT"),
+        # the reported wallet is never presented as the exchange's deposit address
+        ([("A", "HOT", "100")], "exchange_hot_wallet", "HOT"),
+    ],
+)
+def test_deposit_address(transfers, category, expected):
+    endpoint = "HOT" if category == "exchange_hot_wallet" else expected
+    inv = forward_trace(
+        "A", chain=Chain.TRON, asset=usdt_trc20(), provider=StubProvider(transfers),
+        labels=_labelled(endpoint, category),
+    )
+    confirmed = [c for c in inv.result.vasp_candidates if c.name == "Ex"]
+    assert confirmed[0].deposit_address == expected

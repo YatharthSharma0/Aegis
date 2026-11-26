@@ -175,10 +175,15 @@ def build_sahyog_notice(
     ref = case_ref or record.case_id or record.trace_id
     basis = legal_basis or "IT Act s.79(3)(b) read with BNSS provisions on preservation"
     asset_symbol = result.graph_edges[0].asset_symbol if result.graph_edges else ""
+    # The victim's share of what arrived, not the gross amount transferred.
     traced_value = sum(
-        (e.value for e in result.graph_edges if e.to_address == candidate.deposit_address),
+        (
+            e.value * e.taint
+            for e in result.graph_edges
+            if e.to_address == candidate.deposit_address
+        ),
         Decimal(0),
-    )
+    ).quantize(Decimal("0.000001"))
 
     body = f"""\
 To: {vasp_name} — Nodal / Compliance Officer

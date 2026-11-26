@@ -804,8 +804,8 @@
    "certification": {
     "generated_at": "2026-08-04T05:30:04+00:00",
     "method": "value-weighted forward trace with haircut taint propagation",
-    "reproducibility_anchor": "aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f",
-    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+    "reproducibility_anchor": "aegis.engine.v1:d2341a360bb7f67e39943d9e696490ea094a27d44d60a7d63ba91cd43121347a",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:d2341a360bb7f67e39943d9e696490ea094a27d44d60a7d63ba91cd43121347a exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
    },
    "data_sources": [
     {
@@ -1079,7 +1079,7 @@
     "generated_by": null,
     "partial_reason": null,
     "reported_address": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
-    "result_hash": "aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f",
+    "result_hash": "aegis.engine.v1:d2341a360bb7f67e39943d9e696490ea094a27d44d60a7d63ba91cd43121347a",
     "status": "done",
     "trace_id": "demo-investment"
    },
@@ -1193,7 +1193,7 @@
        "taint_retained": "0.20"
       }
      },
-     "deposit_address": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+     "deposit_address": "THZoyNwarrGNSseHUxR7v4ZZYhna471wfX",
      "evidence": [
       {
        "block_hash": "0x2ecdeb515d0d054ef285b6272fe8f9b086b012a7ffa5672b1ea040c80ab3c90b",
@@ -1329,7 +1329,7 @@
        "source_score": "0.45",
        "taint_retained": "0.20"
       },
-      "deposit_address": "THnUEm7vpdZ3JtYHx19v4jhLrWmUYCcY8P",
+      "deposit_address": "THZoyNwarrGNSseHUxR7v4ZZYhna471wfX",
       "evidence": [
        {
         "block_hash": "0x2ecdeb515d0d054ef285b6272fe8f9b086b012a7ffa5672b1ea040c80ab3c90b",
@@ -1352,7 +1352,7 @@
      }
     ]
    },
-   "result_hash": "aegis.engine.v1:f6e0b84a66eec733e80a2540a831fa639a7c240d3c6089d9b7cb7938ec78ca8f",
+   "result_hash": "aegis.engine.v1:d2341a360bb7f67e39943d9e696490ea094a27d44d60a7d63ba91cd43121347a",
    "start_address": "TAF3oxTDxQzXUribJvXVNwZVDtyJgWmkDx",
    "started_at": "2026-08-04T05:30:00Z",
    "status": "done",
@@ -2944,8 +2944,8 @@
    "certification": {
     "generated_at": "2026-08-12T05:30:04+00:00",
     "method": "value-weighted forward trace with haircut taint propagation",
-    "reproducibility_anchor": "aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395",
-    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+    "reproducibility_anchor": "aegis.engine.v1:14222d65b7cfcb2a3dc61defb77bd0a8a78de12380560f325031e458cd426cc6",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:14222d65b7cfcb2a3dc61defb77bd0a8a78de12380560f325031e458cd426cc6 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
    },
    "data_sources": [
     {
@@ -3145,7 +3145,7 @@
     "generated_by": null,
     "partial_reason": null,
     "reported_address": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
-    "result_hash": "aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395",
+    "result_hash": "aegis.engine.v1:14222d65b7cfcb2a3dc61defb77bd0a8a78de12380560f325031e458cd426cc6",
     "status": "done",
     "trace_id": "demo-heuristic"
    },
@@ -3201,7 +3201,7 @@
        "taint_retained": "0.20"
       }
      },
-     "deposit_address": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+     "deposit_address": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
      "evidence": [
       {
        "block_hash": "0x33a8f273f97612a85ae5759d67df0426d8b55bedd562e2076a876c34cc4d2935",
@@ -3245,7 +3245,7 @@
        "taint_retained": "0.20"
       }
      },
-     "deposit_address": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+     "deposit_address": "TMZAVnLyNH6cT86fceu4aPDxdPQ91FK8x1",
      "evidence": [
       {
        "block_hash": "0x19161ad00b3a0e53badd83af7e22e5a7e6a1f247e22635341cb03b9a3f24f00c",
@@ -3326,7 +3326,7 @@
        "source_score": "0.45",
        "taint_retained": "0.20"
       },
-      "deposit_address": "TGXWzcdi9NZDwhxZ1QsH9XNHTPAVp7JWn1",
+      "deposit_address": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
       "evidence": [
        {
         "block_hash": "0x33a8f273f97612a85ae5759d67df0426d8b55bedd562e2076a876c34cc4d2935",
@@ -3367,7 +3367,7 @@
        "source_score": "0.45",
        "taint_retained": "0.20"
       },
-      "deposit_address": "TXZ13uak3CtMUJcog5kn3dbm358V1ivZgC",
+      "deposit_address": "TMZAVnLyNH6cT86fceu4aPDxdPQ91FK8x1",
       "evidence": [
        {
         "block_hash": "0x19161ad00b3a0e53badd83af7e22e5a7e6a1f247e22635341cb03b9a3f24f00c",
@@ -3390,7 +3390,7 @@
      }
     ]
    },
-   "result_hash": "aegis.engine.v1:e5220e7bc2c8489145a580286537a1da5a746129465c8ccb9b535a5b26cb8395",
+   "result_hash": "aegis.engine.v1:14222d65b7cfcb2a3dc61defb77bd0a8a78de12380560f325031e458cd426cc6",
    "start_address": "TB2ZrnKtozitSR5Qh8gvWvYChNSroSuY88",
    "started_at": "2026-08-12T05:30:00Z",
    "status": "done",
@@ -3510,8 +3510,8 @@
    "certification": {
     "generated_at": "2026-08-15T05:30:04+00:00",
     "method": "value-weighted forward trace with haircut taint propagation",
-    "reproducibility_anchor": "aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6",
-    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+    "reproducibility_anchor": "aegis.engine.v1:663b62068b8029a37b2230fb9c9dd52bb0ccaa9338859ba41af17c6f0ee75b2b",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:663b62068b8029a37b2230fb9c9dd52bb0ccaa9338859ba41af17c6f0ee75b2b exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
    },
    "data_sources": [
     {
@@ -3711,7 +3711,7 @@
     "generated_by": null,
     "partial_reason": null,
     "reported_address": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
-    "result_hash": "aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6",
+    "result_hash": "aegis.engine.v1:663b62068b8029a37b2230fb9c9dd52bb0ccaa9338859ba41af17c6f0ee75b2b",
     "status": "done",
     "trace_id": "demo-bridge"
    },
@@ -3766,7 +3766,7 @@
        "taint_retained": "0.20"
       }
      },
-     "deposit_address": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+     "deposit_address": "TWS69fpBPzxJKZoFQLeHqSaiW7wgtH7Kch",
      "evidence": [
       {
        "block_hash": "0xac0e16ce73406f6438d00492ca139a82255351660c5c3981cf5ff1e7db4677d2",
@@ -3847,7 +3847,7 @@
        "source_score": "0.45",
        "taint_retained": "0.20"
       },
-      "deposit_address": "TEHk5Rxmichan3Jd6GVseAZpoSUQhLUYou",
+      "deposit_address": "TWS69fpBPzxJKZoFQLeHqSaiW7wgtH7Kch",
       "evidence": [
        {
         "block_hash": "0xac0e16ce73406f6438d00492ca139a82255351660c5c3981cf5ff1e7db4677d2",
@@ -3870,7 +3870,7 @@
      }
     ]
    },
-   "result_hash": "aegis.engine.v1:c5b86cb94f2cd262ab0031101d6e6ba258c7fdd8433b48e775924ef188626bb6",
+   "result_hash": "aegis.engine.v1:663b62068b8029a37b2230fb9c9dd52bb0ccaa9338859ba41af17c6f0ee75b2b",
    "start_address": "TDhdnNxyY2S5BivJgH9KEUDVKXVNMARbha",
    "started_at": "2026-08-15T05:30:00Z",
    "status": "done",
@@ -3948,8 +3948,8 @@
    "certification": {
     "generated_at": "2026-08-19T05:30:04+00:00",
     "method": "value-weighted forward trace with haircut taint propagation",
-    "reproducibility_anchor": "aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5",
-    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+    "reproducibility_anchor": "aegis.engine.v1:7b5f0ee043ca411218639bd5a27f0c4d80c55bfd2e79d281dc73ca2ec8cadd8f",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:7b5f0ee043ca411218639bd5a27f0c4d80c55bfd2e79d281dc73ca2ec8cadd8f exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
    },
    "data_sources": [
     {
@@ -4075,7 +4075,7 @@
     "generated_by": null,
     "partial_reason": null,
     "reported_address": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
-    "result_hash": "aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5",
+    "result_hash": "aegis.engine.v1:7b5f0ee043ca411218639bd5a27f0c4d80c55bfd2e79d281dc73ca2ec8cadd8f",
     "status": "done",
     "trace_id": "demo-conflict"
    },
@@ -4115,7 +4115,7 @@
        "taint_retained": "0.20"
       }
      },
-     "deposit_address": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+     "deposit_address": "TNaYiJGdtAFq2h9hkhNXR7pc3dgk9oTyGW",
      "evidence": [
       {
        "block_hash": "0x1af944b8344f6662720f0350d5c3fd0bb7fbd81c948112402d65913dff664f81",
@@ -4183,7 +4183,7 @@
        "source_score": "0.45",
        "taint_retained": "0.20"
       },
-      "deposit_address": "TLyxfoT4344zoPdGHSsJMwAYywqPGwmP9i",
+      "deposit_address": "TNaYiJGdtAFq2h9hkhNXR7pc3dgk9oTyGW",
       "evidence": [
        {
         "block_hash": "0x1af944b8344f6662720f0350d5c3fd0bb7fbd81c948112402d65913dff664f81",
@@ -4209,7 +4209,7 @@
      }
     ]
    },
-   "result_hash": "aegis.engine.v1:c611278cc1d4326e988ea5b187b6bda71cb8055271e84987acbc4bbf60f2a8d5",
+   "result_hash": "aegis.engine.v1:7b5f0ee043ca411218639bd5a27f0c4d80c55bfd2e79d281dc73ca2ec8cadd8f",
    "start_address": "TFTh9AGFefAFKV4oM73i8JRCHGRbZFFL7T",
    "started_at": "2026-08-19T05:30:00Z",
    "status": "done",
@@ -4287,8 +4287,8 @@
    "certification": {
     "generated_at": "2026-08-22T05:30:04+00:00",
     "method": "value-weighted forward trace with haircut taint propagation",
-    "reproducibility_anchor": "aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf",
-    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
+    "reproducibility_anchor": "aegis.engine.v1:2c94194658ecd3ced04232cef04c19f17adeba528f736073e2fa13c89ecac796",
+    "statement": "This report was generated deterministically from blockchain data recorded at the pinned block heights above. Re-running the trace against the same recorded data sources reproduces the result hash aegis.engine.v1:2c94194658ecd3ced04232cef04c19f17adeba528f736073e2fa13c89ecac796 exactly. Prepared as an electronic record for certification under section 63 of the Bharatiya Sakshya Adhiniyam, 2023."
    },
    "data_sources": [
     {
@@ -4414,7 +4414,7 @@
     "generated_by": null,
     "partial_reason": null,
     "reported_address": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
-    "result_hash": "aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf",
+    "result_hash": "aegis.engine.v1:2c94194658ecd3ced04232cef04c19f17adeba528f736073e2fa13c89ecac796",
     "status": "done",
     "trace_id": "demo-watchlist"
    },
@@ -4454,7 +4454,7 @@
        "taint_retained": "0.20"
       }
      },
-     "deposit_address": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+     "deposit_address": "TAFQTTWdmNS1LMz5vsaVSWKXvnH77vogJv",
      "evidence": [
       {
        "block_hash": "0x55773b9e44c147b26426901880d336df444266c74c3120a39dd9e3ddf9a0aabd",
@@ -4521,7 +4521,7 @@
        "source_score": "0.45",
        "taint_retained": "0.20"
       },
-      "deposit_address": "TYB8bQ5aC16m5DAeohK5tpxNCZky9i2JyS",
+      "deposit_address": "TAFQTTWdmNS1LMz5vsaVSWKXvnH77vogJv",
       "evidence": [
        {
         "block_hash": "0x55773b9e44c147b26426901880d336df444266c74c3120a39dd9e3ddf9a0aabd",
@@ -4546,7 +4546,7 @@
      }
     ]
    },
-   "result_hash": "aegis.engine.v1:e0a18f6c175408dd3c1b2d90842a7765ef801b0777abe963ee2873228287a8bf",
+   "result_hash": "aegis.engine.v1:2c94194658ecd3ced04232cef04c19f17adeba528f736073e2fa13c89ecac796",
    "start_address": "TNgFUwKetRZcVYfnn42irm9SiEeFtjhypn",
    "started_at": "2026-08-22T05:30:00Z",
    "status": "done",
