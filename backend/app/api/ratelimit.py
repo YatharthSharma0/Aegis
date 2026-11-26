@@ -54,9 +54,17 @@ def get_rate_limiter() -> RateLimiter:
 
 
 def _client_ip(request: Request) -> str:
-    forwarded = request.headers.get("x-forwarded-for")
-    if forwarded:
-        return forwarded.split(",")[0].strip()
+    """The caller's address, believing X-Forwarded-For only as far as configured.
+
+    Each trusted proxy appends one entry, so the real client is that many from
+    the right. Anything further left was supplied by the caller.
+    """
+    hops = get_settings().trusted_proxy_hops
+    if hops:
+        header = ",".join(request.headers.getlist("x-forwarded-for"))
+        entries = [part.strip() for part in header.split(",") if part.strip()]
+        if len(entries) >= hops:
+            return entries[-hops]
     return request.client.host if request.client else "unknown"
 
 

@@ -80,6 +80,38 @@ def test_login_is_rate_limited(client: TestClient, monkeypatch):
         get_settings.cache_clear()
 
 
+def _login_statuses(client: TestClient, forwarded: list[str]) -> list[int]:
+    body = {"email": "x@y.z", "password": "nope1234"}
+    return [
+        client.post(
+            "/api/v1/auth/login", json=body, headers={"X-Forwarded-For": value}
+        ).status_code
+        for value in forwarded
+    ]
+
+
+@pytest.mark.parametrize(
+    ("hops", "forwarded"),
+    [
+        # no trusted proxy: the header is ignored entirely
+        ("0", ["1.1.1.1", "2.2.2.2", "3.3.3.3"]),
+        # one proxy appends the real address; earlier entries are client-supplied
+        ("1", ["1.1.1.1, 9.9.9.9", "2.2.2.2, 9.9.9.9", "3.3.3.3, 9.9.9.9"]),
+    ],
+)
+def test_spoofed_forwarded_for_does_not_evade_the_login_limit(
+    client: TestClient, monkeypatch, hops, forwarded
+):
+    monkeypatch.setenv("AEGIS_LOGIN_RATE_PER_MIN", "2")
+    monkeypatch.setenv("AEGIS_TRUSTED_PROXY_HOPS", hops)
+    get_settings.cache_clear()
+    get_rate_limiter().reset()
+    try:
+        assert _login_statuses(client, forwarded) == [401, 401, 429]
+    finally:
+        get_settings.cache_clear()
+
+
 # --- logging ------------------------------------------------------
 
 

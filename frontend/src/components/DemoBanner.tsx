@@ -17,7 +17,7 @@ export function DemoBanner() {
   return (
     <div
       role="note"
-      className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-subtle bg-raised px-4 py-2 text-xs text-secondary sm:px-6"
+      className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-warning/40 bg-warning/10 px-4 py-2 text-xs text-secondary sm:px-6"
     >
       <FlaskConical size={14} className="text-warning" aria-hidden />
       <span className="flex-1">

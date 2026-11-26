@@ -85,7 +85,7 @@ it("creates and updates a case, refusing a duplicate reference", async () => {
   await expect(call("POST", "/api/v1/cases", body)).rejects.toMatchObject({ status: 409 });
   await call("PATCH", `/api/v1/cases/${created.id}`, { status: "closed" });
   await call("POST", `/api/v1/cases/${created.id}/complaints`, {
-    source: "manual", text: "fictional", is_demo: false,
+    source: "manual", text: "fictional", is_demo: true,
   });
   const detail = await call<CaseDetailOut>("GET", `/api/v1/cases/${created.id}`);
   expect(detail.status).toBe("closed");
@@ -128,7 +128,7 @@ it("drafts a notice that is clearly marked as sample data", async () => {
   );
   expect(draft.notice_draft.to).toContain("SampleCoin Exchange");
   expect(draft.notice_draft.body_markdown).toContain("NOT FOR ISSUE");
-  expect(draft.notice_draft.body_markdown).toContain("30000.000000 USDT");
+  expect(draft.notice_draft.body_markdown).toContain("23200.000000 USDT");
 });
 
 it("keeps the audit log admin-only, and detects tampering", async () => {

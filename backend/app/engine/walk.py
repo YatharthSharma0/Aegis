@@ -7,12 +7,14 @@ Two phases:
    wall-clock deadline. Mixer / bridge addresses are marked and not expanded
    past. Every provider response is kept as a :class:`ProviderSnapshot`.
 
-2. **Propagation** — the discovered graph, restricted to discovery-order-forward
-   edges (which makes it a DAG), is walked in topological order. Each address's
-   *haircut ratio* is ``victim_taint_in / total_in`` using the provider-reported
-   total inflow, so clean money flowing into a mixing point dilutes the victim
-   fraction correctly. Taint handed to each outgoing edge is proportional to its
-   value; the sum handed out never exceeds what came in.
+2. **Propagation** — the discovered addresses' transfers are replayed in time
+   order, keeping each address's running balance and the victim money held in
+   it. A spend carries the *haircut ratio* ``victim_held / balance`` as it stands
+   at that moment, so clean money already in the wallet dilutes it, money spent
+   before the victim funds arrived carries none, and funds that loop between
+   wallets keep their taint. An address never passes on more than it holds.
+   Balances come from the provider-reported history; a spend larger than the
+   visible balance is treated as drawing the whole of it.
 
 The result is an :class:`Investigation` whose ``result_hash()`` is stable across
 runs on the same cached input. This phase fills ``graph_nodes`` (with structural
@@ -27,7 +29,7 @@ from collections import defaultdict, deque
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from decimal import Decimal
+from decimal import ROUND_DOWN, Decimal
 
 from app.engine.attribution import EndpointContext, attribute
 from app.engine.errors import (
@@ -71,9 +73,33 @@ class _Ctx:
     labels: LabelSet | None = None
 
 
+_Pair = tuple[str, str]
+
+
+@dataclass(frozen=True)
+class _Tainted:
+    """A transfer that carried victim funds, and how much."""
+
+    transfer: Transfer
+    amount: Decimal
+
+
+@dataclass
+class _Replay:
+    carried: list[_Tainted] = field(default_factory=list)
+    received: dict[str, Decimal] = field(default_factory=lambda: defaultdict(Decimal))
+    spent: set[str] = field(default_factory=set)
+    """Addresses that sent victim funds onward."""
+    spent_after_receipt: set[str] = field(default_factory=set)
+    """Addresses with any outgoing transfer after victim funds first arrived."""
+    returned_to_seed: bool = False
+
+
 @dataclass
 class _Propagation:
-    edge_taint: dict[tuple[str, str], Decimal]
+    carried: list[_Tainted]
+    spent: set[str]
+    spent_after_receipt: set[str]
     trail: list[TrailEvent]
     mixer_on_path: dict[str, bool]
     bridge_hops: dict[str, int]
@@ -88,6 +114,7 @@ class _DiscoveredNode:
     total_in: Decimal
     out_total: Decimal
     outgoing: list[Transfer]
+    incoming: list[Transfer]
     kind: NodeKind
     distinct_senders: int = 0
     distinct_recipients: int = 0
@@ -235,6 +262,7 @@ def _make_node(  # noqa: PLR0913, PLR0917 — internal node constructor
         total_in=sum((t.value for t in incoming), Decimal(0)),
         out_total=out_total,
         outgoing=outgoing,
+        incoming=incoming,
         kind=_classify(ctx, address, outgoing),
         distinct_senders=len({t.from_address for t in incoming}),
         distinct_recipients=len(per_recipient),
@@ -302,95 +330,153 @@ def _add_snapshot(out: _Discovery, snapshot: ProviderSnapshot) -> None:
 # --------------------------------------------------------------------------
 
 
-def _propagate(ctx: _Ctx, discovery: _Discovery) -> _Propagation:  # noqa: PLR0912 — topological taint loop
-    """Propagate haircut taint; return edge fractions, trail events, path flags."""
+def _propagate(ctx: _Ctx, discovery: _Discovery) -> _Propagation:
+    """Replay the transfers, pruning flows under the thresholds until stable."""
     nodes = discovery.nodes
-    trail: list[TrailEvent] = []
-    mixer_on_path: dict[str, bool] = defaultdict(bool)
-    bridge_hops: dict[str, int] = defaultdict(int)
+    pruned: dict[_Pair, TrailEvent] = {}
+    while True:
+        replay = _replay(ctx, discovery, frozenset(pruned))
+        newly = _under_threshold(ctx, replay.carried)
+        if not newly:
+            break
+        pruned.update(newly)
 
-    forward_flow: dict[tuple[str, str], Decimal] = defaultdict(lambda: Decimal(0))
-    for transfer in discovery.edges:
-        src, dst = transfer.from_address, transfer.to_address
-        if src not in nodes or dst not in nodes:
-            continue
-        if nodes[dst].order > nodes[src].order:
-            forward_flow[(src, dst)] += transfer.value
-        else:
-            trail.append(TrailEvent(reason=TrailLostReason.CYCLE, address=dst))
+    for address, amount in replay.received.items():
+        nodes[address].taint_in = amount
+    if ctx.seed in nodes:
+        nodes[ctx.seed].taint_in = nodes[ctx.seed].out_total
 
-    successors: dict[str, list[str]] = defaultdict(list)
-    for src, dst in forward_flow:
-        successors[src].append(dst)
+    trail = [
+        event for (src, _), event in pruned.items() if nodes[src].taint_in > 0
+    ]
+    if replay.returned_to_seed:
+        trail.append(TrailEvent(reason=TrailLostReason.CYCLE, address=ctx.seed))
 
     quantum = Decimal(1).scaleb(-ctx.asset.decimals)
-    fraction_quantum = Decimal("1e-12")  # stable taint-fraction precision
-    taint_in: dict[str, Decimal] = (
-        {ctx.seed: nodes[ctx.seed].out_total} if ctx.seed in nodes else {}
-    )
-    edge_taint: dict[tuple[str, str], Decimal] = {}
-
     for address in sorted(nodes, key=lambda a: nodes[a].order):
         node = nodes[address]
-        received = taint_in.get(address, Decimal(0))
-        node.taint_in = received
-        if received <= 0:
+        if node.stopped is None or node.taint_in <= 0:
             continue
-        if node.stopped is not None:
-            trail.append(
-                TrailEvent(
-                    reason=node.stopped,
-                    address=address,
-                    asset_symbol=ctx.asset.symbol,
-                    amount=received.quantize(quantum),
-                )
+        # The hop limit only loses a trail if money actually moved on.
+        if (
+            node.stopped is TrailLostReason.MAX_HOPS
+            and address not in replay.spent_after_receipt
+        ):
+            continue
+        trail.append(
+            TrailEvent(
+                reason=node.stopped,
+                address=address,
+                asset_symbol=ctx.asset.symbol,
+                amount=node.taint_in.quantize(quantum),
             )
-            continue
-        if not node.outgoing:
-            continue  # taint rests at a sink
-
-        node_successors = successors.get(address, [])
-        touches_mixer = mixer_on_path[address] or any(
-            nodes[s].kind is NodeKind.MIXER for s in node_successors
-        )
-        inherited_bridge = bridge_hops[address] + (
-            1 if node.kind is NodeKind.BRIDGE else 0
         )
 
-        distributable = min(received, node.out_total)
-        for dst in sorted(node_successors, key=lambda a: nodes[a].order):
-            value = forward_flow[(address, dst)]
-            tainted = (value / node.out_total * distributable).quantize(quantum)
-            fraction = (
-                min(Decimal(1), tainted / value).quantize(fraction_quantum)
-                if value > 0
-                else Decimal(0)
-            )
-            if tainted < ctx.params.min_value:
-                trail.append(
-                    TrailEvent(
-                        reason=TrailLostReason.MIN_VALUE,
-                        address=dst,
-                        asset_symbol=ctx.asset.symbol,
-                        amount=tainted,
-                    )
-                )
-                continue
-            if fraction < ctx.params.min_taint:
-                trail.append(TrailEvent(reason=TrailLostReason.MIN_TAINT, address=dst))
-                continue
-            edge_taint[(address, dst)] = fraction
-            taint_in[dst] = taint_in.get(dst, Decimal(0)) + tainted
-            if touches_mixer and nodes[dst].kind is not NodeKind.MIXER:
-                mixer_on_path[dst] = True
-            bridge_hops[dst] = max(bridge_hops[dst], inherited_bridge)
-
+    mixer_on_path, bridge_hops = _path_flags(discovery, replay.carried)
     return _Propagation(
-        edge_taint=edge_taint,
+        carried=replay.carried,
+        spent=replay.spent,
+        spent_after_receipt=replay.spent_after_receipt,
         trail=trail,
-        mixer_on_path=dict(mixer_on_path),
-        bridge_hops=dict(bridge_hops),
+        mixer_on_path=mixer_on_path,
+        bridge_hops=bridge_hops,
     )
+
+
+def _timeline(discovery: _Discovery) -> list[Transfer]:
+    """Every transfer touching a discovered address, once, oldest first."""
+    nodes = discovery.nodes
+    transfers = [t for node in nodes.values() for t in node.outgoing]
+    transfers += [
+        t for node in nodes.values() for t in node.incoming if t.from_address not in nodes
+    ]
+
+    def key(t: Transfer) -> tuple[int, datetime, int, str, int]:
+        # Within one block: outside money first, then upstream senders first.
+        sender = nodes.get(t.from_address)
+        order = sender.order if sender else -1
+        return (t.block_height, t.timestamp, order, t.tx_hash, t.log_index or 0)
+
+    return sorted(transfers, key=key)
+
+
+def _replay(ctx: _Ctx, discovery: _Discovery, pruned: frozenset[_Pair]) -> _Replay:
+    nodes = discovery.nodes
+    quantum = Decimal(1).scaleb(-ctx.asset.decimals)
+    balance: dict[str, Decimal] = defaultdict(Decimal)
+    held: dict[str, Decimal] = defaultdict(Decimal)
+    out = _Replay()
+
+    for transfer in _timeline(discovery):
+        src, dst, value = transfer.from_address, transfer.to_address, transfer.value
+        sender = nodes.get(src)
+        tainted = Decimal(0)
+        if sender is not None:
+            if src in out.received:
+                out.spent_after_receipt.add(src)
+            if sender.stopped is None:
+                if src == ctx.seed:
+                    tainted = value  # everything the reported wallet sends
+                elif held[src] > 0 and value > 0:
+                    share = value * held[src] / max(balance[src], value)
+                    tainted = min(held[src], share.quantize(quantum, rounding=ROUND_DOWN))
+                    held[src] -= tainted
+            balance[src] = max(Decimal(0), balance[src] - value)
+        balance[dst] += value
+
+        if tainted <= 0:
+            continue
+        out.spent.add(src)
+        if dst == ctx.seed:
+            out.returned_to_seed = True
+        elif dst in nodes and (src, dst) not in pruned:
+            held[dst] += tainted
+            out.received[dst] += tainted
+            out.carried.append(_Tainted(transfer, tainted))
+    return out
+
+
+def _under_threshold(ctx: _Ctx, carried: list[_Tainted]) -> dict[_Pair, TrailEvent]:
+    """Sender-recipient flows whose combined taint is too small to follow."""
+    totals: dict[_Pair, list[Decimal]] = defaultdict(lambda: [Decimal(0), Decimal(0)])
+    for item in carried:
+        total = totals[(item.transfer.from_address, item.transfer.to_address)]
+        total[0] += item.amount
+        total[1] += item.transfer.value
+
+    out: dict[_Pair, TrailEvent] = {}
+    for (src, dst), (tainted, value) in totals.items():
+        if tainted < ctx.params.min_value:
+            out[(src, dst)] = TrailEvent(
+                reason=TrailLostReason.MIN_VALUE,
+                address=dst,
+                asset_symbol=ctx.asset.symbol,
+                amount=tainted,
+            )
+        elif tainted / value < ctx.params.min_taint:
+            out[(src, dst)] = TrailEvent(reason=TrailLostReason.MIN_TAINT, address=dst)
+    return out
+
+
+def _path_flags(
+    discovery: _Discovery, carried: list[_Tainted]
+) -> tuple[dict[str, bool], dict[str, int]]:
+    """Which addresses' funds came by way of a wallet that also used a mixer."""
+    nodes = discovery.nodes
+    fed_mixer = {
+        item.transfer.from_address
+        for item in carried
+        if nodes[item.transfer.to_address].kind is NodeKind.MIXER
+    }
+    mixer_on_path: dict[str, bool] = defaultdict(bool)
+    bridge_hops: dict[str, int] = defaultdict(int)
+    for item in carried:
+        src, dst = item.transfer.from_address, item.transfer.to_address
+        if (mixer_on_path[src] or src in fed_mixer) and nodes[dst].kind is not NodeKind.MIXER:
+            mixer_on_path[dst] = True
+        inherited = bridge_hops[src] + (1 if nodes[src].kind is NodeKind.BRIDGE else 0)
+        bridge_hops[dst] = max(bridge_hops[dst], inherited)
+    return dict(mixer_on_path), dict(bridge_hops)
 
 
 # --------------------------------------------------------------------------
@@ -402,7 +488,10 @@ def _assemble(
     ctx: _Ctx, discovery: _Discovery, propagation: _Propagation
 ) -> Investigation:
     nodes = discovery.nodes
-    edge_taint = propagation.edge_taint
+    for address, node in nodes.items():
+        resting = node.stopped is None and address not in propagation.spent
+        if resting and node.kind is NodeKind.INTERMEDIARY:
+            node.kind = NodeKind.SINK  # the victim funds came to rest here
     snap_by_id = {s.snapshot_id: s for s in discovery.snapshots}
 
     kept = {ctx.seed} | {a for a, n in nodes.items() if n.taint_in > 0}
@@ -421,10 +510,9 @@ def _assemble(
     )
 
     graph_edges: list[GraphEdge] = []
-    for transfer in discovery.edges:
-        key = (transfer.from_address, transfer.to_address)
-        if key not in edge_taint:
-            continue
+    fraction_quantum = Decimal("1e-12")  # stable taint-fraction precision
+    for item in propagation.carried:
+        transfer = item.transfer
         snapshot = snap_by_id.get(transfer.snapshot_id)
         graph_edges.append(
             GraphEdge(
@@ -433,7 +521,9 @@ def _assemble(
                 asset_symbol=transfer.asset.symbol,
                 value=transfer.value,
                 value_raw=transfer.value_raw,
-                taint=edge_taint[key],
+                taint=min(Decimal(1), item.amount / transfer.value).quantize(
+                    fraction_quantum
+                ),
                 tx_hash=transfer.tx_hash,
                 log_index=transfer.log_index,
                 block_height=transfer.block_height,
@@ -503,26 +593,60 @@ def _attribute(
                 )
             )
         )
-        if not (not node.outgoing or vasp_sigs or labelled):
+        moved_on = address in propagation.spent or (
+            node.stopped is TrailLostReason.MAX_HOPS
+            and address in propagation.spent_after_receipt
+        )
+        if not (not moved_on or vasp_sigs or labelled):
             continue
         reaching = inbound.get(address, [])
-        deposit = max(reaching, key=lambda e: e.taint).from_address if reaching else None
         endpoints.append(
             EndpointContext(
                 address=address,
                 chain=ctx.chain,
                 hops_from_seed=node.depth,
-                taint_retained=(node.taint_in / seed_out) if seed_out > 0 else Decimal(0),
+                taint_retained=(
+                    min(Decimal(1), node.taint_in / seed_out) if seed_out > 0 else Decimal(0)
+                ),
                 reaching_paths=len(reaching) or 1,
                 mixer_on_path=propagation.mixer_on_path.get(address, False),
                 bridge_hops=propagation.bridge_hops.get(address, 0),
-                deposit_address=deposit,
-                is_sink=not node.outgoing,
+                deposit_address=_deposit_address(ctx, nodes, address, reaching),
+                is_sink=not moved_on,
                 vasp_signals=vasp_sigs,
                 evidence=tuple(e.evidence for e in reaching),
             )
         )
     return attribute(endpoints, ctx.labels)
+
+
+def _deposit_address(
+    ctx: _Ctx,
+    nodes: dict[str, _DiscoveredNode],
+    endpoint: str,
+    reaching: list[GraphEdge],
+) -> str:
+    """The address to ask the exchange about.
+
+    Normally the matched endpoint itself. When the endpoint is a labelled hot
+    wallet, it is the wallet that fed it the most victim funds, provided that
+    wallet pays nobody else (the shape of a per-customer deposit address) and is
+    not the reported wallet.
+    """
+    is_hot_wallet = ctx.labels is not None and any(
+        "hot_wallet" in label.category
+        for label in ctx.labels.lookup(
+            endpoint, ctx.chain, types=[LabelType.VASP, LabelType.SERVICE]
+        )
+    )
+    if not is_hot_wallet:
+        return endpoint
+    fed: dict[str, Decimal] = defaultdict(Decimal)
+    for edge in reaching:
+        sender = edge.from_address
+        if sender != ctx.seed and {t.to_address for t in nodes[sender].outgoing} == {endpoint}:
+            fed[sender] += edge.value * edge.taint
+    return max(fed, key=lambda a: (fed[a], a)) if fed else endpoint
 
 
 def _stats_for(node: _DiscoveredNode, seed: str) -> AddressStats:

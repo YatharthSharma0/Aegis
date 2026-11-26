@@ -7,6 +7,7 @@ Nothing else in the app should read ``os.environ`` directly.
 from functools import lru_cache
 from typing import Literal
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -78,6 +79,9 @@ class Settings(BaseSettings):
     # multi-instance deployment needs a shared store (Redis).
     trace_rate_per_min: int = 30
     login_rate_per_min: int = 10
+    # Reverse proxies in front of the API that append to X-Forwarded-For. 0
+    # ignores the header (it is client-controlled when nothing appends to it).
+    trusted_proxy_hops: int = Field(default=0, ge=0)
 
 
 @lru_cache

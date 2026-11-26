@@ -66,7 +66,10 @@ function currentUser(): MeResponse {
 /** Any email and password work; an `admin…` address gets the admin account. */
 function login(body: { email: string }) {
   const admin = body.email.trim().toLowerCase().startsWith("admin");
-  return tokensFor(DEMO_ACCOUNTS[admin ? 1 : 0]);
+  const user = DEMO_ACCOUNTS[admin ? 1 : 0];
+  audit(user, { action: "auth.login" });
+  saveDemoState();
+  return tokensFor(user);
 }
 
 function audit(user: MeResponse, fields: Partial<AuditFields> & { action: string }) {
@@ -266,9 +269,9 @@ function updateCase(user: MeResponse, id: string, body: UpdateCaseRequest): Case
   return current;
 }
 
-/** Text stays in this browser, so `is_demo` is not enforced as the backend does. */
 function addComplaint(user: MeResponse, caseId: string, body: AddComplaintRequest) {
   findCase(caseId);
+  if (!body.is_demo) throw invalid("real complaint text cannot be stored yet");
   if (!body.text.trim()) throw invalid("complaint text is empty");
   const complaint: DemoComplaint = {
     id: newId("complaint"), case_id: caseId, source: body.source ?? "manual",

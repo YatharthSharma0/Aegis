@@ -65,14 +65,14 @@ dependency) that runs a two-phase forward walk from the seed address:
    deadline. Every provider response consulted along the way is recorded as
    an immutable, checksummed `ProviderSnapshot` — every downstream claim can
    be traced back to the exact API response it came from.
-2. **Propagation** — the discovered graph (restricted to discovery-order
-   edges, which makes it a DAG) is walked in topological order. Each
-   address's **haircut ratio** is `victim_taint_in / total_in`, using the
-   provider-reported total inflow — so clean money mixing in at a hub
-   correctly dilutes the victim's fraction, and the taint handed out on any
-   edge never exceeds what came in. This is what lets Aegis say "38% of the
-   funds reaching this address trace back to the victim" instead of a bare
-   yes/no.
+2. **Propagation** — the discovered addresses' transfers are replayed in
+   time order, tracking each wallet's balance and how much of it is victim
+   money. A spend carries the **haircut ratio** `victim_held / balance` as it
+   stood at that moment: clean money already in the wallet dilutes it, money
+   spent before the victim's funds arrived carries none, funds looping between
+   wallets stay traced, and a wallet never passes on more than it holds. This
+   is what lets Aegis say "38% of this transfer traces back to the victim"
+   instead of a bare yes/no.
 
 Where a branch legitimately can't continue — it hit a mixer, a bridge, the
 hop limit, a rate limit — that's recorded as a **typed trail-lost reason**,
@@ -98,6 +98,10 @@ Two-tier attribution, always honest about which tier it's in:
   VASP-like endpoint," never given a fabricated name.
 - **Conflict** — two labels disagree. Both are surfaced; Aegis never
   silently picks one.
+
+The **deposit address** a notice names is the matched address itself. Only when
+that is a labelled hot wallet is it the wallet feeding it, and only if that
+wallet pays nobody else and is not the reported wallet.
 
 The confidence score is transparent arithmetic, not a black box:
 

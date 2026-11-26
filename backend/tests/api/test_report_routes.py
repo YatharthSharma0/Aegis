@@ -73,6 +73,8 @@ def test_sahyog_notice_draft(client: TestClient, officer_headers, drain):
     assert "DemoExchange" in draft["to"]
     assert "FIR 12/2026" in draft["subject"]
     assert "preserve all records" in draft["body_markdown"]
+    # only the victim's share of the 2200 that reached the deposit address
+    assert "Traced value reaching this address: 1400.000000 USDT" in draft["body_markdown"]
     assert "Insp. Priya K" in draft["body_markdown"]
     assert draft["editable"] is True
     assert resp.json()["based_on"]["trace_id"] == trace_id

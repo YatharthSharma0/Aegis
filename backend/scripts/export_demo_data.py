@@ -272,7 +272,7 @@ def _label_set(scenario: Scenario) -> LabelSet:
             chain=Chain.TRON,
             label_type=label_type,
             entity_name=name,
-            category="synthetic_demo",
+            category="exchange_hot_wallet" if node.startswith("hot") else "synthetic_demo",
             pack_id="synthetic_demo_labels",
             source="synthetic",
             last_verified=date(2026, 8, 20),
