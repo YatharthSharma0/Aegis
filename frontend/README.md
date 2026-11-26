@@ -25,6 +25,8 @@ npm run dev               # http://localhost:5173  (/api proxied to :8000)
 | `demo` (default) | No backend. `src/demo/server.ts` answers the API client from sample data kept in `localStorage`. |
 | `live` | Calls the FastAPI backend (Docker Compose sets this). |
 
+Docker Compose proxies `/api` to the backend via `AEGIS_API_PROXY_TARGET`.
+
 When you add or change a backend endpoint the UI uses, add it to
 `src/demo/server.ts` too.
 

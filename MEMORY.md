@@ -536,3 +536,14 @@ trust it.
   upgraded five packages flagged by `pip-audit`. Noticed, not fixed: the UI
   sends `is_demo: false` when attaching a complaint, which the live backend
   always refuses; Compose's `VITE_API_BASE_URL=/api` yields `/api/api/v1/…`.
+- 2026-11-26 — Engine fixes: taint is now a time-ordered balance replay
+  (replaces the discovery-order DAG walk, which ignored clean balances and
+  transfer order); `deposit_address` is the matched endpoint unless it is a
+  `hot_wallet`-labelled address fed by a dedicated wallet; notices quote the
+  victim's share. Result hashes differ from earlier builds for the same input
+  (result shape unchanged, `SCHEMA_VERSION` not bumped). Also: logins audited,
+  `AEGIS_TRUSTED_PROXY_HOPS` (default 0) governs `X-Forwarded-For`, complaint
+  form and Compose proxy fixed in live mode, faded colours fixed. Both items
+  "noticed, not fixed" in the demo-mode entry are now fixed. Verified with the
+  Compose integration suite (12 passed). Not deployed: set the proxy hops on
+  Railway before the next backend deploy.
